@@ -116,6 +116,8 @@ if (desktopLogBtn && mobileLogChild) {
 
 // --- MOBILE NAV TOGGLE ---
 if (menuToggleBtn && nav && body) {
+    window.__headerNavBound = true;
+
     menuToggleBtn.addEventListener('click', () => {
         menuToggleBtn.classList.toggle('active');
         body.classList.toggle('active-nav');
