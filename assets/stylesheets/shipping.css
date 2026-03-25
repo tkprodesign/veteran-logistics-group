@@ -79,6 +79,11 @@ body {
   align-items: start;
 }
 
+.summary-col {
+  display: flex;
+  flex-direction: column;
+}
+
 .steps-col {
   position: sticky;
   top: 20px;
@@ -155,6 +160,11 @@ body {
   padding: 28px 30px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   margin-bottom: 22px;
+}
+
+.summary-col > .summary-card:first-child {
+  position: sticky;
+  top: 108px;
 }
 
 .ship-card h3,
@@ -1962,72 +1972,3 @@ body {
     border: none;
   }
 }/*# sourceMappingURL=shipping.css.map */
-/* Create shipment page refinement */
-.create-main {
-    padding-top: 24px;
-}
-
-.create-container {
-    width: min(1320px, calc(100% - 40px));
-}
-
-.create-head {
-    align-items: flex-start;
-    margin-bottom: 24px;
-}
-
-.head-left h1 {
-    font-size: clamp(2.8rem, 4.4vw, 4rem);
-    letter-spacing: -0.03em;
-}
-
-.head-right {
-    flex-shrink: 0;
-    align-self: flex-start;
-    margin-top: 6px;
-}
-
-.prev-exp-link {
-    min-height: 44px;
-    padding: 0 18px;
-    border-radius: 999px;
-    background: #eef3ff;
-    color: #1d2e6f;
-}
-
-.create-layout {
-    grid-template-columns: 190px minmax(0, 1fr) 340px;
-    gap: 28px;
-}
-
-.steps-list {
-    margin-top: 20px;
-}
-
-.ship-card,
-.summary-card,
-.cp-error-card {
-    border-radius: 20px;
-    box-shadow: 0 18px 40px rgba(17, 29, 58, 0.08);
-}
-
-.summary-card {
-    position: sticky;
-    top: 108px;
-}
-
-@media (max-width: 1120px) {
-    .create-main {
-        padding-top: 28px;
-    }
-
-    .create-container {
-        width: min(100%, calc(100% - 24px));
-    }
-}
-
-
-
-
-
-
