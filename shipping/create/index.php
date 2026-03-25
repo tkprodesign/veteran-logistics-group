@@ -151,10 +151,11 @@ if ($step === 5 && !empty($created_shipment) && is_array($created_shipment)) {
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 </head>
 <body>
+<?php include("../../common-sections/header.html"); ?>
 
 <main class="create-main">
     <div class="create-container">
-        <header class="create-head">
+        <div class="create-head">
             <div class="head-left">
                 <h1>Create a Shipment</h1>
                 <span class="head-line"></span>
@@ -166,7 +167,7 @@ if ($step === 5 && !empty($created_shipment) && is_array($created_shipment)) {
                     <a href="/dashboard/?t=overview#a=outgoing" class="manage-ship-link"><span class="material-symbols-outlined">more_vert</span>Manage Shipments</a>
                 <?php endif; ?>
             </div>
-        </header>
+        </div>
 
         <div class="create-layout">
             <aside class="steps-col">
@@ -347,4 +348,3 @@ window.shippingCreateConfig = {
 
 </body>
 </html>
-
