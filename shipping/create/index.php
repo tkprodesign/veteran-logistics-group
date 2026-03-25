@@ -159,7 +159,7 @@ if ($step === 5 && !empty($created_shipment) && is_array($created_shipment)) {
             <div class="head-left">
                 <h1>See a Shipment</h1>
                 <span class="head-line"></span>
-                <p>Fields marked * are required.</p>
+                <p>Fields marked * are required</p>
             </div>
             <div class="head-right">
                 <a href="/shipping/" class="prev-exp-link">Go to Previous Experience</a>
