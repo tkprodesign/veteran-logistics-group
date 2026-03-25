@@ -154,9 +154,9 @@ if ($step === 5 && !empty($created_shipment) && is_array($created_shipment)) {
 
 <main class="create-main">
     <div class="create-container">
-        <header class="create-head">
+        <div class="create-head">
             <div class="head-left">
-                <h1>Create a Shipment</h1>
+                <h1>See a Shipment</h1>
                 <span class="head-line"></span>
                 <p>Fields marked * are required.</p>
             </div>
@@ -166,7 +166,7 @@ if ($step === 5 && !empty($created_shipment) && is_array($created_shipment)) {
                     <a href="/dashboard/?t=overview#a=outgoing" class="manage-ship-link"><span class="material-symbols-outlined">more_vert</span>Manage Shipments</a>
                 <?php endif; ?>
             </div>
-        </header>
+        </div>
 
         <div class="create-layout">
             <aside class="steps-col">
@@ -347,4 +347,3 @@ window.shippingCreateConfig = {
 
 </body>
 </html>
-
