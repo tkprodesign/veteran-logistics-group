@@ -157,7 +157,7 @@ if ($step === 5 && !empty($created_shipment) && is_array($created_shipment)) {
     <div class="create-container">
         <div class="create-head">
             <div class="head-left">
-                <h1>Create a Shipment</h1>
+                <h1>See a Shipment</h1>
                 <span class="head-line"></span>
                 <p>Fields marked * are required</p>
             </div>
