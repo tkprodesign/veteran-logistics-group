@@ -19,7 +19,7 @@ header .sticker {
 
 footer {
   padding: 0;
-  background-color: #351c15;
+  background: #00204A;
 }
 footer .footer-container {
   display: flex;
@@ -94,7 +94,7 @@ footer .footer-container .footer-section.legal {
 }
 footer .footer-bottom {
   padding: 20px 24px 40px;
-  background-color: #351c15;
+  background-color: #00204A;
   border: none;
   margin: 0 auto;
 }

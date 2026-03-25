@@ -60,7 +60,15 @@ section.hero .swiper .swiper-wrapper .swiper-slide .content {
   padding: 40px 0;
 }
 section.hero .swiper .swiper-wrapper .swiper-slide.hero-1 {
+  background: url("/assets/images/home/mc1.jpg");
+  background-position: center;
+  background-size: cover;
   position: relative;
+}
+section.hero .swiper .swiper-wrapper .swiper-slide.hero-2 {
+  background: url("/assets/images/home/mc5.jpg");
+  background-position: right 40% center;
+  background-size: cover;
 }
 section.hero .swiper .swiper-wrapper .swiper-slide .container {
   z-index: 1;
@@ -82,7 +90,7 @@ section.hero .swiper .swiper-wrapper .swiper-slide .heading .main-heading {
   font-weight: 600;
 }
 section.hero .swiper .swiper-wrapper .swiper-slide .heading .main-heading .accent {
-  color: var(--accent-color);
+  color: #E1AE2A;
 }
 section.hero .swiper .swiper-wrapper .swiper-slide .heading .sub-heading {
   display: none;
@@ -108,7 +116,7 @@ section.hero .swiper .swiper-wrapper .swiper-slide .c-t-a .pri {
   display: inline-flex;
   align-items: center;
   font-weight: 500;
-  background-color: var(--accent-color);
+  background-color: #E1AE2A;
 }
 section.hero .swiper .swiper-wrapper .swiper-slide .c-t-a .sec {
   color: #fff;
@@ -117,7 +125,7 @@ section.hero .swiper .swiper-wrapper .swiper-slide .c-t-a .sec {
   padding: 0 32px;
   display: inline-flex;
   align-items: center;
-  background-color: var(--accent-color-2);
+  background-color: #1D2E6F;
 }
 
 section.why-choose-us .container .content {
