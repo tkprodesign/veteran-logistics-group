@@ -151,6 +151,7 @@ if ($step === 5 && !empty($created_shipment) && is_array($created_shipment)) {
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 </head>
 <body>
+<?php include("../../common-sections/header.html"); ?>
 
 <main class="create-main">
     <div class="create-container">
