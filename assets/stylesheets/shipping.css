@@ -1861,14 +1861,18 @@ body {
 }
 @media (max-width: 760px) {
   .create-main {
+    padding-top: 28px;
+  }
+  .create-container {
+    width: calc(100% - 20px);
     padding-top: 56px;
   }
   .create-head {
     display: block;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
   .head-left h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   .prev-exp-link {
     display: none;
@@ -1882,7 +1886,7 @@ body {
   }
   .ship-card h3,
   .cp-error-card h3 {
-    font-size: 1.9rem;
+    font-size: 1.65rem;
   }
   .pickup-card h3 {
     font-size: 2rem;
