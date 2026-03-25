@@ -81,7 +81,6 @@
 
 <?php include("../common-sections/footer.html"); ?>
 
-<script src="/assets/scripts/index.js?v=<?php echo time(); ?>" defer></script>
 <script src="/assets/scripts/forms.js?v=<?php echo time(); ?>" defer></script>
 <!-- <script src="/assets/scripts/user.js?v=<?php echo time(); ?>"></script> -->
 </body>

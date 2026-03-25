@@ -131,6 +131,7 @@ include('../app.php');
     </div>
 </main>
 
+<script src="/assets/scripts/index.js?v=<?php echo time(); ?>"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var currentStep = 1;

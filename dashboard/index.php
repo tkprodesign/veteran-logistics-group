@@ -371,6 +371,7 @@ include('app.php');
         <?php endif; ?>
 
 </main>
+<script src="/assets/scripts/index.js?v=<?php echo time(); ?>"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var editTrigger = document.querySelector('.profile-edit-trigger');
@@ -444,5 +445,4 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </body>
 </html>
-
 

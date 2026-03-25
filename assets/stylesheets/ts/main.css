@@ -1,7 +1,7 @@
 body.active-nav {
   height: 100vw;
   width: 100%;
-  overflow: none;
+  overflow: hidden;
 }
 
 .container {
@@ -50,6 +50,7 @@ header .container .left nav ul {
 header .container .left nav.active {
   right: 0;
   opacity: 1;
+  transform: translateY(0);
 }
 header .container .right {
   display: flex;

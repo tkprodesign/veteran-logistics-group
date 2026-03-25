@@ -17,11 +17,11 @@ if (document.querySelector('.swiper')) {
 
 // --- GLOBAL SELECTORS ---
 const body = document.querySelector('body');
-const nav = document.querySelector('nav');
+const nav = document.querySelector('header .container .left nav');
 const desktopLogBtn = document.querySelector('header .dtp');
 const mobileLogBtn = document.querySelector('header .mb');
 const mobileLogChild = document.querySelector('header .l-child');
-const menuToggleBtn = document.querySelector('#menuToggleBtn');
+const menuToggleBtn = document.querySelector('header #menuToggleBtn');
 
 // --- FOOTER ACCORDION LOGIC ---
 const footerSections = document.querySelectorAll('footer .footer-section');
@@ -123,6 +123,22 @@ if (menuToggleBtn && nav && body) {
 
         if (mobileLogChild && mobileLogChild.classList.contains('active')) {
             mobileLogChild.classList.remove('active');
+        }
+    });
+
+    nav.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+            menuToggleBtn.classList.remove('active');
+            body.classList.remove('active-nav');
+            nav.classList.remove('active');
+        });
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 960) {
+            menuToggleBtn.classList.remove('active');
+            body.classList.remove('active-nav');
+            nav.classList.remove('active');
         }
     });
 }
