@@ -52,6 +52,35 @@
   border-radius: 12px;
   padding: 30px;
 }
+@media (max-width: 640px) {
+  .track-container {
+    margin: 20px auto;
+    padding: 0 12px;
+  }
+  .track-container .track-header {
+    margin-bottom: 24px;
+  }
+  .track-container .track-header h1 {
+    font-size: 2rem;
+    margin-bottom: 14px;
+  }
+  .track-container .track-header .search-bar {
+    max-width: 100%;
+    width: 100%;
+  }
+  .track-container .track-header .search-bar input {
+    min-width: 0;
+    padding: 10px 14px;
+  }
+  .track-container .track-header .search-bar .btn-track {
+    flex: 0 0 auto;
+    padding: 10px 22px;
+    white-space: nowrap;
+  }
+  .track-container .main-card, .track-container .history-card {
+    padding: 20px 16px;
+  }
+}
 .track-container .tracking-visual {
   position: relative;
   margin: 50px 0;
@@ -181,7 +210,10 @@
   color: #c2413b;
 }
 @media (max-width: 640px) {
-  .track-container .timeline .nodes .node {
+  .track-container .tracking-visual {
+    margin: 40px 0;
+  }
+  .track-container .tracking-visual .nodes .node {
     width: 96px;
   }
 }

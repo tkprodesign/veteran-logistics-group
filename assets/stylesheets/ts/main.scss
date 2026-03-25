@@ -33,20 +33,25 @@ header {
             }
 
             nav {
-                position: absolute;
-                right: -100%;
+                position: fixed;
+                left: 0;
+                right: 0;
                 opacity: 0;
-                bottom: 0;
-                height: 100vh;
+                top: 72px;
+                height: auto;
                 background: #fff;
-                width: 66%;
-                max-width: 600px;
+                width: auto;
+                max-width: none;
                 z-index: 20;
                 display: grid;
                 grid-template-columns: 100%;
-                padding: 64px 16px 16px 16px;
+                padding: 20px 16px 24px;
+                border-top: 1px solid #e3e3e3;
+                border-bottom: 1px solid #e3e3e3;
+                box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
                 transition: all .3s ease;
-                transform: translateY(100%);
+                transform: translateY(-8px);
+                visibility: hidden;
 
                 ul {
                     flex-direction: column;
@@ -55,8 +60,9 @@ header {
 
 
                 &.active {
-                    right: 0;
                     opacity: 1;
+                    transform: translateY(0);
+                    visibility: visible;
                 }
             }
         }

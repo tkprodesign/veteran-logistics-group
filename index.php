@@ -365,11 +365,9 @@ include('./app.php');
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-<script src="/assets/scripts/index.js?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/scripts/index.js'); ?>"></script>
 <script src="/assets/scripts/home.js?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/scripts/home.js'); ?>"></script>
 </body>
 </html>
-
 
 
 
