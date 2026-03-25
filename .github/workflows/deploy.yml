@@ -1,0 +1,56 @@
+name: Deploy changed files to htdocs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Upload only changed files
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          REMOTE_DIR: /veteranlogisticsgroup.us/htdocs
+        run: |
+          echo "Changed files:"
+          git diff --name-status HEAD^ HEAD
+
+          git diff --name-status HEAD^ HEAD | while IFS=$'\t' read -r status file; do
+            [ -z "$file" ] && continue
+
+            case "$file" in
+              .github/*|.git/*|node_modules/*)
+                echo "Skipping $file"
+                continue
+                ;;
+            esac
+
+            remote_path="$REMOTE_DIR/$file"
+            remote_dir="$(dirname "$remote_path")"
+
+            if [ "$status" = "D" ]; then
+              echo "Deleting remote file: $remote_path"
+              curl --silent --show-error --fail \
+                --user "$FTP_USERNAME:$FTP_PASSWORD" \
+                --ftp-create-dirs \
+                -Q "-DELE $remote_path" \
+                "ftp://$FTP_SERVER/" || true
+            else
+              echo "Uploading: $file -> $remote_path"
+              curl --silent --show-error --fail \
+                --user "$FTP_USERNAME:$FTP_PASSWORD" \
+                --ftp-create-dirs \
+                -T "$file" \
+                "ftp://$FTP_SERVER$remote_dir/"
+            fi
+          done

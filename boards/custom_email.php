@@ -34,7 +34,7 @@
                     <tr>
                         <td align="center" style="background-color: #f9f9f9; padding: 30px 40px; border-top: 1px solid #eeeeee;">
                             <p style="font-size: 11px; color: #999999; line-height: 1.5; margin: 0 0 15px 0;">
-                                Â&copy;2026 Veteran Logistics Group. All rights reserved.
+                                ï¿½&copy;2026 Veteran Logistics Group. All rights reserved.
                             </p>
                             <p style="font-size: 11px; color: #999999; margin: 0 0 15px 0;">Please do not reply to this email.</p>
                             <p style="font-size: 11px; margin: 0;">
