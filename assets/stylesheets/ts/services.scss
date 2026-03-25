@@ -1,0 +1,89 @@
+.services-page .services-hero {
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+.services-page .btn-gold,
+.services-page .btn-outline {
+  min-height: 42px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.services-page .hero-cta-row a,
+.services-page .promo-inner .btn-gold,
+.services-page .resource-links a,
+.services-page .tool-card .btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.services-page a > .material-symbols-outlined,
+.services-page button > .material-symbols-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.services-page .services-hero .hero-copy h1 {
+  font-size: 40px;
+}
+.services-page .services-hero .hero-media img {
+  height: 280px;
+}
+.services-page .service-tabs-block .service-tabs {
+  justify-content: flex-start;
+  overflow-x: auto;
+  padding-left: 12px;
+  padding-right: 12px;
+  gap: 20px;
+}
+.services-page .section-heading h2 {
+  font-size: 34px;
+}
+.services-page .shipping-services-switch .service-panel {
+  display: none;
+}
+.services-page .shipping-services-switch .service-panel.active {
+  display: block;
+}
+.services-page .three-up {
+  grid-template-columns: repeat(2, 1fr);
+}
+.services-page .additional-grid .service-card {
+  min-height: 240px;
+}
+.services-page .value-layout {
+  grid-template-columns: 1fr;
+}
+.services-page .value-nav {
+  flex-direction: row;
+}
+.services-page .value-nav button {
+  text-align: center;
+  border-bottom: 0;
+  border-right: 1px solid #ededed;
+}
+.services-page .value-nav button:last-child {
+  border-right: 0;
+}
+.services-page .value-nav button.active {
+  border-left: 0;
+  border-bottom: 3px solid #006b5d;
+  padding-left: 14px;
+}
+.services-page .promo-strip .promo-inner {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.services-page .promo-strip .promo-inner h3 {
+  font-size: 30px;
+}
+.services-page .resource-links {
+  grid-template-columns: repeat(2, 1fr);
+}
+.services-page .tool-grid,
+.services-page .two-up {
+  grid-template-columns: 1fr;
+}

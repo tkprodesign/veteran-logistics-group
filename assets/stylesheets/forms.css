@@ -1,0 +1,511 @@
+/**
+ * Button Style 1: The standard action pattern.
+ * Uses a smooth transition and flexible width.
+ */
+/**
+ * Paragraph Style 2: Optimized for readability.
+ * Uses a balanced line-height for that "clean art" feel.
+ */
+header {
+  background: #fff;
+  box-shadow: 2px 0 10px rgba(18, 18, 18, 0.1);
+}
+header .sticker {
+  display: none;
+}
+header nav {
+  display: none;
+}
+
+body {
+  background: linear-gradient(to bottom, rgb(252, 250, 248), rgb(255, 255, 255));
+}
+
+section.form form .container,
+section.form-section form .container {
+  width: 95%;
+  max-width: 650px;
+  margin: 40px auto;
+  padding: 0 20px;
+  color: #333333;
+}
+section.form form .container .heading,
+section.form-section form .container .heading {
+  margin-bottom: 30px;
+}
+section.form form .container .heading h2,
+section.form-section form .container .heading h2 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  display: inline-block;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  position: relative;
+  font-weight: 400;
+}
+section.form form .container .heading h2::after,
+section.form-section form .container .heading h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 80px;
+  height: 4px;
+  background-color: #E1AE2A;
+  display: block;
+}
+section.form form .container .heading p,
+section.form-section form .container .heading p {
+  font-size: 1.1rem;
+}
+section.form form .container .heading p a,
+section.form-section form .container .heading p a {
+  color: #0662bb;
+  text-decoration: underline;
+  font-weight: 500;
+  margin-left: 5px;
+}
+section.form form .container .content .input-box,
+section.form-section form .container .content .input-box {
+  margin-bottom: 18px;
+}
+section.form form .container .content .input-box input[type=text],
+section.form form .container .content .input-box input[type=email],
+section.form form .container .content .input-box input[type=number],
+section.form form .container .content .input-box input[type=tel],
+section.form form .container .content .input-box input[type=password],
+section.form form .container .content .input-box select,
+section.form-section form .container .content .input-box input[type=text],
+section.form-section form .container .content .input-box input[type=email],
+section.form-section form .container .content .input-box input[type=number],
+section.form-section form .container .content .input-box input[type=tel],
+section.form-section form .container .content .input-box input[type=password],
+section.form-section form .container .content .input-box select {
+  width: 100%;
+  padding: 18px 12px;
+  font-size: 1rem;
+  border: 1px solid #757575;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+  background: #fff;
+}
+section.form form .container .content .input-box input[type=text]:focus,
+section.form form .container .content .input-box input[type=email]:focus,
+section.form form .container .content .input-box input[type=number]:focus,
+section.form form .container .content .input-box input[type=tel]:focus,
+section.form form .container .content .input-box input[type=password]:focus,
+section.form form .container .content .input-box select:focus,
+section.form-section form .container .content .input-box input[type=text]:focus,
+section.form-section form .container .content .input-box input[type=email]:focus,
+section.form-section form .container .content .input-box input[type=number]:focus,
+section.form-section form .container .content .input-box input[type=tel]:focus,
+section.form-section form .container .content .input-box input[type=password]:focus,
+section.form-section form .container .content .input-box select:focus {
+  border-color: #00204A;
+  box-shadow: 0 0 0 1px #00204A;
+  background: rgb(242, 241, 239);
+}
+section.form form .container .content .input-box input[type=text]::-moz-placeholder, section.form form .container .content .input-box input[type=email]::-moz-placeholder, section.form form .container .content .input-box input[type=number]::-moz-placeholder, section.form form .container .content .input-box input[type=tel]::-moz-placeholder, section.form form .container .content .input-box input[type=password]::-moz-placeholder, section.form form .container .content .input-box select::-moz-placeholder, section.form-section form .container .content .input-box input[type=text]::-moz-placeholder, section.form-section form .container .content .input-box input[type=email]::-moz-placeholder, section.form-section form .container .content .input-box input[type=number]::-moz-placeholder, section.form-section form .container .content .input-box input[type=tel]::-moz-placeholder, section.form-section form .container .content .input-box input[type=password]::-moz-placeholder, section.form-section form .container .content .input-box select::-moz-placeholder {
+  color: #666;
+}
+section.form form .container .content .input-box input[type=text]::placeholder,
+section.form form .container .content .input-box input[type=email]::placeholder,
+section.form form .container .content .input-box input[type=number]::placeholder,
+section.form form .container .content .input-box input[type=tel]::placeholder,
+section.form form .container .content .input-box input[type=password]::placeholder,
+section.form form .container .content .input-box select::placeholder,
+section.form-section form .container .content .input-box input[type=text]::placeholder,
+section.form-section form .container .content .input-box input[type=email]::placeholder,
+section.form-section form .container .content .input-box input[type=number]::placeholder,
+section.form-section form .container .content .input-box input[type=tel]::placeholder,
+section.form-section form .container .content .input-box input[type=password]::placeholder,
+section.form-section form .container .content .input-box select::placeholder {
+  color: #666;
+}
+section.form form .container .content .input-box.checkbox,
+section.form-section form .container .content .input-box.checkbox {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 1.1rem;
+}
+section.form form .container .content .input-box,
+section.form-section form .container .content .input-box {
+  /* Remove arrows in Chrome, Safari, Edge */
+}
+section.form form .container .content .input-box input[type=tel]::-webkit-outer-spin-button,
+section.form form .container .content .input-box input[type=tel]::-webkit-inner-spin-button,
+section.form-section form .container .content .input-box input[type=tel]::-webkit-outer-spin-button,
+section.form-section form .container .content .input-box input[type=tel]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+section.form form .container .content .input-box,
+section.form-section form .container .content .input-box {
+  /* Remove arrows in Firefox */
+}
+section.form form .container .content .input-box input[type=tel],
+section.form-section form .container .content .input-box input[type=tel] {
+  -moz-appearance: textfield;
+}
+section.form form .container .content .input-group,
+section.form-section form .container .content .input-group {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 18px;
+}
+section.form form .container .content .input-group .country-code,
+section.form-section form .container .content .input-group .country-code {
+  flex: 1;
+  margin-top: unset !important;
+  margin-bottom: unset;
+}
+section.form form .container .content .input-group .phone-number,
+section.form-section form .container .content .input-group .phone-number {
+  flex: 1.5;
+  margin-top: unset !important;
+  margin-bottom: unset;
+}
+section.form form .container .content .input-box:last-child,
+section.form-section form .container .content .input-box:last-child {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 25px;
+}
+section.form form .container .content .input-box:last-child input[type=checkbox],
+section.form-section form .container .content .input-box:last-child input[type=checkbox] {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+section.form form .container .content .input-box:last-child p,
+section.form-section form .container .content .input-box:last-child p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  color: #333;
+}
+section.form form .container .content a,
+section.form-section form .container .content a {
+  color: #0662bb;
+}
+section.form form .container .content button[type=submit],
+section.form-section form .container .content button[type=submit] {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  /* Dimensions & Shape */
+  padding: 12px 32px;
+  border-radius: 50px;
+  width: auto;
+  min-width: 160px;
+  /* Colors & Border */
+  background-color: #f2f0f0;
+  color: #00204A;
+  border: 1px solid #e2e2e2;
+  /* Typography */
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  /* Shadow & Effects */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease-in-out;
+}
+section.form form .container .content button[type=submit] .material-symbols-outlined,
+section.form-section form .container .content button[type=submit] .material-symbols-outlined {
+  font-size: 20px;
+  transition: transform 0.2s ease;
+}
+section.form form .container .content button[type=submit]:hover,
+section.form-section form .container .content button[type=submit]:hover {
+  background-color: #e8e6e6;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+section.form form .container .content button[type=submit]:hover .material-symbols-outlined,
+section.form-section form .container .content button[type=submit]:hover .material-symbols-outlined {
+  transform: translateX(3px);
+}
+section.form form .container .content button[type=submit]:active,
+section.form-section form .container .content button[type=submit]:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+body.login-page {
+  background: #fff;
+  font-family: "Open Sans", sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+body.login-page section.form,
+body.login-page section.form-section {
+  width: 100%;
+}
+body.login-page section.form form .container,
+body.login-page section.form-section form .container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+body.login-page section.form form .container .heading,
+body.login-page section.form-section form .container .heading {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+body.login-page section.form form .container .heading .auth-logo-wrap,
+body.login-page section.form-section form .container .heading .auth-logo-wrap {
+  display: block;
+  margin: 0 auto 20px;
+}
+body.login-page section.form form .container .heading .logo,
+body.login-page section.form-section form .container .heading .logo {
+  display: block;
+  width: 55px;
+  height: auto;
+  margin: 0 auto 20px;
+}
+body.login-page section.form form .container .heading h2,
+body.login-page section.form-section form .container .heading h2 {
+  font-size: 28px;
+  font-weight: 400;
+  color: #333333;
+  margin: 0;
+  padding-bottom: 0;
+}
+body.login-page section.form form .container .heading h2::after,
+body.login-page section.form-section form .container .heading h2::after {
+  display: none;
+}
+body.login-page section.form form .container .heading p,
+body.login-page section.form-section form .container .heading p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333333;
+  margin-top: 14px;
+  max-width: 360px;
+}
+body.login-page section.form form .container .content .form-errors,
+body.login-page section.form form .container .content .form-success,
+body.login-page section.form-section form .container .content .form-errors,
+body.login-page section.form-section form .container .content .form-success {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+}
+body.login-page section.form form .container .content .form-errors,
+body.login-page section.form-section form .container .content .form-errors {
+  background-color: #ffe5e5;
+  border: 1px solid #ff4d4d;
+  color: #d8000c;
+}
+body.login-page section.form form .container .content .form-success,
+body.login-page section.form-section form .container .content .form-success {
+  background-color: #e9f7ec;
+  border: 1px solid #83c88f;
+  color: #1d6b2c;
+}
+body.login-page section.form form .container .content .input-box,
+body.login-page section.form-section form .container .content .input-box {
+  margin-bottom: 15px;
+}
+body.login-page section.form form .container .content .input-box input,
+body.login-page section.form form .container .content .input-box select,
+body.login-page section.form-section form .container .content .input-box input,
+body.login-page section.form-section form .container .content .input-box select {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  border: 1px solid #757575;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+body.login-page section.form form .container .content .input-box input:focus,
+body.login-page section.form form .container .content .input-box select:focus,
+body.login-page section.form-section form .container .content .input-box input:focus,
+body.login-page section.form-section form .container .content .input-box select:focus {
+  outline: none;
+  border-color: #00204A;
+  box-shadow: 0 0 0 1px #00204A;
+}
+body.login-page section.form form .container .content .input-box .forgot-link,
+body.login-page section.form-section form .container .content .input-box .forgot-link {
+  text-align: center;
+  margin-top: 10px;
+}
+body.login-page section.form form .container .content .input-box .forgot-link a,
+body.login-page section.form-section form .container .content .input-box .forgot-link a {
+  font-size: 14px;
+  color: #1D2E6F;
+  text-decoration: underline;
+}
+body.login-page section.form form .container .content .terms-box,
+body.login-page section.form-section form .container .content .terms-box {
+  margin: 25px 0;
+}
+body.login-page section.form form .container .content .terms-box p,
+body.login-page section.form-section form .container .content .terms-box p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #333333;
+}
+body.login-page section.form form .container .content .terms-box p a,
+body.login-page section.form-section form .container .content .terms-box p a {
+  color: #1D2E6F;
+  text-decoration: underline;
+}
+body.login-page section.form form .container .content .action-box .btn-primary,
+body.login-page section.form-section form .container .content .action-box .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #E1AE2A;
+  color: #00204A;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 0;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  box-shadow: none;
+}
+body.login-page section.form form .container .content .action-box .btn-primary .material-symbols-outlined,
+body.login-page section.form form .container .content .action-box .btn-primary .btn-chevron,
+body.login-page section.form-section form .container .content .action-box .btn-primary .material-symbols-outlined,
+body.login-page section.form-section form .container .content .action-box .btn-primary .btn-chevron {
+  font-size: 22px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+body.login-page section.form form .container .content .action-box .btn-primary:hover,
+body.login-page section.form-section form .container .content .action-box .btn-primary:hover {
+  background-color: rgb(211.6851851852, 161, 29.8148148148);
+}
+body.login-page section.form form .container .content .action-box .btn-primary:hover .material-symbols-outlined,
+body.login-page section.form form .container .content .action-box .btn-primary:hover .btn-chevron,
+body.login-page section.form-section form .container .content .action-box .btn-primary:hover .material-symbols-outlined,
+body.login-page section.form-section form .container .content .action-box .btn-primary:hover .btn-chevron {
+  transform: translateX(4px);
+}
+body.login-page section.form form .container .content .action-box .btn-primary:active,
+body.login-page section.form-section form .container .content .action-box .btn-primary:active {
+  transform: scale(0.98);
+}
+body.login-page section.form form .container .content .action-box .signup-text,
+body.login-page section.form-section form .container .content .action-box .signup-text {
+  margin-top: 20px;
+  font-size: 14px;
+}
+body.login-page section.form form .container .content .action-box .signup-text a,
+body.login-page section.form-section form .container .content .action-box .signup-text a {
+  color: #1D2E6F;
+  text-decoration: underline;
+}
+body.login-page section.form form .container .content .social-login,
+body.login-page section.form-section form .container .content .social-login {
+  margin-top: 50px;
+  border-top: 1px solid #eee;
+  padding-top: 30px;
+}
+body.login-page section.form form .container .content .social-login p,
+body.login-page section.form-section form .container .content .social-login p {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+/* UX refresh overrides */
+body.login-page {
+  min-height: 100vh;
+  padding: 28px 16px 56px;
+  background: radial-gradient(circle at top left, rgba(242, 203, 77, 0.22), transparent 32%), radial-gradient(circle at top right, rgba(29, 46, 111, 0.12), transparent 30%), linear-gradient(180deg, #f8f6f1 0%, #ffffff 100%);
+}
+
+body.login-page section.form form .container,
+body.login-page section.form-section form .container {
+  max-width: 460px;
+  padding: 36px 32px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(21, 36, 87, 0.08);
+  border-radius: 28px;
+  box-shadow: 0 24px 48px rgba(15, 25, 51, 0.1);
+}
+
+body.login-page section.form form .container .heading .logo,
+body.login-page section.form-section form .container .heading .logo {
+  width: 74px;
+  margin-bottom: 12px;
+}
+
+body.login-page section.form form .container .heading h2,
+body.login-page section.form-section form .container .heading h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #13203f;
+}
+
+body.login-page section.form form .container .heading p,
+body.login-page section.form-section form .container .heading p {
+  color: #4f5d79;
+}
+
+body.login-page section.form form .container .content .input-box input,
+body.login-page section.form form .container .content .input-box select,
+body.login-page section.form-section form .container .content .input-box input,
+body.login-page section.form-section form .container .content .input-box select {
+  border-radius: 16px;
+  border-color: rgba(21, 36, 87, 0.14);
+  background: #fbfcff;
+}
+
+body.login-page section.form form .container .content .action-box .btn-primary,
+body.login-page section.form-section form .container .content .action-box .btn-primary {
+  background: linear-gradient(135deg, #1d2e6f 0%, #2a4d8f 100%);
+  color: #fff;
+  min-height: 56px;
+  box-shadow: 0 18px 32px rgba(21, 36, 87, 0.18);
+}
+
+body.login-page section.form form .container .content .action-box .btn-primary:hover,
+body.login-page section.form-section form .container .content .action-box .btn-primary:hover {
+  background: linear-gradient(135deg, #243b88 0%, #3559a0 100%);
+}
+
+body.login-page section.form form .container .content .terms-box,
+body.login-page section.form-section form .container .content .terms-box {
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #f8f9fd;
+  border: 1px solid rgba(21, 36, 87, 0.07);
+}
+
+@media (max-width: 520px) {
+  body.login-page section.form form .container,
+  body.login-page section.form-section form .container {
+    padding: 28px 20px;
+    border-radius: 22px;
+  }
+}/*# sourceMappingURL=forms.css.map */

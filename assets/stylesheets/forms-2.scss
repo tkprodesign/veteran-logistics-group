@@ -1,0 +1,154 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Variables (Branding colors)
+$ups-gold: #ffb500;
+$ups-brown: #351c15;
+$link-blue: #00448d;
+$border-grey: #a8a8a8;
+$text-main: #333;
+
+body.login-page {
+    background: #fff;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px; 
+    margin: 0 auto;
+    text-align: center;
+
+    .heading {
+        margin-bottom: 30px;
+        .logo {
+            display: inline-block;
+            width: 55px;
+            margin: 0 auto 20px auto;
+        }
+        h2 {
+            font-size: 28px;
+            font-weight: 400;
+            color: $text-main;
+            margin: 0;
+        }
+    }
+
+    .content {
+        .form-errors {
+            background-color: #ffe5e5;   // Light red background
+            border: 1px solid #ff4d4d;   // Dark red border
+            color: #d8000c;              // Bright red text
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .input-box {
+            margin-bottom: 15px;
+            input {
+                width: 100%;
+                padding: 16px;
+                font-size: 16px;
+                border: 1px solid $border-grey;
+                border-radius: 4px;
+                box-sizing: border-box;
+                
+                &:focus {
+                    outline: 2px solid $ups-brown;
+                    border-color: transparent;
+                }
+            }
+            .forgot-link {
+                text-align: center;
+                margin-top: 10px;
+                a {
+                    font-size: 14px;
+                    color: $link-blue;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .terms-box {
+            margin: 25px 0;
+            p {
+                font-size: 12px;
+                line-height: 1.6;
+                color: $text-main;
+                a {
+                    color: $link-blue;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .action-box {
+            .btn-primary {
+                /* Layout */
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                
+                /* Style */
+                background-color: $ups-gold;
+                color: $ups-brown;
+                border: none;
+                border-radius: 50px;
+                padding: 14px 0;
+                width: 100%;
+                font-size: 18px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s ease-in-out;
+
+                .material-symbols-outlined {
+                    font-size: 22px; // Sized to match UPS style
+                    transition: transform 0.2s ease;
+                }
+
+                &:hover {
+                    background-color: darken($ups-gold, 5%);
+                    
+                    .material-symbols-outlined {
+                        transform: translateX(4px); // The signature "nudge"
+                    }
+                }
+
+                &:active {
+                    transform: scale(0.98);
+                }
+            }
+
+            .signup-text {
+                margin-top: 20px;
+                font-size: 14px;
+                a {
+                    color: $link-blue;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .social-login {
+            margin-top: 50px;
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+            p {
+                font-size: 12px;
+                font-weight: 600;
+                letter-spacing: 1px;
+                color: #666;
+                text-transform: uppercase;
+            }
+        }
+    }
+}

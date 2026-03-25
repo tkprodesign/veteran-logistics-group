@@ -1,0 +1,380 @@
+.support-page {
+  background: #f3f3f3;
+  color: #222;
+  padding-bottom: 48px;
+}
+.support-page .container {
+  width: 95%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.support-page .support-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #666;
+  padding: 14px 0;
+}
+.support-page .support-hero h1,
+.support-page .section-head h2 {
+  font-size: 52px;
+  line-height: 1.15;
+  margin-bottom: 8px;
+  padding-bottom: 14px;
+  position: relative;
+}
+.support-page .support-hero h1::after,
+.support-page .section-head h2::after {
+  content: "";
+  width: 56px;
+  height: 3px;
+  background: #E1AE2A;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.support-page .section-head.center h2::after {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.support-page .section-head.center {
+  text-align: center;
+}
+.support-page .section-head.center h2 {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.support-page .signin-strip {
+  background: #ececec;
+  margin: 20px 0 28px;
+  padding: 18px;
+  border-radius: 2px;
+}
+.support-page .signin-strip p {
+  font-size: 14px;
+  color: #3f3f3f;
+}
+.support-page .signin-strip a {
+  color: #005dad;
+  text-decoration: underline;
+}
+.support-page .assistant-wrap {
+  position: relative;
+  margin-bottom: 34px;
+}
+.support-page .assistant-wrap .assistant-bg {
+  height: 240px;
+  border-radius: 0 0 80px 80px;
+  background: linear-gradient(180deg, #dbeafb 0%, #f7fbff 65%, #f3f3f3 100%);
+}
+.support-page .assistant-wrap .assistant-card {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 18px;
+  width: min(760px, 100% - 30px);
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+.support-page .assistant-wrap .assistant-head {
+  background: #0c66be;
+  color: #fff;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.support-page .assistant-wrap .assistant-body {
+  padding: 14px;
+}
+.support-page .assistant-wrap .assistant-body p {
+  font-size: 13px;
+  color: #2f2f2f;
+  margin-bottom: 8px;
+}
+.support-page .assistant-wrap .assistant-chip-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.support-page .assistant-wrap .assistant-chip-row button {
+  border: 1px solid #a9a9a9;
+  background: #fff;
+  border-radius: 20px;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.support-page .assistant-wrap .assistant-foot {
+  border-top: 1px solid #e3e3e3;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: #888;
+  background: #fafafa;
+}
+.support-page .support-alert .container {
+  padding-top: 20px;
+}
+.support-page .support-alert p {
+  font-size: 15px;
+  color: #333;
+  max-width: 1100px;
+  line-height: 1.7;
+}
+.support-page .support-categories {
+  padding-top: 30px;
+}
+.support-page .support-categories .support-card-grid {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.support-page .support-categories .top-row {
+  grid-template-columns: repeat(3, 1fr);
+}
+.support-page .support-categories .bottom-row {
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  max-width: 760px;
+  margin: 0 auto;
+}
+.support-page .support-categories .support-card {
+  background: #f2f2f2;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  min-height: 260px;
+  padding: 28px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+  align-items: center;
+}
+.support-page .support-categories .support-card h3 {
+  font-size: 24px;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.support-page .support-categories .support-card > a {
+  color: #005dad;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+.support-page .support-categories .support-card > a:not(.btn-gold)::after {
+  content: "\e5cc";
+  font-family: "Material Symbols Outlined";
+  font-size: 16px;
+  line-height: 1;
+}
+.support-page .support-categories .support-card > a:hover {
+  text-decoration: underline;
+}
+.support-page .support-categories .support-card .btn-gold {
+  margin-top: auto;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #ffc400;
+  color: #121212;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  width: auto;
+  align-self: center;
+}
+.support-page .support-faq {
+  padding-top: 40px;
+}
+.support-page .support-faq .faq-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 10px 0 22px;
+  border-bottom: 1px solid #ddd;
+}
+.support-page .support-faq .faq-tabs button {
+  border: 0;
+  background: transparent;
+  color: #4b4b4b;
+  font-size: 14px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+}
+.support-page .support-faq .faq-tabs button.active {
+  color: #006b5d;
+  border-bottom-color: #006b5d;
+}
+.support-page .support-faq .faq-panel {
+  display: none;
+  max-width: 900px;
+  margin: 24px auto 0;
+}
+.support-page .support-faq .faq-panel.active {
+  display: block;
+}
+.support-page .support-faq .faq-panel details {
+  background: #fff;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.support-page .support-faq .faq-panel details summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.support-page .support-faq .faq-panel details summary::after {
+  content: "\e313";
+  font-family: "Material Symbols Outlined";
+  font-size: 18px;
+  line-height: 1;
+}
+.support-page .support-faq .faq-panel details[open] summary::after {
+  content: "\e316";
+}
+.support-page .support-faq .faq-panel details div {
+  padding: 0 16px 14px;
+  font-size: 13px;
+  color: #4f4f4f;
+}
+.support-page .support-resources {
+  padding-top: 44px;
+}
+.support-page .support-resources .resource-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px 26px;
+}
+.support-page .support-resources .resource-grid a {
+  border-bottom: 1px solid #dbdbdb;
+  padding: 10px 0;
+  color: #005dad;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Support page visual alignment overrides */
+.support-page .assistant-wrap {
+  margin: 20px 0 28px;
+}
+.support-page .assistant-wrap .assistant-bg {
+  height: 280px;
+  border-radius: 0 0 70px 70px;
+  background: linear-gradient(180deg, #e8eef7 0%, #dbe6f4 55%, #eef4fb 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.support-page .assistant-wrap .assistant-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(1200px 220px at 50% 100%, #b8cbe0 0%, #dbe6f4 55%, transparent 56%);
+}
+.support-page .assistant-wrap .support-lottie {
+  width: 100%;
+  height: 100%;
+  max-width: 1120px;
+  position: relative;
+  z-index: 1;
+}
+.support-page .assistant-wrap .assistant-card,
+.support-page .assistant-wrap .assistant-head,
+.support-page .assistant-wrap .assistant-body,
+.support-page .assistant-wrap .assistant-foot {
+  display: none;
+}
+.support-page .alert-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.support-page .alert-title img {
+  width: 34px;
+  height: 34px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.support-page .support-card .card-title {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 24px;
+}
+.support-page .support-card .card-title img {
+  width: 34px;
+  height: 34px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+/* UX refresh overrides */
+.support-page {
+  background: linear-gradient(180deg, #f8f6f1 0%, #ffffff 220px);
+}
+
+.support-page .support-hero h1,
+.support-page .section-head h2 {
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  letter-spacing: -0.03em;
+}
+
+.support-page .signin-strip {
+  border-radius: 18px;
+  border: 1px solid rgba(21, 36, 87, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 16px 30px rgba(17, 29, 58, 0.05);
+}
+
+.support-page .support-categories .support-card,
+.support-page .support-faq .faq-panel details {
+  border-radius: 20px;
+  border-color: rgba(21, 36, 87, 0.08);
+  box-shadow: 0 18px 36px rgba(18, 28, 59, 0.08);
+}
+
+.support-page .support-categories .support-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.support-page .support-categories .support-card .btn-gold {
+  min-height: 46px;
+}
+
+.support-page .support-faq .faq-tabs {
+  gap: 22px;
+}
+
+.support-page .support-resources .resource-grid a {
+  padding: 14px 0;
+}
+
+@media (max-width: 900px) {
+  .support-page .support-categories .top-row,
+  .support-page .support-categories .bottom-row,
+  .support-page .support-resources .resource-grid {
+    grid-template-columns: 1fr;
+  }
+}/*# sourceMappingURL=support.css.map */

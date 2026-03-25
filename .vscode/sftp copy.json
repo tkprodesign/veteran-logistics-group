@@ -1,0 +1,32 @@
+{
+  "name": "My Server",
+  "host": "ftpupload.net",
+  "port": 21,
+  "username": "b18_41230477",
+  "password": "Wateva06@",
+  "remotePath": "/upsexpresssservices.us/htdocs",
+  "uploadOnSave": true,
+  "useTempFile": false,
+  "openSsh": false,
+  "downloadOnOpen": false,
+  "watcher": {
+    "files": "**/*.css",
+    "autoUpload": true,
+    "autoDelete": false
+  },
+  "ignore": [
+    "x",
+    ".git",
+    ".map",
+    "node_modules"
+  ],
+  "concurrency": 4,
+  "protocol": "ftp",
+  "connectTimeout": 30000,
+  "interactiveAuth": false,
+  "secure": false,
+  "remoteTimeOffsetInHours": 0,
+  "remoteExplorer": {
+    "order": 0
+  }
+}

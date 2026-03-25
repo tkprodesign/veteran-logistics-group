@@ -1,0 +1,82 @@
+[29-Nov-2023 00:29:17 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/digita40/public_html/control-panel/app.php on line 154
+[30-Nov-2023 02:32:38 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[30-Nov-2023 02:32:38 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[30-Nov-2023 02:32:38 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[02-Dec-2023 09:32:46 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[02-Dec-2023 09:32:46 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[02-Dec-2023 09:32:46 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[16-Dec-2023 02:34:27 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[16-Dec-2023 02:34:27 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[16-Dec-2023 02:34:27 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[16-Dec-2023 17:59:54 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[16-Dec-2023 17:59:54 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[16-Dec-2023 17:59:54 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[19-Dec-2023 07:56:46 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[19-Dec-2023 07:56:46 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[19-Dec-2023 07:56:46 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[30-Dec-2023 13:23:37 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[30-Dec-2023 13:23:37 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[30-Dec-2023 13:23:37 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[30-Dec-2023 13:23:37 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[30-Dec-2023 13:23:37 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[30-Dec-2023 13:23:37 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[31-Dec-2023 21:37:13 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[31-Dec-2023 21:37:13 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[31-Dec-2023 21:37:13 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[02-Jan-2024 02:22:59 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[02-Jan-2024 02:22:59 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[02-Jan-2024 02:22:59 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[02-Jan-2024 08:46:26 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[02-Jan-2024 08:46:26 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[02-Jan-2024 08:46:26 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[14-Jan-2024 02:45:14 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[14-Jan-2024 02:45:14 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[14-Jan-2024 02:45:14 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[15-Jan-2024 13:42:00 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[15-Jan-2024 13:42:00 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[15-Jan-2024 13:42:00 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[17-Jan-2024 13:27:23 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[17-Jan-2024 13:27:23 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[17-Jan-2024 13:27:23 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[17-Jan-2024 16:19:11 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[17-Jan-2024 16:19:11 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[17-Jan-2024 16:19:11 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[18-Jan-2024 00:15:03 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[18-Jan-2024 00:15:03 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[18-Jan-2024 00:15:03 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[18-Jan-2024 01:01:42 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[18-Jan-2024 01:01:42 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[18-Jan-2024 01:01:42 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[18-Jan-2024 12:52:44 America/Chicago] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'AIR' in 'where clause' in /home/digita40/public_html/control-panel/app.php:710
+Stack trace:
+#0 /home/digita40/public_html/control-panel/app.php(710): mysqli_query(Object(mysqli), 'DELETE FROM quo...')
+#1 /home/digita40/public_html/control-panel/index.php(1): include('/home/digita40/...')
+#2 {main}
+  thrown in /home/digita40/public_html/control-panel/app.php on line 710
+[18-Jan-2024 23:47:49 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[18-Jan-2024 23:47:49 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[18-Jan-2024 23:47:49 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[26-Jan-2024 12:06:08 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[26-Jan-2024 12:06:08 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[26-Jan-2024 12:06:08 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[01-Feb-2024 17:54:23 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[01-Feb-2024 17:54:23 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[01-Feb-2024 17:54:23 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[04-Feb-2024 17:18:05 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[04-Feb-2024 17:18:05 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[04-Feb-2024 17:18:05 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[20-Feb-2024 09:38:01 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[20-Feb-2024 09:38:01 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[20-Feb-2024 09:38:01 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[28-Feb-2024 06:03:35 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[28-Feb-2024 06:03:35 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[28-Feb-2024 06:03:35 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[28-Feb-2024 13:43:37 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[28-Feb-2024 13:43:37 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[28-Feb-2024 13:43:37 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[29-Feb-2024 14:06:51 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[29-Feb-2024 14:06:51 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[29-Feb-2024 14:06:51 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47
+[01-Mar-2024 07:32:28 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[01-Mar-2024 07:32:28 America/Chicago] PHP Warning:  Undefined array key "email" in /home/digita40/public_html/control-panel/app.php on line 44
+[01-Mar-2024 07:32:28 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/digita40/public_html/control-panel/app.php:44) in /home/digita40/public_html/control-panel/app.php on line 47

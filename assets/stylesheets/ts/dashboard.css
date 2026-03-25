@@ -1,0 +1,15 @@
+.grid-main {
+  grid-template-columns: 1fr;
+}
+
+.profile-layout {
+  grid-template-columns: 1fr;
+}
+
+.upsmc-layout {
+  grid-template-columns: 1fr;
+}
+
+.wallet-layout {
+  grid-template-columns: 1fr;
+}/*# sourceMappingURL=dashboard.css.map */

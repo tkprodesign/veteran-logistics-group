@@ -1,0 +1,135 @@
+/**
+ * Button Style 1: The standard action pattern.
+ * Uses a smooth transition and flexible width.
+ */
+/**
+ * Paragraph Style 2: Optimized for readability.
+ * Uses a balanced line-height for that "clean art" feel.
+ */
+body.login-page {
+  background: #fff;
+  font-family: "Open Sans", sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+.container .heading {
+  margin-bottom: 30px;
+}
+.container .heading .logo {
+  display: inline-block;
+  width: 55px;
+  margin: 0 auto 20px auto;
+}
+.container .heading h2 {
+  font-size: 28px;
+  font-weight: 400;
+  color: #333;
+  margin: 0;
+}
+.container .content .form-errors {
+  background-color: #ffe5e5;
+  border: 1px solid #ff4d4d;
+  color: #d8000c;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+}
+.container .content .input-box {
+  margin-bottom: 15px;
+}
+.container .content .input-box input {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  border: 1px solid #a8a8a8;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.container .content .input-box input:focus {
+  outline: 2px solid #351c15;
+  border-color: transparent;
+}
+.container .content .input-box .forgot-link {
+  text-align: center;
+  margin-top: 10px;
+}
+.container .content .input-box .forgot-link a {
+  font-size: 14px;
+  color: #00448d;
+  text-decoration: underline;
+}
+.container .content .terms-box {
+  margin: 25px 0;
+}
+.container .content .terms-box p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #333;
+}
+.container .content .terms-box p a {
+  color: #00448d;
+  text-decoration: underline;
+}
+.container .content .action-box .btn-primary {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  /* Style */
+  background-color: #ffb500;
+  color: #351c15;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 0;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.container .content .action-box .btn-primary .material-symbols-outlined {
+  font-size: 22px;
+  transition: transform 0.2s ease;
+}
+.container .content .action-box .btn-primary:hover {
+  background-color: rgb(229.5, 162.9, 0);
+}
+.container .content .action-box .btn-primary:hover .material-symbols-outlined {
+  transform: translateX(4px);
+}
+.container .content .action-box .btn-primary:active {
+  transform: scale(0.98);
+}
+.container .content .action-box .signup-text {
+  margin-top: 20px;
+  font-size: 14px;
+}
+.container .content .action-box .signup-text a {
+  color: #00448d;
+  text-decoration: underline;
+}
+.container .content .social-login {
+  margin-top: 50px;
+  border-top: 1px solid #eee;
+  padding-top: 30px;
+}
+.container .content .social-login p {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #666;
+  text-transform: uppercase;
+}/*# sourceMappingURL=forms-2.css.map */

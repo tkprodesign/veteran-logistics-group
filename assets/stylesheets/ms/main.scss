@@ -1,0 +1,121 @@
+body{
+    visibility: visible;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 16px;
+}
+
+header{
+    background: #fff;
+
+    .sticker{
+        display: none;
+    }
+}
+
+footer {
+    padding: 0; 
+    background-color: #351c15; // The specific deep UPS brown
+
+    .footer-container {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        gap: 0;
+
+        .footer-section {
+            // The thin separator line seen in your screenshots
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+            .footer-heading {
+                margin: 0;
+                padding: 20px 24px; 
+                font-size: 1.05rem;
+                font-weight: 700;
+                color: #ffffff;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .mobile-toggle-icon {
+                    display: block;
+                    font-size: 24px;
+                    // Updated to exactly 0.25s as requested
+                    transition: transform 0.25s ease-in-out; 
+                    transform: rotate(0deg); // Facing down by default
+                }
+            }
+
+            .footer-links {
+                max-height: 0;
+                overflow: hidden;
+                padding: 0 24px;
+                opacity: 0;
+                background-color: rgba(0, 0, 0, 0.05); 
+                transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
+
+                li {
+                    margin-bottom: 16px;
+                    
+                    &:first-child { margin-top: 10px; }
+                    &:last-child { margin-bottom: 25px; }
+
+                    a {
+                        color: #ffffff;
+                        text-decoration: none;
+                        font-size: 0.95rem;
+                        opacity: 0.85;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+
+                        &:hover { opacity: 1; text-decoration: underline; }
+
+                        .material-symbols-outlined {
+                            font-size: 16px;
+                            color: #ffb500; // UPS gold
+                        }
+                    }
+                }
+            }
+
+            // The Active State Logic triggered by your JS
+            &.is-active {
+                .footer-heading {
+                    .mobile-toggle-icon {
+                        // Rotates to face up when section is open
+                        transform: rotate(180deg); 
+                    }
+                }
+                
+                .footer-links {
+                    max-height: 600px; 
+                    opacity: 1;
+                    padding-bottom: 20px;
+                }
+            }
+
+            &.legal{
+                display: revert;
+            }
+        }
+    }
+
+    .footer-bottom {
+        padding: 20px 24px 40px;
+        background-color: #351c15;
+        border: none;
+        margin: 0 auto;
+
+        .copyright {
+            margin: 0;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+    }
+}

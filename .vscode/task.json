@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "FTP: Upload changed files",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\upload-changed.ps1",
+        "-FtpHost",
+        "ftpupload.net",
+        "-FtpUser",
+        "b18_41230477",
+        "-RemotePath",
+        "/upsexpresssservices.us/htdocs"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

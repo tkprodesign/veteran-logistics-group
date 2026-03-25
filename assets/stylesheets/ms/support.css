@@ -1,0 +1,73 @@
+.support-page {
+  padding-bottom: 26px;
+}
+
+.support-page .container {
+  width: calc(100vw - 28px);
+}
+
+.support-page .support-hero h1,
+.support-page .section-head h2 {
+  font-size: 24px;
+}
+
+.support-page .signin-strip {
+  padding: 14px;
+}
+
+.support-page .assistant-wrap {
+  margin-bottom: 18px;
+}
+
+.support-page .assistant-wrap .assistant-bg {
+  height: 150px;
+  border-radius: 0 0 40px 40px;
+}
+
+.support-page .assistant-wrap .assistant-card {
+  top: 10px;
+  width: calc(100% - 14px);
+}
+
+.support-page .assistant-wrap .assistant-chip-row {
+  gap: 6px;
+}
+
+.support-page .assistant-wrap .assistant-chip-row button {
+  font-size: 11px;
+  padding: 5px 8px;
+}
+
+.support-page .support-categories .top-row,
+.support-page .support-categories .bottom-row,
+.support-page .support-resources .resource-grid {
+  grid-template-columns: 1fr;
+}
+
+.support-page .support-categories .support-card {
+  min-height: 0;
+  padding: 16px;
+}
+
+.support-page .support-categories .support-card h3 {
+  font-size: 22px;
+}
+
+.support-page .support-faq .faq-tabs {
+  justify-content: flex-start;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.support-page .support-faq .faq-tabs button {
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.support-page .support-faq .faq-panel {
+  margin-top: 14px;
+}
+
+.support-page .support-faq .faq-panel details summary {
+  font-size: 13px;
+}/*# sourceMappingURL=support.css.map */

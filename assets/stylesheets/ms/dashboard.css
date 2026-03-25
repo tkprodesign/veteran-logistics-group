@@ -1,0 +1,100 @@
+.dashboard-hero .user-stats {
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dashboard-tabs, .activity-tabs {
+  gap: 16px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.dashboard-tabs::-webkit-scrollbar, .activity-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.track-form {
+  flex-direction: column;
+}
+.track-form input {
+  width: 100%;
+}
+
+.info-grid {
+  grid-template-columns: 1fr;
+}
+.info-grid .info-group.full-width {
+  grid-column: span 1;
+}
+
+.profile-layout {
+  grid-template-columns: 1fr;
+}
+
+.profile-links-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.upsmc-layout {
+  grid-template-columns: 1fr;
+}
+
+.upsmc-link-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.upsmc-actions {
+  flex-direction: column;
+  align-items: stretch;
+}
+.upsmc-actions .btn-outline {
+  width: 100%;
+  justify-content: center;
+}
+
+.wallet-layout {
+  grid-template-columns: 1fr;
+}
+
+.payment-methods-card .btn-outline {
+  width: 100%;
+  justify-content: center;
+}
+
+.profile-phone-row {
+  grid-template-columns: 1fr;
+}
+
+.profile-phone-actions .btn-outline-small {
+  width: 100%;
+  justify-content: center;
+}
+
+.method-tabs {
+  flex-wrap: wrap;
+}
+
+.method-grid {
+  grid-template-columns: 1fr;
+}
+
+.art-icon-img {
+  margin-bottom: 10px;
+}
+
+.shipment-empty-icon,
+.support-icon,
+.bills-icon,
+.account-icon {
+  width: 48px;
+  height: 48px;
+}
+
+.quick-grid .q-item img {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 10px;
+}/*# sourceMappingURL=dashboard.css.map */

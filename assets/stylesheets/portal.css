@@ -1,0 +1,506 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f8f8f8;
+  font-family: "Roboto", sans-serif;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+section.content {
+  display: grid;
+  grid-template-columns: 100%;
+  min-height: calc(100vh - 100px);
+  position: relative;
+}
+section.content .bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("/assets/images/portal-bg.jpg") no-repeat center center/cover;
+}
+section.content .left-col {
+  display: none;
+}
+section.content .right-col {
+  padding: 40px 16px;
+  z-index: 2;
+}
+section.content .right-col form {
+  background: #fff;
+  min-width: 60%;
+  max-width: 1000px;
+  margin: 80px auto auto auto;
+  padding: 40px;
+  border-radius: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 40px;
+  position: relative;
+}
+section.content .right-col form h1 {
+  font-size: 40px;
+  margin-bottom: 24px;
+}
+section.content .right-col form .change-location-box h3 {
+  margin-bottom: 4px;
+}
+section.content .right-col form .change-location-box select {
+  width: -moz-max-content;
+  width: max-content;
+}
+section.content .right-col form fieldset {
+  padding: 32px 24px;
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 32px;
+}
+section.content .right-col form fieldset legend {
+  font-size: 32px;
+  font-weight: 500;
+}
+section.content .right-col form fieldset #showPassLabel {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  gap: 4px;
+}
+section.content .right-col form fieldset #showPassLabel input {
+  height: 16px !important;
+  width: unset !important;
+}
+section.content .right-col form fieldset .input-box.col-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+section.content .right-col form fieldset .input-box.col-3 {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  align-items: center;
+  gap: 40px;
+}
+section.content .right-col form fieldset .input-box.location {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+section.content .right-col form fieldset .input-box.location img {
+  height: 20px;
+}
+section.content .right-col form fieldset .input-box.location a {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+section.content .right-col form fieldset .input-box.location a svg {
+  fill: #555555;
+}
+section.content .right-col form fieldset .input-box label {
+  display: block;
+  margin-bottom: 4px;
+}
+section.content .right-col form fieldset .input-box #title {
+  max-width: 128px;
+}
+section.content .right-col form fieldset .input-box label[for=loginPassword] {
+  display: flex;
+  justify-content: space-between;
+}
+section.content .right-col form fieldset .input-box label .forgot-password {
+  color: var(--accent-color);
+  font-size: 13px;
+}
+section.content .right-col form select {
+  padding: 8px;
+  background: rgba(30, 30, 30, 0.06);
+  border: none;
+  width: 100%;
+  border-radius: 4px;
+  outline: none;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+section.content .right-col form select:focus {
+  outline: 1px solid var(--accent-color);
+}
+section.content .right-col form button {
+  display: block;
+  width: 100%;
+  padding: 11px 8px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 28px;
+  color: #fff;
+  background-color: var(--accent-color);
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+section.content .right-col form button:hover {
+  opacity: 0.7;
+}
+section.content .right-col form p {
+  text-align: center;
+}
+
+section.content .right-col form input#loginPassword, section.content .right-col form input#signUpPassword, section.content .right-col form input#signUpConfirmPassword, section.content .right-col form select#loginPassword, section.content .right-col form select#signUpPassword, section.content .right-col form select#signUpConfirmPassword {
+  margin-bottom: 0;
+  background: none;
+}
+
+section.content .right-col form input#loginPassword:focus, section.content .right-col form input#signUpPassword:focus, section.content .right-col form input#signUpConfirmPassword:focus, section.content .right-col form select#loginPassword:focus, section.content .right-col form select#signUpPassword:focus, section.content .right-col form select#signUpConfirmPassword:focus {
+  outline: none;
+}
+
+section.content .right-col form p.or-login-with {
+  color: var(--dark-color-alt-50);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+section.content .right-col form p.or-login-with:after {
+  border-top: 5px solid gold;
+}
+
+section.content .right-col form a {
+  color: var(--accent-color);
+}
+
+section.content .right-col form #passwordInputField, section.content .right-col form #passwordInputField2, section.content .right-col form #passwordInputField3 {
+  display: grid;
+  min-height: 44px;
+  grid-template-columns: auto 44px;
+  margin-bottom: 32px;
+  border-radius: 4px;
+  background: rgba(30, 30, 30, 0.06);
+}
+
+section.content .right-col form #passwordInputField.outline-input-field, section.content .right-col form #passwordInputField2.outline-input-field, section.content .right-col form #passwordInputField3.outline-input-field {
+  outline: 1px solid var(--accent-color);
+}
+
+section.content .right-col form #passwordInputField a, section.content .right-col form #passwordInputField2 a, section.content .right-col form #passwordInputField3 a {
+  color: #111;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+footer {
+  background: #1e1e1e;
+  color: #fff;
+}
+
+footer .container {
+  padding: 40px 0;
+  display: grid;
+  grid-template-columns: repeat(4, calc(23% - 6px));
+  justify-content: space-between;
+}
+
+footer h3 {
+  margin-bottom: 26px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+footer ul {
+  list-style-type: none;
+}
+
+footer ul a {
+  margin-bottom: 26px;
+  display: inline-flex;
+  align-items: center;
+  padding-left: 8px;
+  text-decoration: none;
+  color: #fff;
+  gap: 14px;
+  font-weight: 400;
+  transition: all 0.3s ease;
+}
+
+footer ul a i {
+  font-size: 20px;
+}
+
+footer ul a span {
+  line-height: 150%;
+}
+
+footer ul a:hover {
+  color: var(--accent-color);
+}
+
+footer p {
+  margin-bottom: 12px;
+}
+
+footer input {
+  min-height: 44px;
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+footer input:hover {
+  outline: 1px solid var(--accent-color);
+}
+
+footer button {
+  text-transform: uppercase;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  width: 100%;
+  background-color: var(--accent-color);
+  color: #fff;
+  font-weight: 600;
+}
+
+footer .copyright {
+  padding: 16px 0;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin: auto;
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
+  border-top: 1px solid #555555;
+}
+
+@media only screen and (max-width: 1000px) {
+  body.active-nav {
+    height: 100vw;
+    overflow: none;
+  }
+  .container {
+    width: calc(100vw - 32px);
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header.active-nav {
+    display: sticky;
+    left: 0;
+    top: 0;
+  }
+  header .logo {
+    z-index: 3;
+  }
+  header nav {
+    position: absolute;
+    left: -100%;
+    opacity: 0;
+    top: 0;
+    height: 100vh;
+    background: #fff;
+    width: 60%;
+    max-width: 600px;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 100%;
+    padding: 16px;
+    transition: all 0.3s ease;
+  }
+  header nav ul {
+    flex-direction: column;
+  }
+  header nav.active {
+    left: 0;
+    opacity: 1;
+  }
+  header #menuToggleBtn {
+    display: block;
+  }
+  header #menuToggleBtn a {
+    color: #1e1e1e;
+    transition: all 0.3s ease;
+  }
+  header #menuToggleBtn a:hover {
+    color: var(--accent-color);
+  }
+  section.content {
+    display: grid;
+    grid-template-columns: 100% !important;
+    min-height: calc(100vh - 100px);
+    position: relative;
+  }
+  section.content .bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), url("/assets/images/portal-bg.jpg") no-repeat center center/cover;
+  }
+  section.content .left-col {
+    display: none;
+  }
+  section.content .right-col {
+    padding: 40px 16px;
+    z-index: 2;
+  }
+  section.content .right-col form {
+    background: #fff;
+    min-width: 60%;
+    max-width: unset;
+    margin: 80px auto auto auto;
+    padding: 40px;
+    border-radius: 24px;
+    display: grid;
+    grid-template-columns: 100%;
+    gap: 40px;
+    position: relative;
+  }
+  section.content .right-col form h1 {
+    font-size: 40px;
+    margin-bottom: 24px;
+  }
+  section.content .right-col form fieldset {
+    padding: 32px 24px;
+    display: grid;
+    grid-template-columns: 100%;
+    gap: 32px;
+  }
+  section.content .right-col form fieldset legend {
+    font-size: 32px;
+    font-weight: 500;
+  }
+  section.content .right-col form fieldset .input-box.col-3 {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    align-items: center;
+    gap: 40px;
+  }
+  section.content .right-col form fieldset .input-box.location {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  section.content .right-col form fieldset .input-box.location img {
+    height: 20px;
+  }
+  section.content .right-col form fieldset .input-box.location a {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  section.content .right-col form fieldset .input-box.location a svg {
+    fill: #555555;
+  }
+  section.content .right-col form fieldset .input-box label {
+    display: block;
+    margin-bottom: 4px;
+  }
+  section.content .right-col form fieldset .input-box #title {
+    max-width: 128px;
+  }
+  section.content .right-col form fieldset .input-box.col-2 {
+    display: grid;
+    grid-template-columns: 100%;
+    gap: 40px;
+    align-items: center;
+  }
+  section.content .right-col form .change-location-box h3 {
+    margin-bottom: 4px;
+  }
+  section.content .right-col form .change-location-box select {
+    width: -moz-max-content;
+    width: max-content;
+  }
+  footer {
+    background: #1e1e1e;
+    color: #fff;
+  }
+  footer .container {
+    padding: 40px 0;
+    display: grid;
+    grid-template-columns: 100%;
+    row-gap: 32px;
+  }
+  footer h3 {
+    margin-bottom: 26px;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  footer ul {
+    list-style-type: none;
+  }
+  footer ul a {
+    margin-bottom: 26px;
+    display: inline-flex;
+    align-items: center;
+    padding-left: 8px;
+    text-decoration: none;
+    color: #fff;
+    gap: 14px;
+    font-weight: 400;
+    transition: all 0.3s ease;
+  }
+  footer ul a i {
+    font-size: 20px;
+  }
+  footer ul a span {
+    line-height: 150%;
+  }
+  footer ul a:hover {
+    color: var(--accent-color);
+  }
+  footer p {
+    margin-bottom: 12px;
+  }
+  footer input {
+    min-height: 44px;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 8px;
+    margin-bottom: 16px;
+  }
+  footer input:hover {
+    outline: 1px solid var(--accent-color);
+  }
+  footer button {
+    text-transform: uppercase;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    width: 100%;
+    background-color: var(--accent-color);
+    color: #fff;
+    font-weight: 600;
+  }
+  footer .copyright {
+    padding: 16px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin: auto;
+    width: 90%;
+    max-width: 1200px;
+    text-align: center;
+    border-top: 1px solid #555555;
+  }
+}/*# sourceMappingURL=portal.css.map */

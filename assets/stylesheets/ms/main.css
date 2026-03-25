@@ -1,0 +1,106 @@
+body {
+  visibility: visible;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+header {
+  background: #fff;
+}
+header .sticker {
+  display: none;
+}
+
+footer {
+  padding: 0;
+  background-color: #351c15;
+}
+footer .footer-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 0;
+}
+footer .footer-container .footer-section {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+footer .footer-container .footer-section .footer-heading {
+  margin: 0;
+  padding: 20px 24px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+footer .footer-container .footer-section .footer-heading .mobile-toggle-icon {
+  display: block;
+  font-size: 24px;
+  transition: transform 0.25s ease-in-out;
+  transform: rotate(0deg);
+}
+footer .footer-container .footer-section .footer-links {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 24px;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.05);
+  transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
+}
+footer .footer-container .footer-section .footer-links li {
+  margin-bottom: 16px;
+}
+footer .footer-container .footer-section .footer-links li:first-child {
+  margin-top: 10px;
+}
+footer .footer-container .footer-section .footer-links li:last-child {
+  margin-bottom: 25px;
+}
+footer .footer-container .footer-section .footer-links li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+footer .footer-container .footer-section .footer-links li a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+footer .footer-container .footer-section .footer-links li a .material-symbols-outlined {
+  font-size: 16px;
+  color: #ffb500;
+}
+footer .footer-container .footer-section.is-active .footer-heading .mobile-toggle-icon {
+  transform: rotate(180deg);
+}
+footer .footer-container .footer-section.is-active .footer-links {
+  max-height: 600px;
+  opacity: 1;
+  padding-bottom: 20px;
+}
+footer .footer-container .footer-section.legal {
+  display: revert;
+}
+footer .footer-bottom {
+  padding: 20px 24px 40px;
+  background-color: #351c15;
+  border: none;
+  margin: 0 auto;
+}
+footer .footer-bottom .copyright {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+}/*# sourceMappingURL=main.css.map */

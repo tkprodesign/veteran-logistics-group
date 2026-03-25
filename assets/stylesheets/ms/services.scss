@@ -1,0 +1,123 @@
+.services-page {
+  padding-bottom: 30px;
+}
+.services-page .btn-gold,
+.services-page .btn-outline {
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.services-page .hero-cta-row a,
+.services-page .promo-inner .btn-gold,
+.services-page .resource-links a,
+.services-page .tool-card .btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.services-page a > .material-symbols-outlined,
+.services-page button > .material-symbols-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.services-page .container {
+  width: calc(100vw - 30px);
+}
+.services-page .services-breadcrumb {
+  font-size: 11px;
+  flex-wrap: wrap;
+}
+.services-page .services-hero {
+  padding-bottom: 20px;
+}
+.services-page .services-hero .hero-copy h1 {
+  font-size: 32px;
+}
+.services-page .services-hero .hero-copy p {
+  font-size: 14px;
+}
+.services-page .services-hero .hero-cta-row {
+  gap: 8px;
+}
+.services-page .services-hero .hero-cta-row a {
+  width: 100%;
+}
+.services-page .services-hero .hero-media img {
+  height: 180px;
+}
+.services-page .service-tabs-block .service-tabs {
+  gap: 14px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+.services-page .service-tabs-block .service-tabs a {
+  font-size: 12px;
+  white-space: nowrap;
+}
+.services-page .section {
+  padding: 34px 0 12px;
+}
+.services-page .section-heading {
+  margin-bottom: 18px;
+}
+.services-page .section-heading h2 {
+  font-size: 28px;
+}
+.services-page .section-heading p {
+  font-size: 13px;
+}
+.services-page .shipping-services-switch .service-panel {
+  display: none;
+}
+.services-page .shipping-services-switch .service-panel.active {
+  display: block;
+}
+.services-page .three-up,
+.services-page .two-up,
+.services-page .resource-links,
+.services-page .tool-grid {
+  grid-template-columns: 1fr;
+}
+.services-page .additional-grid .service-card {
+  min-height: 0;
+}
+.services-page .service-card {
+  min-height: 0;
+  padding: 15px;
+}
+.services-page .service-card h3 {
+  font-size: 18px;
+}
+.services-page .value-nav {
+  flex-direction: column;
+}
+.services-page .value-nav button {
+  text-align: left;
+  border-right: 0;
+  border-bottom: 1px solid #ededed;
+}
+.services-page .value-nav button.active {
+  border-bottom: 1px solid #ededed;
+  border-left: 4px solid #006b5d;
+  padding-left: 10px;
+}
+.services-page .value-content {
+  padding: 14px;
+}
+.services-page .promo-strip .promo-inner {
+  padding: 18px;
+}
+.services-page .promo-strip .promo-inner h3 {
+  font-size: 25px;
+}
+.services-page .tool-card {
+  padding: 16px;
+}
+.services-page .tool-card h3 {
+  font-size: 26px;
+}

@@ -1,0 +1,35 @@
+@use 'variables' as *;
+// ==========================================
+// TK PRO DESIGN - THE ARTIST'S TOOLKIT
+// ==========================================
+
+/**
+ * Button Style 1: The standard action pattern.
+ * Uses a smooth transition and flexible width.
+ */
+@mixin button-style-1 {
+    background: $acc;
+    display: flex;
+    align-items: center;
+    padding: $g-10 $g-24;
+    border-radius: $bd-r-m;
+    font-weight: 500;
+    transition: all .25s ease;
+    width: max-content;
+    color: $dk;
+    cursor: pointer;
+
+    &:hover {
+        background: $acc-alt;
+    }
+}
+
+
+/**
+ * Paragraph Style 2: Optimized for readability.
+ * Uses a balanced line-height for that "clean art" feel.
+ */
+@mixin paragraph-style-2 {
+    font-size: 20px;
+    line-height: 1.5;
+}

@@ -1,0 +1,17 @@
+.support-page .support-hero h1,
+.support-page .section-head h2 {
+  font-size: 42px;
+}
+.support-page .support-categories .top-row {
+  grid-template-columns: repeat(2, 1fr);
+}
+.support-page .support-categories .bottom-row {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: none;
+}
+.support-page .support-categories .support-card h3 {
+  font-size: 34px;
+}
+.support-page .support-resources .resource-grid {
+  grid-template-columns: repeat(2, 1fr);
+}

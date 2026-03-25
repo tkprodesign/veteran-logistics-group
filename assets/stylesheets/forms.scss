@@ -1,0 +1,414 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+@use "sass:color";
+
+header{
+    background: #fff;
+    box-shadow: 2px 0 10px rgb(18 18 18 / 10%);
+    .sticker{
+        display: none;
+    }
+    nav{
+        display: none;
+    }
+}
+body{
+    background: linear-gradient(to bottom, rgb(252, 250, 248), rgb(255, 255, 255));
+
+}
+
+section.form,
+section.form-section{
+    form {
+        .container {
+            width: 95%;
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 0 20px;
+            // font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: $text-main;
+    
+            .heading {
+                margin-bottom: 30px;
+    
+                h2 {
+                    font-size: 2.5rem;
+                    font-weight: 400;
+                    display: inline-block;
+                    // border-bottom: 4px solid $ups-yellow; // The signature yellow bar
+                    padding-bottom: 16px;
+                    margin-bottom: 16px;
+                    position: relative;
+                    font-weight: 400;
+    
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        left: 0;
+                        bottom: -1px;
+                        width: 80px;
+                        height: 4px;
+                        background-color: $acc;
+                        display: block;
+                    }
+                }
+    
+                p {
+                    font-size: 1.1rem;
+    
+                    a {
+                        color: #0662bb;
+                        text-decoration: underline;
+                        font-weight: 500;
+                        margin-left: 5px;
+                    }
+                }
+            }
+    
+            .content {
+                .input-box {
+                    margin-bottom: 18px;
+    
+                    input[type="text"],
+                    input[type="email"],
+                    input[type="number"],
+                    input[type="tel"],
+                    input[type="password"],
+                    select {
+                        width: 100%;
+                        padding: 18px 12px;
+                        font-size: 1rem;
+                        border: 1px solid $border-grey;
+                        border-radius: 4px;
+                        box-sizing: border-box;
+                        outline: none;
+                        background: #fff;
+    
+                        &:focus {
+                            border-color: $ups-brown;
+                            box-shadow: 0 0 0 1px $ups-brown;
+                            background: rgb(242, 241, 239);
+                        }
+    
+                        &::placeholder {
+                            color: #666;
+                        }
+                    }
+
+                    &.checkbox{
+                        display: flex;
+                        gap: 8px;
+                        align-items: flex-start;
+                        font-size: 1.1rem;
+                    }
+
+                    /* Remove arrows in Chrome, Safari, Edge */
+                    input[type="tel"]::-webkit-outer-spin-button,
+                    input[type="tel"]::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                    }
+
+                    /* Remove arrows in Firefox */
+                    input[type="tel"] {
+                    -moz-appearance: textfield;
+                    }
+                }
+    
+                // Side-by-side section
+                .input-group {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 15px;
+                    width: 100%;
+                    align-items: center;
+                    margin-bottom: 18px;
+    
+                    .country-code {
+                        flex: 1; // Takes up less space
+                        margin-top: unset !important;
+                        margin-bottom: unset;
+                    }
+                    
+                    .phone-number {
+                        flex: 1.5; // Takes up more space
+                        margin-top: unset !important;
+                        margin-bottom: unset;
+                    }
+                }
+    
+                // Checkbox and Terms Section
+                .input-box:last-child {
+                    display: flex;
+                    align-items: flex-start; // Keeps checkbox at top of text
+                    gap: 12px;
+                    margin-top: 25px;
+    
+                    input[type="checkbox"] {
+                        width: 24px;
+                        height: 24px;
+                        flex-shrink: 0; // Prevents checkbox from squishing
+                        cursor: pointer;
+                    }
+    
+                    p {
+                        font-size: 0.9rem;
+                        line-height: 1.5;
+                        margin: 0;
+                        color: #333;
+                    }
+                }
+                a{
+                    color: #0662bb;
+                }
+                // ... existing .content code ...
+
+                button[type="submit"] {
+                    /* Layout */
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    
+                    /* Dimensions & Shape */
+                    padding: 12px 32px;
+                    border-radius: 50px; // Creates the pill shape
+                    width: auto;         // Keeps it from stretching like the inputs
+                    min-width: 160px;
+
+                    /* Colors & Border */
+                    background-color: #f2f0f0;    // Matching the light grey from your image
+                    color: $ups-brown;            // Using your branding variable
+                    border: 1px solid #e2e2e2;
+                    
+                    /* Typography */
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    outline: none;
+
+                    /* Shadow & Effects */
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+                    transition: all 0.2s ease-in-out;
+
+                    .material-symbols-outlined {
+                        font-size: 20px;
+                        transition: transform 0.2s ease;
+                    }
+
+                    &:hover {
+                        background-color: #e8e6e6;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+                        
+                        .material-symbols-outlined {
+                            transform: translateX(3px); // Subtle arrow nudge
+                        }
+                    }
+
+                    &:active {
+                        transform: translateY(1px);
+                        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+body.login-page {
+    background: #fff;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    section.form,
+    section.form-section {
+        width: 100%;
+
+        form {
+            .container {
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+                padding: 0;
+                text-align: center;
+
+                .heading {
+                    margin-bottom: 30px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
+
+                    .auth-logo-wrap {
+                        display: block;
+                        margin: 0 auto 20px;
+                    }
+
+                    .logo {
+                        display: block;
+                        width: 55px;
+                        height: auto;
+                        margin: 0 auto 20px;
+                    }
+
+                    h2 {
+                        font-size: 28px;
+                        font-weight: 400;
+                        color: $text-main;
+                        margin: 0;
+                        padding-bottom: 0;
+
+                        &::after {
+                            display: none;
+                        }
+                    }
+
+                    p {
+                        font-size: 14px;
+                        line-height: 1.6;
+                        color: $text-main;
+                        margin-top: 14px;
+                        max-width: 360px;
+                    }
+                }
+
+                .content {
+                    .form-errors,
+                    .form-success {
+                        padding: 12px 16px;
+                        border-radius: 6px;
+                        margin-bottom: 20px;
+                        font-size: 14px;
+                        line-height: 1.5;
+                        text-align: left;
+                    }
+
+                    .form-errors {
+                        background-color: #ffe5e5;
+                        border: 1px solid #ff4d4d;
+                        color: #d8000c;
+                    }
+
+                    .form-success {
+                        background-color: #e9f7ec;
+                        border: 1px solid #83c88f;
+                        color: #1d6b2c;
+                    }
+
+                    .input-box {
+                        margin-bottom: 15px;
+
+                        input,
+                        select {
+                            width: 100%;
+                            padding: 16px;
+                            font-size: 16px;
+                            border: 1px solid $border-grey;
+                            border-radius: 4px;
+                            box-sizing: border-box;
+
+                            &:focus {
+                                outline: none;
+                                border-color: $ups-brown;
+                                box-shadow: 0 0 0 1px $ups-brown;
+                            }
+                        }
+
+                        .forgot-link {
+                            text-align: center;
+                            margin-top: 10px;
+
+                            a {
+                                font-size: 14px;
+                                color: $link-blue;
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+
+                    .terms-box {
+                        margin: 25px 0;
+
+                        p {
+                            font-size: 12px;
+                            line-height: 1.6;
+                            color: $text-main;
+
+                            a {
+                                color: $link-blue;
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+
+                    .action-box {
+                        .btn-primary {
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 8px;
+                            background-color: $ups-gold;
+                            color: $ups-brown;
+                            border: none;
+                            border-radius: 50px;
+                            padding: 14px 0;
+                            width: 100%;
+                            font-size: 18px;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+                            box-shadow: none;
+
+                            .material-symbols-outlined,
+                            .btn-chevron {
+                                font-size: 22px;
+                                line-height: 1;
+                                transition: transform 0.2s ease;
+                            }
+
+                            &:hover {
+                                background-color: color.adjust($ups-gold, $lightness: -5%);
+
+                                .material-symbols-outlined,
+                                .btn-chevron {
+                                    transform: translateX(4px);
+                                }
+                            }
+
+                            &:active {
+                                transform: scale(0.98);
+                            }
+                        }
+
+                        .signup-text {
+                            margin-top: 20px;
+                            font-size: 14px;
+
+                            a {
+                                color: $link-blue;
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+
+                    .social-login {
+                        margin-top: 50px;
+                        border-top: 1px solid #eee;
+                        padding-top: 30px;
+
+                        p {
+                            font-size: 12px;
+                            font-weight: 600;
+                            letter-spacing: 1px;
+                            color: #666;
+                            text-transform: uppercase;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
