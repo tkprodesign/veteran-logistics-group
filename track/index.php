@@ -211,13 +211,13 @@ switch ($statusKey) {
 <body>
 <?php include("../common-sections/header.html"); ?>
     <main class="track-container">
-        <header class="track-header">
+        <div class="track-header">
             <h1>Tracking</h1>
             <form class="search-bar" method="get" action="/track/">
                 <input type="text" name="id" placeholder="Tracking Number" value="<?= $tracking_id ?>" required>
                 <button class="btn-track" type="submit">Track</button>
             </form>
-        </header>
+        </div>
 
         <div class="track-grid">
             <section class="main-card">

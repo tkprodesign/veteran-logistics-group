@@ -53,6 +53,40 @@
         padding: 30px;
     }
 
+    @media (max-width: 640px) {
+        margin: 20px auto;
+        padding: 0 12px;
+
+        .track-header {
+            margin-bottom: 24px;
+
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 14px;
+            }
+
+            .search-bar {
+                max-width: 100%;
+                width: 100%;
+
+                input {
+                    min-width: 0;
+                    padding: 10px 14px;
+                }
+
+                .btn-track {
+                    flex: 0 0 auto;
+                    padding: 10px 22px;
+                    white-space: nowrap;
+                }
+            }
+        }
+
+        .main-card, .history-card {
+            padding: 20px 16px;
+        }
+    }
+
     // --- TRACKING PROGRESS BAR ---
     .tracking-visual {
         position: relative;
@@ -177,7 +211,12 @@
             }
         }
 
-        @media (max-width: 640px) {
+    }
+
+    @media (max-width: 640px) {
+        .tracking-visual {
+            margin: 40px 0;
+
             .nodes .node {
                 width: 96px;
             }
