@@ -65,8 +65,6 @@
 
 
 <!-- Scripts -->
-<script src="/assets/scripts/index.js?v=<?php echo time(); ?>"></script>
 <!-- <script src="/assets/scripts/user.js?v=<?php echo time(); ?>"></script> -->
 </body>
 </html>
-

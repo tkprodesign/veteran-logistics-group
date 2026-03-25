@@ -8,7 +8,7 @@ if (!$trackSignedIn) {
     exit();
 }
 
-$tracking_id_raw = isset($_GET['id']) ? (string)$_GET['id'] : '1Z999AA10123456784';
+$tracking_id_raw = isset($_GET['id']) ? trim((string)$_GET['id']) : '';
 $tracking_id = htmlspecialchars($tracking_id_raw);
 $statusKey = 'in_transit';
 $status = "In Transit";
@@ -16,8 +16,11 @@ $progress_percent = 65;
 $estimated_delivery_text = "Thursday, March 5, 2026";
 $estimated_delivery_hint = "By End of Day";
 $history = [];
+$tracking_found = false;
+$tracking_id_missing = ($tracking_id_raw === '');
+$tracking_lookup_attempted = !$tracking_id_missing;
 
-if (isset($conn) && $conn instanceof mysqli) {
+if (!$tracking_id_missing && isset($conn) && $conn instanceof mysqli) {
     $shipmentSql = "SELECT status, estimated_delivery_time FROM shipments WHERE tracking_number = ? LIMIT 1";
     $stmtShipment = $conn->prepare($shipmentSql);
     if ($stmtShipment) {
@@ -28,6 +31,7 @@ if (isset($conn) && $conn instanceof mysqli) {
         $stmtShipment->close();
 
         if ($shipmentRow) {
+            $tracking_found = true;
             $statusMap = [
                 'pending' => 'Label Created',
                 'incoming' => 'Shipped',
@@ -113,13 +117,18 @@ if (isset($conn) && $conn instanceof mysqli) {
     }
 }
 
-if (empty($history)) {
-    $history = [
-        ["event_id" => 0, "time" => "10:30 AM", "date" => "Mar 2, 2026", "location" => "Port Harcourt, NG", "activity" => "Arrived at Facility", "is_negative" => false, "issue_note" => ""],
-        ["event_id" => 0, "time" => "08:15 AM", "date" => "Mar 2, 2026", "location" => "Lagos, NG", "activity" => "Departed from Facility", "is_negative" => false, "issue_note" => ""],
-        ["event_id" => 0, "time" => "04:00 PM", "date" => "Mar 1, 2026", "location" => "Lagos, NG", "activity" => "Processed at UPS Facility", "is_negative" => false, "issue_note" => ""],
-        ["event_id" => 0, "time" => "11:00 AM", "date" => "Mar 1, 2026", "location" => "Lagos, NG", "activity" => "Shipped / Picked Up", "is_negative" => false, "issue_note" => ""]
-    ];
+if ($tracking_id_missing) {
+    $statusKey = 'pending';
+    $status = 'Enter Tracking Number';
+    $progress_percent = 0;
+    $estimated_delivery_text = '-';
+    $estimated_delivery_hint = 'Provide a tracking number to view shipment updates.';
+} elseif (!$tracking_found) {
+    $statusKey = 'failed';
+    $status = 'Not Found';
+    $progress_percent = 0;
+    $estimated_delivery_text = '-';
+    $estimated_delivery_hint = 'No shipment matched that tracking number.';
 }
 
 $progress_nodes = [
@@ -211,20 +220,20 @@ switch ($statusKey) {
 <body>
 <?php include("../common-sections/header.html"); ?>
     <main class="track-container">
-        <header class="track-header">
+        <div class="track-header">
             <h1>Tracking</h1>
             <form class="search-bar" method="get" action="/track/">
                 <input type="text" name="id" placeholder="Tracking Number" value="<?= $tracking_id ?>" required>
                 <button class="btn-track" type="submit">Track</button>
             </form>
-        </header>
+        </div>
 
         <div class="track-grid">
             <section class="main-card">
                 <div class="status-header">
                     <div class="id-group">
                         <span>Tracking Number</span>
-                        <strong><?= $tracking_id ?></strong>
+                        <strong><?= $tracking_id !== '' ? $tracking_id : 'Not provided' ?></strong>
                     </div>
                     <div class="status-badge <?= str_replace(' ', '-', strtolower($status)) ?>">
                         <?= $status ?>
@@ -255,30 +264,46 @@ switch ($statusKey) {
             <section class="history-card">
                 <h3>Detailed History</h3>
                 <div class="timeline">
-                    <?php foreach($history as $event): ?>
-                        <div class="timeline-item <?= !empty($event['is_negative']) ? 'is-negative' : '' ?>">
-                            <div class="time-col">
-                                <strong><?= htmlspecialchars((string)$event['time']) ?></strong>
-                                <span><?= htmlspecialchars((string)$event['date']) ?></span>
-                            </div>
-                            <div class="activity-col">
-                                <strong><?= htmlspecialchars((string)$event['activity']) ?></strong>
-                                <span><?= htmlspecialchars((string)$event['location']) ?></span>
-                                <?php if (!empty($event['is_negative'])): ?>
-                                    <a
-                                        class="urgent-cta"
-                                        href="/track/exception/?tn=<?= urlencode($tracking_id_raw) ?>&eid=<?= (int)($event['event_id'] ?? 0) ?>"
-                                    >
-                                        <span class="material-symbols-outlined" aria-hidden="true">warning</span>
-                                        Click for more details
-                                    </a>
-                                    <?php if (!empty($event['issue_note'])): ?>
-                                        <span class="issue-note"><?= htmlspecialchars((string)$event['issue_note']) ?></span>
+                    <?php if (!empty($history)): ?>
+                        <?php foreach($history as $event): ?>
+                            <div class="timeline-item <?= !empty($event['is_negative']) ? 'is-negative' : '' ?>">
+                                <div class="time-col">
+                                    <strong><?= htmlspecialchars((string)$event['time']) ?></strong>
+                                    <span><?= htmlspecialchars((string)$event['date']) ?></span>
+                                </div>
+                                <div class="activity-col">
+                                    <strong><?= htmlspecialchars((string)$event['activity']) ?></strong>
+                                    <span><?= htmlspecialchars((string)$event['location']) ?></span>
+                                    <?php if (!empty($event['is_negative'])): ?>
+                                        <a
+                                            class="urgent-cta"
+                                            href="/track/exception/?tn=<?= urlencode($tracking_id_raw) ?>&eid=<?= (int)($event['event_id'] ?? 0) ?>"
+                                        >
+                                            <span class="material-symbols-outlined" aria-hidden="true">warning</span>
+                                            Click for more details
+                                        </a>
+                                        <?php if (!empty($event['issue_note'])): ?>
+                                            <span class="issue-note"><?= htmlspecialchars((string)$event['issue_note']) ?></span>
+                                        <?php endif; ?>
                                     <?php endif; ?>
-                                <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php elseif ($tracking_id_missing): ?>
+                        <div class="timeline-item">
+                            <div class="activity-col">
+                                <strong>No tracking number provided.</strong>
+                                <span>Enter a tracking number above and tap Track.</span>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    <?php elseif ($tracking_lookup_attempted && !$tracking_found): ?>
+                        <div class="timeline-item">
+                            <div class="activity-col">
+                                <strong>Tracking number not found.</strong>
+                                <span>Please verify the number and try again.</span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </section>
         </div>

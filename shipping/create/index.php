@@ -1,6 +1,8 @@
 <?php
 include('app.php');
 
+$create_page_heading = 'Create a Shipment';
+
 $step_labels = [
     1 => "Shipping Details",
     2 => "Service Selection",
@@ -141,7 +143,7 @@ if ($step === 5 && !empty($created_shipment) && is_array($created_shipment)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create a Shipment | Veteran Logistics Group</title>
+    <title><?= htmlspecialchars($create_page_heading) ?> | Veteran Logistics Group</title>
     <link rel="stylesheet" href="/assets/stylesheets/main.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="/assets/stylesheets/shipping.css?v=<?php echo time(); ?>">
     <link rel="shortcut icon" href="/assets/images/branding/mark-only.png?v=<?php echo time(); ?>" type="image/png">
@@ -151,14 +153,15 @@ if ($step === 5 && !empty($created_shipment) && is_array($created_shipment)) {
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 </head>
 <body>
+<?php include("../../common-sections/header.html"); ?>
 
 <main class="create-main">
     <div class="create-container">
-        <header class="create-head">
+        <div class="create-head">
             <div class="head-left">
-                <h1>Create a Shipment</h1>
+                <h1><?= htmlspecialchars($create_page_heading) ?></h1>
                 <span class="head-line"></span>
-                <p>Fields marked * are required.</p>
+                <p>Fields marked * are required</p>
             </div>
             <div class="head-right">
                 <a href="/shipping/" class="prev-exp-link">Go to Previous Experience</a>
@@ -166,7 +169,7 @@ if ($step === 5 && !empty($created_shipment) && is_array($created_shipment)) {
                     <a href="/dashboard/?t=overview#a=outgoing" class="manage-ship-link"><span class="material-symbols-outlined">more_vert</span>Manage Shipments</a>
                 <?php endif; ?>
             </div>
-        </header>
+        </div>
 
         <div class="create-layout">
             <aside class="steps-col">
@@ -347,4 +350,3 @@ window.shippingCreateConfig = {
 
 </body>
 </html>
-
