@@ -60,31 +60,13 @@
                     <a href="<?= htmlspecialchars($logoutHref); ?>" class="dtp dtp-secondary">Logout</a>
                 </div>
             <?php else: ?>
-                <a href="#" class="dtp">
+                <a href="/login/" class="dtp">
                 Login <span class="material-symbols-outlined">chevron_right</span>
                 </a>
             <?php endif; ?>
             <a href="<?= htmlspecialchars($mobileAccountHref); ?>" class="mb" aria-label="Account">
                 <i class="fa-solid fa-user"></i>
             </a>
-            <!-- l-child: login child -->
-            <?php if (!$headerIsSignedIn): ?>
-                <div class="l-child">
-                    <div class="l-cta">
-                        <a href="/login/" class="pri">Login<span class="material-symbols-outlined">chevron_right</span></a>
-                        <a href="/signup/" class="sec">Sign Up<span class="material-symbols-outlined">chevron_right</span></a>
-                    </div>
-                    <div class="info">
-                        <h3>Hello there!</h3>
-                        <p>Create a profile and receive access to:</p>
-                        <ul>
-                            <li><img src="https://www.ups.com/webassets/icons/savings.svg" alt="Piggy Bank Icon">Personalized discounts up to 83% off</li>
-                            <li><img src="https://www.ups.com/webassets/icons/box.svg" alt="Box Icon">Tracking notifications</li>
-                            <li><img src="https://www.ups.com/webassets/icons/alarm_on.svg" alt="Alarm Icon">Saved addresses for faster shipping</li>
-                        </ul>
-                    </div>
-                </div>
-            <?php endif; ?>
         </div>
 
         <div id="menuToggleBtn">
@@ -95,7 +77,6 @@
         </div>
     </div>
 </header>
-
 
 
 

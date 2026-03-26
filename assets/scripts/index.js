@@ -18,9 +18,6 @@ if (document.querySelector('.swiper') && typeof Swiper === 'function') {
 // --- GLOBAL SELECTORS ---
 const body = document.querySelector('body');
 const nav = document.querySelector('header .container .left nav');
-const desktopLogBtn = document.querySelector('header .dtp');
-const mobileLogBtn = document.querySelector('header .mb');
-const mobileLogChild = document.querySelector('header .l-child');
 const menuToggleBtn = document.querySelector('header #menuToggleBtn');
 
 // --- FOOTER ACCORDION LOGIC ---
@@ -78,42 +75,6 @@ if (footerSections.length > 0) {
     window.addEventListener('resize', resetFooterState);
 }
 
-// --- MOBILE LOGIN BTN ---
-if (mobileLogBtn && mobileLogChild) {
-    mobileLogBtn.addEventListener('click', (e) => {
-        const href = (mobileLogBtn.getAttribute('href') || '').trim();
-        if (!href || href === '#') {
-            e.preventDefault();
-            mobileLogChild.classList.toggle('active');
-        }
-    });
-}
-
-// --- DESKTOP LOGIN BTN ---
-if (desktopLogBtn && mobileLogChild) {
-    desktopLogBtn.addEventListener('click', (e) => {
-        const href = (desktopLogBtn.getAttribute('href') || '').trim();
-        if (!href || href === '#') {
-            e.preventDefault();
-            mobileLogChild.classList.toggle('active');
-        }
-    });
-
-    document.addEventListener('click', (e) => {
-        const target = e.target;
-        if (!(target instanceof Element)) return;
-        if (!target.closest('header .right')) {
-            mobileLogChild.classList.remove('active');
-        }
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            mobileLogChild.classList.remove('active');
-        }
-    });
-}
-
 // --- MOBILE NAV TOGGLE ---
 if (menuToggleBtn && nav && body) {
     window.__headerNavBound = true;
@@ -122,10 +83,6 @@ if (menuToggleBtn && nav && body) {
         menuToggleBtn.classList.toggle('active');
         body.classList.toggle('active-nav');
         nav.classList.toggle('active');
-
-        if (mobileLogChild && mobileLogChild.classList.contains('active')) {
-            mobileLogChild.classList.remove('active');
-        }
     });
 
     nav.querySelectorAll('a').forEach((link) => {
