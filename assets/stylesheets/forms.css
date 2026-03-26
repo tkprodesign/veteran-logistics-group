@@ -276,7 +276,7 @@ body.login-page section.form-section form .container .heading .auth-logo-wrap {
 body.login-page section.form form .container .heading .logo,
 body.login-page section.form-section form .container .heading .logo {
   display: block;
-  width: 55px;
+  width: 96px;
   height: auto;
   margin: 0 auto 20px;
 }
@@ -456,7 +456,7 @@ body.login-page section.form-section form .container {
 
 body.login-page section.form form .container .heading .logo,
 body.login-page section.form-section form .container .heading .logo {
-  width: 74px;
+  width: 96px;
   margin-bottom: 12px;
 }
 
