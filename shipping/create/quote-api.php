@@ -94,6 +94,47 @@ function quote_payload_hash(array $snapshot): string {
     return hash('sha256', (string)$normalized);
 }
 
+function quote_send_resend_admin_email(string $subject, string $text): array {
+    $apiKey = trim((string)getenv('RESEND_API_KEY'));
+    if ($apiKey === '') {
+        $apiKey = 're_TAJtYDC7_RmCtNScjqHzLCkj1uNZ96vtp';
+    }
+
+    $payload = [
+        'from' => 'noreply@veteranlogisticsgroup.us',
+        'to' => ['admin@veteranlogisticsgroup.us'],
+        'subject' => $subject,
+        'text' => $text,
+    ];
+
+    $ch = curl_init('https://api.resend.com/emails');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer {$apiKey}",
+        'Content-Type: application/json',
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+
+    $response = curl_exec($ch);
+    $httpCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr = curl_error($ch);
+    curl_close($ch);
+
+    if ($curlErr !== '') {
+        $error = 'Resend curl error: ' . $curlErr;
+        error_log('quote-api: ' . $error);
+        return ['ok' => false, 'error' => $error, 'http_code' => $httpCode, 'response' => (string)$response];
+    }
+    if ($httpCode !== 200 && $httpCode !== 201) {
+        $error = 'Resend rejected request (' . $httpCode . ')';
+        error_log('quote-api: ' . $error . ': ' . (string)$response);
+        return ['ok' => false, 'error' => $error, 'http_code' => $httpCode, 'response' => (string)$response];
+    }
+
+    return ['ok' => true, 'http_code' => $httpCode, 'response' => (string)$response];
+}
+
 $user = quote_get_user($conn);
 if (!$user) {
     quote_json(['ok' => false, 'message' => 'Authentication required.'], 401);
@@ -197,10 +238,8 @@ if ($action === 'request') {
         . "Payload Hash: {$payloadHash}\n"
         . "Created At Epoch: {$now}\n\n"
         . "Payload JSON:\n{$payloadJson}\n";
-$headers = "From: no-reply@veteranlogisticsgroup.com\r\n"
-    . "Reply-To: no-reply@veteranlogisticsgroup.com\r\n"
-        . "Content-Type: text/plain; charset=UTF-8\r\n";
-$emailSent = @mail('shipments@veteranlogisticsgroup.com', $subject, $message, $headers);
+    $emailResult = quote_send_resend_admin_email($subject, $message);
+    $emailSent = !empty($emailResult['ok']);
 
     if ($emailSent) {
         $stmtMail = $conn->prepare("UPDATE shipment_service_quotes SET email_sent_epoch = ?, updated_at_epoch = ? WHERE id = ? LIMIT 1");
@@ -217,7 +256,9 @@ $emailSent = @mail('shipments@veteranlogisticsgroup.com', $subject, $message, $h
         'ready' => false,
         'request_id' => $requestId,
         'payload_hash' => $payloadHash,
-        'email_dispatched' => (bool)$emailSent
+        'email_dispatched' => (bool)$emailSent,
+        'email_error' => $emailSent ? null : (string)($emailResult['error'] ?? 'Unknown email error'),
+        'email_http_code' => isset($emailResult['http_code']) ? (int)$emailResult['http_code'] : null
     ]);
 }
 
@@ -300,4 +341,3 @@ if ($action === 'list') {
 }
 
 quote_json(['ok' => false, 'message' => 'Unsupported action.'], 400);
-

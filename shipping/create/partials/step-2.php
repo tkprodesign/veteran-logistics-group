@@ -44,6 +44,10 @@
                             </article>
 
                             <article class="ship-card">
+                                <div style="display:none;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                                    <strong style="font-size:12px;letter-spacing:.3px;">SERVICE DEBUG</strong>
+                                    <button type="button" id="service-debug-clear" style="font-size:11px;padding:2px 6px;border:1px solid #64748b;background:#1e293b;color:#e2e8f0;border-radius:4px;cursor:pointer;">Clear</button>
+                                </div>
                                 <h3>When do you want it to get there?</h3>
                                 <h4 class="subhead service-level-title">Service Level</h4>
                                 <p>
@@ -103,4 +107,3 @@
                     <p>Encrypting shipment data and requesting price, duration, and service notes...</p>
                 </div>
                             </article>
-
