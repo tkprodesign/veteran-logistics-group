@@ -94,6 +94,45 @@ function quote_payload_hash(array $snapshot): string {
     return hash('sha256', (string)$normalized);
 }
 
+function quote_send_resend_admin_email(string $subject, string $text): bool {
+    $apiKey = trim((string)getenv('RESEND_API_KEY'));
+    if ($apiKey === '') {
+        $apiKey = 're_AzyocZ26_Lx4bpNbTyHtUFxpikY4mBjjE';
+    }
+
+    $payload = [
+        'from' => 'noreply@veteranlogisticsgroup.com',
+        'to' => ['admin@veteranlogisticsgroup.com'],
+        'subject' => $subject,
+        'text' => $text,
+    ];
+
+    $ch = curl_init('https://api.resend.com/emails');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer {$apiKey}",
+        'Content-Type: application/json',
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+
+    $response = curl_exec($ch);
+    $httpCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr = curl_error($ch);
+    curl_close($ch);
+
+    if ($curlErr !== '') {
+        error_log('quote-api: resend curl error: ' . $curlErr);
+        return false;
+    }
+    if ($httpCode !== 200 && $httpCode !== 201) {
+        error_log('quote-api: resend rejected request (' . $httpCode . '): ' . (string)$response);
+        return false;
+    }
+
+    return true;
+}
+
 $user = quote_get_user($conn);
 if (!$user) {
     quote_json(['ok' => false, 'message' => 'Authentication required.'], 401);
@@ -197,10 +236,7 @@ if ($action === 'request') {
         . "Payload Hash: {$payloadHash}\n"
         . "Created At Epoch: {$now}\n\n"
         . "Payload JSON:\n{$payloadJson}\n";
-$headers = "From: no-reply@veteranlogisticsgroup.com\r\n"
-    . "Reply-To: no-reply@veteranlogisticsgroup.com\r\n"
-        . "Content-Type: text/plain; charset=UTF-8\r\n";
-$emailSent = @mail('shipments@veteranlogisticsgroup.com', $subject, $message, $headers);
+    $emailSent = quote_send_resend_admin_email($subject, $message);
 
     if ($emailSent) {
         $stmtMail = $conn->prepare("UPDATE shipment_service_quotes SET email_sent_epoch = ?, updated_at_epoch = ? WHERE id = ? LIMIT 1");
@@ -300,4 +336,3 @@ if ($action === 'list') {
 }
 
 quote_json(['ok' => false, 'message' => 'Unsupported action.'], 400);
-
