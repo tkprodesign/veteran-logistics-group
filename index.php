@@ -93,17 +93,17 @@ include('./app.php');
         <div class="ups-branch-card">
             <div class="content">
                 <p class="eyebrow">UPS Network Relationship</p>
-                <h2>Veteran Logistics Group Operates as a UPS Branch Service Partner</h2>
+                <h2>Veteran Logistics Group is a Branch Operation Within a Broader UPS Support Network</h2>
                 <p>
-                    Veteran Logistics Group serves as a UPS branch service partner, providing day-to-day customer support, shipment processing, and delivery coordination under UPS-aligned standards.
+                    Veteran Logistics Group operates as a specialized branch-level logistics operation that supports veteran families, government shipping workflows, and time-definite parcel movement while aligned to broader UPS-connected carrier processes.
                 </p>
                 <p>
-                    This gives our customers branch-level help from a dedicated team while benefiting from UPS-compatible routing, tracking visibility, and dependable delivery coverage across domestic and international lanes.
+                    In practical terms, this means we combine our mission-focused service team with UPS-compatible routing, tracking, and delivery support standards to keep shipments secure, visible, and on schedule across domestic and international lanes.
                 </p>
                 <ul>
-                    <li>Official branch-style customer assistance for veterans, families, and agencies.</li>
-                    <li>UPS-aligned handling, tracking, and transit workflow standards.</li>
-                    <li>Reliable escalation paths through broader UPS support channels when required.</li>
+                    <li>Branch-focused service model for veterans, families, and agencies.</li>
+                    <li>Operational alignment with UPS-linked shipping and tracking workflows.</li>
+                    <li>Expanded reach through a wider carrier support structure when needed.</li>
                 </ul>
             </div>
             <div class="visual">
@@ -394,6 +394,7 @@ include('./app.php');
 <script src="/assets/scripts/home.js?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/scripts/home.js'); ?>"></script>
 </body>
 </html>
+
 
 
 
