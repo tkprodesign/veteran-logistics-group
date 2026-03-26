@@ -107,7 +107,7 @@ include('./app.php');
                 </ul>
             </div>
             <div class="visual">
-                <img src="<?= htmlspecialchars(asset_url('/assets/images/ups/3d-icons/ups-account.png')); ?>" alt="UPS network support illustration">
+                <img src="https://www.ups.com/assets/resources/webcontent/images/ups-logo.svg" alt="Official UPS logo">
             </div>
         </div>
     </div>

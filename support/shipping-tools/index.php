@@ -9,11 +9,12 @@
     
     
     <link rel="stylesheet" href="/assets/stylesheets/main.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="/assets/stylesheets/home.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="/assets/stylesheets/support.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="/assets/stylesheets/ts/main.css?v=<?php echo time(); ?>" media="screen and (max-width: 1120px)">
-    <!-- <link rel="stylesheet" href="/assets/stylesheets/ts/home.css?v=<?php echo time(); ?>" media="screen and (max-width: 1120px)"> -->
+    <link rel="stylesheet" href="/assets/stylesheets/ts/home.css?v=<?php echo time(); ?>" media="screen and (max-width: 1120px)">
     <link rel="stylesheet" href="/assets/stylesheets/ms/main.css?v=<?php echo time(); ?>" media="screen and (max-width: 760px)">
-    <!-- <link rel="stylesheet" href="/assets/stylesheets/ms/home.css?v=<?php echo time(); ?>" media="screen and (max-width: 760px)"> -->
+    <link rel="stylesheet" href="/assets/stylesheets/ms/home.css?v=<?php echo time(); ?>" media="screen and (max-width: 760px)">
 
     <link rel="shortcut icon" href="/assets/images/branding/mark-only.png?v=<?php echo time(); ?>" type="image/png">
 
@@ -187,5 +188,4 @@
 <script src="/assets/scripts/shipping-tools.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
-
 

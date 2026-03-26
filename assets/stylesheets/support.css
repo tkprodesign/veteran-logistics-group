@@ -377,4 +377,24 @@
   .support-page .support-resources .resource-grid {
     grid-template-columns: 1fr;
   }
-}/*# sourceMappingURL=support.css.map */
+}
+
+section.s-hero {
+  padding: 32px 0 18px;
+}
+section.s-hero nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  color: #4d5d86;
+}
+section.s-hero .heading {
+  max-width: 920px;
+}
+
+section.services-alt.shipping-tools .container .heading {
+  text-align: left;
+}
+/*# sourceMappingURL=support.css.map */
