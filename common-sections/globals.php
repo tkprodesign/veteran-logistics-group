@@ -33,5 +33,13 @@ if (!defined('COMMON_SECTIONS_GLOBALS_LOADED')) {
             return $path;
         }
     }
+
+    // Global performance hints for Material Symbols CDN used across pages.
+    if (!headers_sent()) {
+        $materialSymbolsHref = "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
+        header("Link: <https://fonts.googleapis.com>; rel=preconnect", false);
+        header("Link: <https://fonts.gstatic.com>; rel=preconnect; crossorigin", false);
+        header("Link: <{$materialSymbolsHref}>; rel=preload; as=style", false);
+    }
 }
 ?>

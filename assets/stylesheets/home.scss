@@ -224,6 +224,70 @@ section.hero {
 
 
 
+section.ups-branch-context {
+    .container {
+        .ups-branch-card {
+            background: #f8f5ec;
+            border: 1px solid #e6dcc7;
+            border-left: 6px solid #351c15;
+            border-radius: 6px;
+            padding: 36px;
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 32px;
+            align-items: center;
+
+            .content {
+                .eyebrow {
+                    font-size: 13px;
+                    letter-spacing: .08em;
+                    text-transform: uppercase;
+                    font-weight: 700;
+                    color: #7a5a00;
+                    margin-bottom: 10px;
+                }
+
+                h2 {
+                    margin-bottom: 14px;
+                }
+
+                p {
+                    @include paragraph-style-2;
+                    margin-bottom: 12px;
+                }
+
+                ul {
+                    margin: 10px 0 0 20px;
+
+                    li {
+                        margin-bottom: 8px;
+                        color: #2a2a2a;
+                        font-size: 16px;
+                    }
+                }
+            }
+
+            .visual {
+                background: #fff;
+                border-radius: 4px;
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: $bx-s-1;
+
+                img {
+                    width: min(280px, 100%);
+                    height: auto;
+                    object-fit: contain;
+                }
+            }
+        }
+    }
+}
+
+
+
 section.why-choose-us {
     .container {
         .heading {
@@ -777,6 +841,11 @@ section.tools .container .right .heading {
     padding: 28px 0;
 }
 
+section.ups-branch-context .container .ups-branch-card {
+    border-radius: 20px;
+    box-shadow: 0 18px 36px rgba(18, 28, 59, 0.08);
+}
+
 section.services-alt .container .heading .toggle {
     gap: 0;
     padding: 6px; min-width: 196px;
@@ -860,8 +929,13 @@ section.important-updates details summary {
     section.services-alt .container .content .g1.active,
     section.services-alt .container .content .g2.active,
     section.cards-container .container .content,
-    section.tools .container {
+    section.tools .container,
+    section.ups-branch-context .container .ups-branch-card {
         grid-template-columns: 1fr;
+    }
+
+    section.ups-branch-context .container .ups-branch-card {
+        padding: 24px;
     }
 
     section.tools .container .left {
@@ -925,6 +999,3 @@ section.services-alt .container .heading .toggle button {
     justify-content: center;
     transition: color .2s ease;
 }
-
-
-
