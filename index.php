@@ -88,6 +88,32 @@ include('./app.php');
 
 
 
+<section class="ups-branch-context">
+    <div class="container">
+        <div class="ups-branch-card">
+            <div class="content">
+                <p class="eyebrow">UPS Network Relationship</p>
+                <h2>Veteran Logistics Group is a Branch Operation Within a Broader UPS Support Network</h2>
+                <p>
+                    Veteran Logistics Group operates as a specialized branch-level logistics operation that supports veteran families, government shipping workflows, and time-definite parcel movement while aligned to broader UPS-connected carrier processes.
+                </p>
+                <p>
+                    In practical terms, this means we combine our mission-focused service team with UPS-compatible routing, tracking, and delivery support standards to keep shipments secure, visible, and on schedule across domestic and international lanes.
+                </p>
+                <ul>
+                    <li>Branch-focused service model for veterans, families, and agencies.</li>
+                    <li>Operational alignment with UPS-linked shipping and tracking workflows.</li>
+                    <li>Expanded reach through a wider carrier support structure when needed.</li>
+                </ul>
+            </div>
+            <div class="visual">
+                <img src="<?= htmlspecialchars(asset_url('/assets/images/ups/3d-icons/ups-account.png')); ?>" alt="UPS network support illustration">
+            </div>
+        </div>
+    </div>
+</section>
+
+
 <section class="why-choose-us editing">
     <div class="container">
         <div class="heading .heading-1">
@@ -368,7 +394,6 @@ include('./app.php');
 <script src="/assets/scripts/home.js?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/scripts/home.js'); ?>"></script>
 </body>
 </html>
-
 
 
 
