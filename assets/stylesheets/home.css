@@ -43,7 +43,6 @@ section:not(.hero) .container .heading-1-1 h2::after {
 
 section.hero {
   position: relative;
-  margin-top: -12px;
 }
 section.hero .custom-shape-divider-bottom-1771153755, section.hero .custom-shape-divider-bottom-1771153943 {
   display: none;
