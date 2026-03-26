@@ -603,6 +603,26 @@
       var processedByLevel = {};
       var pollDelays = [5000, 10000, 15000, 30000];
       var processingInFlight = false;
+      var serviceDebugLogEl = document.getElementById('service-debug-log');
+      var serviceDebugClearBtn = document.getElementById('service-debug-clear');
+      var serviceDebugLines = [];
+
+      function appendServiceDebugLine(message) {
+        if (!serviceDebugLogEl) return;
+        var stamp = new Date().toLocaleTimeString();
+        serviceDebugLines.push('[' + stamp + '] ' + message);
+        if (serviceDebugLines.length > 120) {
+          serviceDebugLines = serviceDebugLines.slice(serviceDebugLines.length - 120);
+        }
+        serviceDebugLogEl.textContent = serviceDebugLines.join('\n');
+      }
+
+      if (serviceDebugClearBtn && serviceDebugLogEl) {
+        serviceDebugClearBtn.addEventListener('click', function () {
+          serviceDebugLines = [];
+          serviceDebugLogEl.textContent = 'cleared.';
+        });
+      }
 
       function mapUiToApiLevel(value) { return value === 'standard' ? 'economy' : value; }
       function selectedServiceLevel() {
@@ -621,6 +641,15 @@
       }
 
       function debugQuote(msg, data) {
+        var logPayload = '';
+        if (typeof data !== 'undefined') {
+          try {
+            logPayload = ' | ' + JSON.stringify(data);
+          } catch (_e) {
+            logPayload = ' | [unserializable payload]';
+          }
+        }
+        appendServiceDebugLine(msg + logPayload);
         try {
           if (typeof data !== 'undefined') {
             console.log('[shipments][quote]', msg, data);
