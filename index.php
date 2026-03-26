@@ -107,7 +107,7 @@ include('./app.php');
                 </ul>
             </div>
             <div class="visual">
-                <img src="<?= htmlspecialchars(asset_url('/assets/images/ups/ups-account.svg')); ?>" alt="UPS brand support badge">
+                <img src="<?= htmlspecialchars(asset_url('/assets/images/ups/3d-icons/ups-account.png')); ?>" alt="UPS network support illustration">
             </div>
         </div>
     </div>
@@ -394,5 +394,3 @@ include('./app.php');
 <script src="/assets/scripts/home.js?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/scripts/home.js'); ?>"></script>
 </body>
 </html>
-
-
