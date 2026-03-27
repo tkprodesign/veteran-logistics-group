@@ -833,7 +833,23 @@
         requestServiceProcessing(level)
           .then(function (data) {
             debugQuote('request response', data);
+            debugger;
             if (!data || !data.ok) throw new Error((data && data.message) ? data.message : 'Could not start service processing.');
+
+            if (data.already_exists) {
+              debugQuote('request reused existing quote record', {
+                requestId: data.request_id,
+                ready: !!data.ready,
+                serviceLevel: level
+              });
+            }
+            if (data.email_dispatched === false) {
+              debugQuote('admin email dispatch failed', {
+                requestId: data.request_id,
+                error: data.email_error || null,
+                httpCode: data.email_http_code || null
+              });
+            }
 
             if (data.already_exists && data.ready && data.record) {
               finalizeProcessedRecord(data.record);
