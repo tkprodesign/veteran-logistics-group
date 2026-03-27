@@ -62,7 +62,7 @@
                 <div class="col">
                     <h3>Create a Shipment</h3>
                     <p>Ready to ship your package? Fill out your shipment details to create your shipping label online.</p>
-                    <a href="/services">Ship Now <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a href="https://veteranlogisticsgroup.us/support/shipping-tools/">Ship Now <span class="material-symbols-outlined">chevron_right</span></a>
                 </div>
                 <div class="col">
                     <h3>Get a Shipping Quote</h3>
@@ -72,12 +72,12 @@
                 <div class="col">
                     <h3>Get Discounted Shipping Rates</h3>
                     <p>Answer a few quick questions to apply exclusive discounts to your profile.</p>
-                    <a href="/services">Save On Every Shipment <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a href="https://veteranlogisticsgroup.us/support/shipping-tools/">Save On Every Shipment <span class="material-symbols-outlined">chevron_right</span></a>
                 </div>
                 <div class="col">
                     <h3>Order Shipping Supplies</h3>
                     <p>Log in to request boxes, packaging, labels, forms or supplies for your next shipment.</p>
-                    <a href="/services">Get Supplies <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a href="https://veteranlogisticsgroup.us/support/shipping-tools/">Get Supplies <span class="material-symbols-outlined">chevron_right</span></a>
                 </div>
             </div>
 
@@ -86,22 +86,22 @@
                 <div class="col">
                     <h3>Change a Delivery</h3>
                     <p>Redirect a package you sent, change an incoming delivery or correct your address.</p>
-                    <a href="/services">Change a Delivery <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a href="https://veteranlogisticsgroup.us/support/shipping-tools/">Change a Delivery <span class="material-symbols-outlined">chevron_right</span></a>
                 </div>
                 <div class="col">
                     <h3>Billing Center</h3>
                     <p>View invoices, manage payment methods and pay bills, all in one place.</p>
-                    <a href="/services">Billing Center <span class="material-symbols-outlined">open_in_new</span></a>
+                    <a href="https://veteranlogisticsgroup.us/support/shipping-tools/">Billing Center <span class="material-symbols-outlined">open_in_new</span></a>
                 </div>
                 <div class="col">
                     <h3>View Shipping History</h3>
                     <p>Spot trends, retrieve details or resolve issues with easy access to your shipping history.</p>
-                    <a href="/services">See History <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a href="https://veteranlogisticsgroup.us/support/shipping-tools/">See History <span class="material-symbols-outlined">chevron_right</span></a>
                 </div>
                 <div class="col">
                     <h3>Tracking Support</h3>
                     <p>Get quick answers to common tracking questions through our guided help.</p>
-                    <a href="/services">Tracking Support <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a href="https://veteranlogisticsgroup.us/support/shipping-tools/">Tracking Support <span class="material-symbols-outlined">chevron_right</span></a>
                 </div>
             </div>
         </div>
