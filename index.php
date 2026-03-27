@@ -7,7 +7,7 @@ include('./app.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veteran Logistics Group | Ship and Track Online</title>
+    <title>Veteran Logistics Group | Shipping, Tracking, Freight & Logistics Solutions</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     
     

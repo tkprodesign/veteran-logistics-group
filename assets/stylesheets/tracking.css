@@ -32,7 +32,8 @@
   color: #ffffff;
   border: none;
   padding: 10px 30px;
-  border-radius: 25px;
+  min-height: var(--btn-height);
+  border-radius: var(--btn-radius-pill);
   cursor: pointer;
   font-weight: 600;
 }
@@ -233,10 +234,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 38px;
+  min-height: var(--btn-height-compact);
   padding: 0 16px;
   border: 1px solid #0b63c8;
-  border-radius: 999px;
+  border-radius: var(--btn-radius-pill);
   color: #0b63c8;
   font-weight: 700;
   text-decoration: none;

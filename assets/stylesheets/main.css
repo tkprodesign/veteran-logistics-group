@@ -20,6 +20,13 @@ body {
   position: relative;
 }
 
+:root {
+  --btn-height: 46px;
+  --btn-height-compact: 38px;
+  --btn-radius-pill: 999px;
+  --btn-font-size: 0.95rem;
+}
+
 .container {
   width: 95%;
   max-width: 1400px;
@@ -51,6 +58,21 @@ header .container .right .l-child .l-cta .sec,
   justify-content: center;
   gap: 8px;
   vertical-align: middle;
+  min-height: var(--btn-height);
+  border-radius: var(--btn-radius-pill);
+  font-size: var(--btn-font-size);
+}
+
+.btn-outline-small,
+.cp-btn-small {
+  min-height: var(--btn-height-compact);
+  font-size: 0.86rem;
+}
+
+.seg-btn,
+.method-tab {
+  min-height: var(--btn-height-compact);
+  border-radius: var(--btn-radius-pill);
 }
 
 header .container .right .cta .dtp .material-symbols-outlined,
@@ -546,6 +568,22 @@ footer .footer-bottom .copyright {
     margin-top: 0;
   }
 }
+
+@media (max-width: 1120px) {
+  :root {
+    --btn-height: 44px;
+    --btn-height-compact: 36px;
+    --btn-font-size: 0.92rem;
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --btn-height: 42px;
+    --btn-height-compact: 34px;
+    --btn-font-size: 0.9rem;
+  }
+}
 /* UX refresh overrides */
 body {
   background: linear-gradient(180deg, #f8f6f1 0%, #ffffff 220px);
@@ -635,6 +673,12 @@ header .container .right .cta .mb {
   background: #1d2e6f;
   color: #fff;
 }
+header .container .right .cta .mb .material-symbols-outlined,
+header .container .right .cta .mb i {
+  font-size: 24px;
+  line-height: 1;
+}
+
 
 header .container .right .l-child {
   top: 58px;

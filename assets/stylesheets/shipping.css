@@ -316,7 +316,7 @@ body {
 }
 
 .seg-btn {
-  height: 44px;
+  min-height: var(--btn-height-compact);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -721,10 +721,10 @@ body {
 .quote-btn {
   display: inline-flex;
   align-items: center;
-  height: 38px;
+  min-height: var(--btn-height-compact);
   min-width: 146px;
   border: 1px solid transparent;
-  border-radius: 999px;
+  border-radius: var(--btn-radius-pill);
   font-weight: 600;
   justify-content: center;
   transition: all 0.18s ease;
@@ -1404,13 +1404,13 @@ body {
 .promo-btn {
   display: inline-flex;
   align-items: center;
-  height: 44px;
+  min-height: var(--btn-height);
   min-width: 96px;
   border: 1px solid transparent;
   justify-content: center;
   font-size: 0.95rem;
   font-weight: 600;
-  border-radius: 999px;
+  border-radius: var(--btn-radius-pill);
   transition: all 0.18s ease;
   cursor: pointer;
   text-decoration: none;
@@ -1498,8 +1498,8 @@ body {
 
 .btn-next {
   border: none;
-  border-radius: 999px;
-  height: 46px;
+  border-radius: var(--btn-radius-pill);
+  min-height: var(--btn-height);
   padding: 0 22px;
   display: inline-flex;
   align-items: center;
@@ -1512,8 +1512,8 @@ body {
 
 .btn-back {
   border: 1px solid #8f8f8f;
-  border-radius: 999px;
-  height: 44px;
+  border-radius: var(--btn-radius-pill);
+  min-height: var(--btn-height);
   padding: 0 18px;
   display: inline-flex;
   align-items: center;

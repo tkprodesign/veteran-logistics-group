@@ -254,7 +254,7 @@ body {
   display: flex;
   align-items: center;
   padding: 10px 24px;
-  border-radius: 40px;
+  border-radius: var(--btn-radius-pill);
   border: none;
   font-weight: 600;
   cursor: pointer;
@@ -273,7 +273,7 @@ body {
   border: 1.5px solid #1D2E6F;
   color: #1D2E6F;
   padding: 10px 24px;
-  border-radius: 50px;
+  border-radius: var(--btn-radius-pill);
   font-weight: 500;
   width: -moz-max-content;
   width: max-content;

@@ -187,7 +187,7 @@ body {
 }
 
 .cp-btn-small {
-  min-height: 36px;
+  min-height: var(--btn-height-compact);
   padding: 8px 14px;
   font-size: 0.86rem;
 }
@@ -212,8 +212,9 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-height: var(--btn-height);
   padding: 10px 16px;
-  border-radius: 999px;
+  border-radius: var(--btn-radius-pill);
   background: #ffb500;
   color: #1f1f1f;
   font-weight: 700;
@@ -427,6 +428,26 @@ body {
   .cp-card {
     padding: 14px;
   }
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  #cp-site-users { order: 1; }
+  #cp-delete-site-user { order: 2; }
+
+  #cp-service-quotes { order: 3; }
+  #cp-edit-service-quote { order: 4; }
+  #cp-delete-service-quote { order: 5; }
+
+  #cp-shipments { order: 6; }
+  #cp-add-location-event { order: 7; }
+  #cp-exception-payments { order: 8; }
+  #cp-payment-proofs { order: 9; }
+
+  #cp-delete-shipment { order: 10; }
+  #cp-user-payment-block { order: 11; }
+  #cp-support-email { order: 12; }
   .cp-card-head {
     flex-direction: column;
     align-items: flex-start;
