@@ -17,6 +17,7 @@ if (file_exists($shippingEmailConfigPath)) {
 
 if (!class_exists('\PHPMailer\PHPMailer\PHPMailer')) {
     $phpMailerCandidates = [
+        __DIR__ . '/../../common-sections/PHPMailer/src',
         __DIR__ . '/PHPMailer/src',
         __DIR__ . '/../../PHPMailer/src',
         __DIR__ . '/../../vendor/phpmailer/phpmailer/src',
@@ -688,7 +689,7 @@ function shipping_send_html_email(string $toEmail, string $fromEmail, string $su
         return false;
     }
 
-    $smtpHost = shipping_resolve_mail_setting('SMTP_HOST', 'mail.spacemail.com');
+    $smtpHost = 'mail.spacemail.com';
     $smtpPort = (int)shipping_resolve_mail_setting('SMTP_PORT', '465');
     $smtpSecure = shipping_resolve_mail_setting('SMTP_SECURE', \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS);
 

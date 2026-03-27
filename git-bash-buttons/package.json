@@ -1,0 +1,24 @@
+{
+    "name": "git-bash-buttons",
+    "displayName": "Git Bash Buttons",
+    "description": "Quick Git buttons for bash terminal",
+    "version": "0.0.1",
+    "publisher": "local",
+    "engines": {
+      "vscode": "^1.74.0"
+    },
+    "categories": ["Other"],
+    "main": "./extension.js",
+    "activationEvents": [],
+    "contributes": {
+      "commands": [
+        { "command": "gitButtons.pull", "title": "Git: Pull (Bash Button)" },
+        { "command": "gitButtons.status", "title": "Git: Status (Bash Button)" },
+        { "command": "gitButtons.diff", "title": "Git: Diff (Bash Button)" },
+        { "command": "gitButtons.fetch", "title": "Git: Fetch (Bash Button)" },
+        { "command": "gitButtons.log", "title": "Git: Log (Bash Button)" },
+        { "command": "gitButtons.pullStatus", "title": "Git: Pull + Status (Bash Button)" },
+        { "command": "gitButtons.fetchStatus", "title": "Git: Fetch + Status (Bash Button)" }
+      ]
+    }
+  }
