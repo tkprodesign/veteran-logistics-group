@@ -135,7 +135,7 @@ function quote_build_admin_email_html(
 </a>
 </td></tr>
 <tr><td style="padding:28px 40px 6px 40px;"><h1 style="margin:0;font-size:26px;line-height:1.3;color:#0f172a;">New service quote request</h1></td></tr>
-<tr><td style="padding:0 40px 12px 40px;"><p style="margin:0;font-size:15px;line-height:1.7;color:#374151;">A customer submitted a processing request that requires pricing review.</p></td></tr>
+<tr><td style="padding:0 40px 12px 40px;"><p style="margin:0;font-size:15px;line-height:1.7;color:#374151;">Hello Admin,</p><p style="margin:8px 0 0 0;font-size:15px;line-height:1.7;color:#374151;">A customer submitted a processing request that requires pricing review.</p></td></tr>
 <tr><td style="padding:0 40px 18px 40px;">
 <p style="margin:0 0 8px 0;font-size:14px;color:#374151;"><strong>Request ID:</strong> ' . $safeRequestId . '</p>
 <p style="margin:0 0 8px 0;font-size:14px;color:#374151;"><strong>User ID:</strong> ' . $safeUserId . '</p>
@@ -144,7 +144,7 @@ function quote_build_admin_email_html(
 <p style="margin:0 0 8px 0;font-size:14px;color:#374151;"><strong>Payload Hash:</strong> ' . $safePayloadHash . '</p>
 <p style="margin:0;font-size:14px;color:#374151;"><strong>Created:</strong> ' . $safeCreated . '</p>
 </td></tr>
-<tr><td style="padding:0 40px 24px 40px;"><a href="https://veteranlogisticsgroup.us/control-panel/" style="display:inline-block;background-color:#1d4ed8;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:bold;">Open Control Panel</a></td></tr>
+<tr><td style="padding:0 40px 24px 40px;"><a href="https://veteranlogisticsgroup.us/control-panel/page/" style="display:inline-block;background-color:#1d4ed8;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:bold;">Go to Control Panel</a></td></tr>
 <tr><td style="padding:0 40px 18px 40px;"><p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">If you did not expect this message, please contact support at support@veteranlogisticsgroup.us.</p></td></tr>
 <tr><td style="background-color:#f8fafc;border-top:1px solid #e5e7eb;padding:16px 24px;"><p style="margin:0;font-size:11px;line-height:1.5;color:#6b7280;">© 2026 Veteran Logistics Group. Please do not reply to this email.</p></td></tr>
 </table>
