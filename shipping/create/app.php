@@ -688,9 +688,9 @@ function shipping_send_html_email(string $toEmail, string $fromEmail, string $su
         return false;
     }
 
-    $smtpHost = shipping_resolve_mail_setting('SMTP_HOST', 'mail.veteranlogisticsgroup.us');
-    $smtpPort = (int)shipping_resolve_mail_setting('SMTP_PORT', '587');
-    $smtpSecure = shipping_resolve_mail_setting('SMTP_SECURE', \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS);
+    $smtpHost = shipping_resolve_mail_setting('SMTP_HOST', 'mail.spacemail.com');
+    $smtpPort = (int)shipping_resolve_mail_setting('SMTP_PORT', '465');
+    $smtpSecure = shipping_resolve_mail_setting('SMTP_SECURE', \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS);
 
     $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
     try {
