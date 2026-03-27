@@ -260,6 +260,39 @@
             </div>
         </section>
 
+        <section id="cp-edit-service-quote" class="cp-card">
+            <div class="cp-card-head">
+                <div>
+                    <h2>Edit Service Quote</h2>
+                    <p>Update shipment service quote values using quote ID</p>
+                </div>
+            </div>
+            <?php if (!empty($cp_quote_update_notice)): ?>
+                <p class="cp-quote-notice <?= ($cp_quote_update_notice_type === 'success') ? 'is-success' : 'is-error' ?>">
+                    <?= htmlspecialchars($cp_quote_update_notice) ?>
+                </p>
+            <?php endif; ?>
+            <form method="post" class="cp-quote-form">
+                <div class="cp-quote-grid">
+                    <div>
+                        <label for="quote_id">Quote ID</label>
+                        <input id="quote_id" type="number" min="1" step="1" name="quote_id" required>
+                    </div>
+                    <div>
+                        <label for="quote_price">Price</label>
+                        <input id="quote_price" type="number" min="0" step="0.01" name="quote_price" required>
+                    </div>
+                    <div>
+                        <label for="quote_duration">Duration (days)</label>
+                        <input id="quote_duration" type="number" min="1" step="1" name="quote_duration" required>
+                    </div>
+                </div>
+                <div class="cp-quote-actions">
+                    <button class="cp-btn" type="submit" name="update_service_quote" value="1">Update Quote</button>
+                </div>
+            </form>
+        </section>
+
         <section id="cp-payment-proofs" class="cp-card">
             <div class="cp-card-head">
                 <div>
@@ -434,39 +467,6 @@
                     <a class="cp-btn cp-btn-secondary" href="/control-panel/exception-payments/">View Complete Exception Payment List</a>
                 </div>
             <?php endif; ?>
-        </section>
-
-        <section id="cp-edit-service-quote" class="cp-card">
-            <div class="cp-card-head">
-                <div>
-                    <h2>Edit Service Quote</h2>
-                    <p>Update shipment service quote values using quote ID</p>
-                </div>
-            </div>
-            <?php if (!empty($cp_quote_update_notice)): ?>
-                <p class="cp-quote-notice <?= ($cp_quote_update_notice_type === 'success') ? 'is-success' : 'is-error' ?>">
-                    <?= htmlspecialchars($cp_quote_update_notice) ?>
-                </p>
-            <?php endif; ?>
-            <form method="post" class="cp-quote-form">
-                <div class="cp-quote-grid">
-                    <div>
-                        <label for="quote_id">Quote ID</label>
-                        <input id="quote_id" type="number" min="1" step="1" name="quote_id" required>
-                    </div>
-                    <div>
-                        <label for="quote_price">Price</label>
-                        <input id="quote_price" type="number" min="0" step="0.01" name="quote_price" required>
-                    </div>
-                    <div>
-                        <label for="quote_duration">Duration (days)</label>
-                        <input id="quote_duration" type="number" min="1" step="1" name="quote_duration" required>
-                    </div>
-                </div>
-                <div class="cp-quote-actions">
-                    <button class="cp-btn" type="submit" name="update_service_quote" value="1">Update Quote</button>
-                </div>
-            </form>
         </section>
 
         <section id="cp-delete-service-quote" class="cp-card">
