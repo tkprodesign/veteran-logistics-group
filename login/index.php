@@ -52,9 +52,9 @@ include('./app.php');
                 <div class="terms-box">
                     <p>
                         By continuing, I agree to the
-                        <a href="#">service terms and conditions</a>
+                        <a href="/legal/terms-and-conditions/">service terms and conditions</a>
                         and the
-                        <a href="#">platform use agreement</a>.
+                        <a href="/legal/website-terms-of-use/">platform use agreement</a>.
                     </p>
                 </div>
 

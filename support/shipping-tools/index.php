@@ -67,7 +67,7 @@
                 <div class="col">
                     <h3>Get a Shipping Quote</h3>
                     <p>Estimate your shipping costs and arrival time by entering the weight and destination of your package.</p>
-                    <a href="/services">Get a Quote <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a href="#" class="js-open-support-chat" data-chat-message="I need help to make a quote.">Get a Quote <span class="material-symbols-outlined">chevron_right</span></a>
                 </div>
                 <div class="col">
                     <h3>Get Discounted Shipping Rates</h3>

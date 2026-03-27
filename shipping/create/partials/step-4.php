@@ -112,11 +112,11 @@
                                 <label class="check-row terms-check">
                                     <input type="checkbox" name="accept_terms" value="1" <?= !empty($shipment_form['accept_terms']) ? 'checked' : '' ?> required>
                                     <span>By creating this shipment, I am agreeing to the UPS Tariff / Terms and Conditions of Service.
-                                        <a href="https://www.ups.com/us/en/support/shipping-support/legal-terms-conditions.page" target="_blank" rel="noopener noreferrer">UPS Tariff/Terms and Conditions of Service</a>
+                                        <a href="/legal/terms-and-conditions/" target="_blank" rel="noopener noreferrer">UPS Tariff/Terms and Conditions of Service</a>
                                     </span>
                                 </label>
                                 <p>Please Note: The quoted price is subject to change based on actual package characteristics including weight and size, as determined by UPS upon receipt. For more details, please review the invoice adjustment provisions of the
-                                    <a href="https://www.ups.com/us/en/support/shipping-support/legal-terms-conditions.page" target="_blank" rel="noopener noreferrer">UPS Tariff/Terms and Conditions of Service</a>
+                                    <a href="/legal/terms-and-conditions/" target="_blank" rel="noopener noreferrer">UPS Tariff/Terms and Conditions of Service</a>
                                 </p>
                                 <p>I will not attempt to ship any items prohibited by UPS, or any UPS-regulated items, without an express written contract with UPS.
                                     <a href="https://www.ups.com/us/en/support/shipping-support/shipping-special-care-regulated-items/prohibited-items.page" target="_blank" rel="noopener noreferrer">List of Prohibited Articles for Shipping</a>

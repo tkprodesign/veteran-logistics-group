@@ -1,4 +1,7 @@
-<?php include("app.php"); ?>
+<?php
+require_once __DIR__ . '/../common-sections/globals.php';
+include("app.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +40,7 @@
                 <p>Whether you are shipping across the street or across the world, we have several service options to help you find the right balance of speed and cost.</p>
                 <div class="hero-cta-row">
                     <a href="/shipping/" class="btn-gold">Ship Now <span class="material-symbols-outlined">chevron_right</span></a>
-                    <a href="/support/" class="btn-outline">Get a Quote <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a href="#" class="btn-outline js-open-support-chat" data-chat-message="I need help to make a quote.">Get a Quote <span class="material-symbols-outlined">chevron_right</span></a>
                 </div>
             </div>
             <div class="hero-media">
@@ -150,7 +153,7 @@
                 <div>
                     <h3>Save up to 65%* When You Ship International</h3>
                     <p>Start your discounted international shipment with this link and apply available savings.</p>
-                    <a href="/shipping/">*Terms and Conditions</a>
+                    <a href="/legal/terms-and-conditions/">*Terms and Conditions</a>
                 </div>
                 <a href="/shipping/" class="btn-gold">Ship Here to Save <span class="material-symbols-outlined">chevron_right</span></a>
             </div>
@@ -176,7 +179,7 @@
                 <p>Explore these resources to stay prepared and keep shipping simple.</p>
             </div>
             <div class="resource-links">
-                <a href="/support/">Get a Quote <span class="material-symbols-outlined">chevron_right</span></a>
+                <a href="#" class="js-open-support-chat" data-chat-message="I need help to make a quote.">Get a Quote <span class="material-symbols-outlined">chevron_right</span></a>
                 <a href="/support/">UPS Rate Guide <span class="material-symbols-outlined">chevron_right</span></a>
                 <a href="/shipping/">Order Supplies <span class="material-symbols-outlined">chevron_right</span></a>
                 <a href="/support/">Find a Location <span class="material-symbols-outlined">chevron_right</span></a>
