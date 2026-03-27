@@ -119,6 +119,17 @@
 .shipment-list .shipment-item .ship-meta {
   gap: 8px;
 }
+.track-form .btn-gold,
+.track-form .link-help {
+  width: 100%;
+  justify-content: center;
+}
+
+.dashboard-body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
 .info-grid {
   grid-template-columns: 1fr;
