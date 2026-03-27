@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../common-sections/globals.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -209,4 +210,3 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </body>
 </html>
-
