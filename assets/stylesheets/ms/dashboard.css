@@ -1,27 +1,129 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.dashboard-hero {
+  padding: 24px 14px 42px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.dashboard-hero .hero-container,
+.dashboard-body,
+.grid-main,
+.col-primary,
+.col-secondary,
+.card,
+.track-form,
+.shipment-list .shipment-item,
+.upsmc-title-row,
+.wallet-alert-box,
+.profile-phone-row {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.dashboard-hero h1 {
+  font-size: 2rem;
+  line-height: 1.15;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dashboard-hero h1 .badge-choice {
+  font-size: 0.64rem;
+  padding: 4px 8px;
+  letter-spacing: 0.35px;
+}
+
 .dashboard-hero .user-stats {
   flex-direction: column;
   gap: 12px;
+  margin-bottom: 26px;
 }
 
-.dashboard-tabs, .activity-tabs {
-  gap: 16px;
-  overflow-x: auto;
-  white-space: nowrap;
+.dashboard-hero .user-stats span {
+  font-size: 0.82rem;
 }
-.dashboard-tabs::-webkit-scrollbar, .activity-tabs::-webkit-scrollbar {
+
+.dashboard-tabs,
+.activity-tabs {
+  width: 100%;
+  max-width: 100%;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 2px;
+  margin: 0;
+}
+
+.dashboard-tabs .tab,
+.dashboard-tabs a,
+.activity-tabs .tab,
+.activity-tabs a {
+  font-size: 0.95rem;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+}
+
+.dashboard-tabs::-webkit-scrollbar,
+.activity-tabs::-webkit-scrollbar {
   display: none;
+}
+
+.dashboard-body {
+  width: 100%;
+  padding: 0 12px;
+  overflow-x: clip;
+}
+
+.card {
+  padding: 20px 16px;
 }
 
 .track-form {
   flex-direction: column;
+  width: 100%;
+  gap: 10px;
 }
+
 .track-form input {
   width: 100%;
+  min-width: 0;
+}
+
+.track-form .btn-gold,
+.track-form .link-help {
+  width: 100%;
+  justify-content: center;
+}
+
+.shipment-list .shipment-item {
+  gap: 10px;
+}
+
+.shipment-list .shipment-item .ship-details {
+  min-width: 0;
+}
+
+.shipment-list .shipment-item .ship-details .ship-id,
+.shipment-list .shipment-item .ship-details .ship-date {
+  overflow-wrap: anywhere;
+}
+
+.shipment-list .shipment-item .ship-meta {
+  gap: 8px;
 }
 
 .info-grid {
   grid-template-columns: 1fr;
 }
+
 .info-grid .info-group.full-width {
   grid-column: span 1;
 }
@@ -50,6 +152,7 @@
   flex-direction: column;
   align-items: stretch;
 }
+
 .upsmc-actions .btn-outline {
   width: 100%;
   justify-content: center;
@@ -81,6 +184,10 @@
   grid-template-columns: 1fr;
 }
 
+.quick-grid {
+  grid-template-columns: 1fr;
+}
+
 .art-icon-img {
   margin-bottom: 10px;
 }
@@ -97,4 +204,4 @@
   width: 44px;
   height: 44px;
   margin-bottom: 10px;
-}/*# sourceMappingURL=dashboard.css.map */
+}
