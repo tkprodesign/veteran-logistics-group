@@ -1,4 +1,7 @@
-<?php include("app.php"); ?>
+<?php
+require_once __DIR__ . '/../common-sections/globals.php';
+include("app.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
