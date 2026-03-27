@@ -809,19 +809,10 @@ function shipping_build_customer_invoice_email_html(array $payload): string {
 </html>';
 }
 
-function shipping_send_customer_post_create_emails(array $shipmentData, string $accountEmail = ''): void {
-    $recipients = [];
+function shipping_send_customer_post_create_emails(array $shipmentData): void {
     $senderEmail = trim((string)($shipmentData['sender_email'] ?? ''));
-    if (filter_var($senderEmail, FILTER_VALIDATE_EMAIL)) {
-        $recipients[] = strtolower($senderEmail);
-    }
-    $accountEmail = trim($accountEmail);
-    if (filter_var($accountEmail, FILTER_VALIDATE_EMAIL)) {
-        $recipients[] = strtolower($accountEmail);
-    }
-    $recipients = array_values(array_unique($recipients));
-    if (empty($recipients)) {
-        error_log('shipping-create: no valid recipient email for post-create shipment notifications');
+    if (!filter_var($senderEmail, FILTER_VALIDATE_EMAIL)) {
+        error_log('shipping-create: sender email missing/invalid for post-create shipment notifications');
         return;
     }
 
@@ -835,13 +826,11 @@ function shipping_send_customer_post_create_emails(array $shipmentData, string $
         'invoice_number' => $invoiceNumber
     ]));
 
-    foreach ($recipients as $recipientEmail) {
-        if (!shipping_send_html_email($recipientEmail, 'shipments@veteranlogisticsgroup.us', $shipmentSubject, $shipmentHtml)) {
-            error_log('shipping-create: failed sending shipment confirmation email for tracking ' . $trackingNumber . ' recipient=' . $recipientEmail);
-        }
-        if (!shipping_send_html_email($recipientEmail, 'billing@veteranlogisticsgroup.us', $invoiceSubject, $invoiceHtml)) {
-            error_log('shipping-create: failed sending invoice email for tracking ' . $trackingNumber . ' recipient=' . $recipientEmail);
-        }
+    if (!shipping_send_html_email($senderEmail, 'shipments@veteranlogisticsgroup.us', $shipmentSubject, $shipmentHtml)) {
+        error_log('shipping-create: failed sending shipment confirmation email for tracking ' . $trackingNumber . ' recipient=' . $senderEmail);
+    }
+    if (!shipping_send_html_email($senderEmail, 'billing@veteranlogisticsgroup.us', $invoiceSubject, $invoiceHtml)) {
+        error_log('shipping-create: failed sending invoice email for tracking ' . $trackingNumber . ' recipient=' . $senderEmail);
     }
 }
 
@@ -1370,7 +1359,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             : ((($draft['shipment_class'] ?? 'parcel') === 'freight_pallet') ? 'Freight / Pallet' : 'Parcel')
                     )
                 ];
-                shipping_send_customer_post_create_emails($_SESSION['shipping_last_created'], $user_email);
+                shipping_send_customer_post_create_emails($_SESSION['shipping_last_created']);
 
                 $_SESSION['shipping_create_progress'] = 4;
                 unset($_SESSION['shipping_create_draft']);
