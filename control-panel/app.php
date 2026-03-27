@@ -6,6 +6,33 @@ error_reporting(E_ALL);
 date_default_timezone_set('America/Chicago');
 require_once __DIR__ . '/../common-sections/globals.php';
 
+
+$cpEmailConfig = [];
+$cpEmailConfigPath = __DIR__ . '/../common-sections/email-secrets.php';
+if (file_exists($cpEmailConfigPath)) {
+    $loadedCpEmailConfig = include $cpEmailConfigPath;
+    if (is_array($loadedCpEmailConfig)) {
+        $cpEmailConfig = $loadedCpEmailConfig;
+    }
+}
+
+if (!class_exists('\PHPMailer\PHPMailer\PHPMailer')) {
+    $phpMailerCandidates = [
+        __DIR__ . '/../common-sections/PHPMailer/src',
+        __DIR__ . '/PHPMailer/src',
+        __DIR__ . '/../PHPMailer/src',
+        __DIR__ . '/../vendor/phpmailer/phpmailer/src',
+    ];
+    foreach ($phpMailerCandidates as $mailerSrcDir) {
+        if (file_exists($mailerSrcDir . '/PHPMailer.php') && file_exists($mailerSrcDir . '/SMTP.php') && file_exists($mailerSrcDir . '/Exception.php')) {
+            require_once $mailerSrcDir . '/PHPMailer.php';
+            require_once $mailerSrcDir . '/SMTP.php';
+            require_once $mailerSrcDir . '/Exception.php';
+            break;
+        }
+    }
+}
+
 $allowedAdminEmails = [
     'tkprodesign96@gmail.com',
     'admin@veteranlogisticsgroup.com'
@@ -125,6 +152,223 @@ if (isset($_SESSION['cp_exception_payment_notice']) && is_array($_SESSION['cp_ex
     $cp_exception_payment_notice = (string)($_SESSION['cp_exception_payment_notice']['message'] ?? '');
     $cp_exception_payment_notice_type = (string)($_SESSION['cp_exception_payment_notice']['type'] ?? '');
     unset($_SESSION['cp_exception_payment_notice']);
+}
+
+
+function cp_password_secret_for_mailbox(string $fromEmail): string {
+    $mailbox = strtolower(trim(explode('@', $fromEmail)[0] ?? ''));
+    $map = [
+        'billing' => 'BILLING_EMAIL_PASSWORD',
+        'shipments' => 'SHIPMENTS_EMAIL_PASSWORD',
+        'admin' => 'ADMIN_EMAIL_PASSWORD',
+        'support' => 'SUPPORT_EMAIL_PASSWORD',
+        'tracking' => 'TRACKING_EMAIL_PASSWORD',
+        'noreply' => 'NOREPLY_EMAIL_PASSWORD',
+    ];
+    return $map[$mailbox] ?? '';
+}
+
+function cp_resolve_secret(string $name): string {
+    global $cpEmailConfig;
+    if ($name === '') {
+        return '';
+    }
+    $value = getenv($name);
+    if ($value !== false && trim((string)$value) !== '') {
+        return trim((string)$value);
+    }
+    if (isset($_ENV[$name]) && trim((string)$_ENV[$name]) !== '') {
+        return trim((string)$_ENV[$name]);
+    }
+    if (isset($_SERVER[$name]) && trim((string)$_SERVER[$name]) !== '') {
+        return trim((string)$_SERVER[$name]);
+    }
+    if (isset($cpEmailConfig[$name]) && trim((string)$cpEmailConfig[$name]) !== '') {
+        return trim((string)$cpEmailConfig[$name]);
+    }
+    return '';
+}
+
+function cp_resolve_mail_setting(string $envName, string $default = ''): string {
+    global $cpEmailConfig;
+    $value = getenv($envName);
+    if ($value !== false && trim((string)$value) !== '') {
+        return trim((string)$value);
+    }
+    if (isset($_ENV[$envName]) && trim((string)$_ENV[$envName]) !== '') {
+        return trim((string)$_ENV[$envName]);
+    }
+    if (isset($_SERVER[$envName]) && trim((string)$_SERVER[$envName]) !== '') {
+        return trim((string)$_SERVER[$envName]);
+    }
+    if (isset($cpEmailConfig[$envName]) && trim((string)$cpEmailConfig[$envName]) !== '') {
+        return trim((string)$cpEmailConfig[$envName]);
+    }
+    return $default;
+}
+
+function cp_send_smtp_html_email(string $toEmail, string $fromEmail, string $subject, string $htmlBody): bool {
+    if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+    if (!class_exists('\PHPMailer\PHPMailer\PHPMailer')) {
+        error_log('control-panel: PHPMailer is not available');
+        return false;
+    }
+
+    $passwordSecret = cp_password_secret_for_mailbox($fromEmail);
+    $smtpPassword = cp_resolve_secret($passwordSecret);
+    if ($smtpPassword === '') {
+        error_log('control-panel: missing smtp password secret for ' . $fromEmail . ' expected_secret=' . $passwordSecret);
+        return false;
+    }
+
+    $smtpHost = cp_resolve_mail_setting('SMTP_HOST', 'mail.spacemail.com');
+    $smtpPort = (int)cp_resolve_mail_setting('SMTP_PORT', '465');
+    $smtpSecure = cp_resolve_mail_setting('SMTP_SECURE', \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS);
+
+    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host = $smtpHost;
+        $mail->SMTPAuth = true;
+        $mail->Username = $fromEmail;
+        $mail->Password = $smtpPassword;
+        $mail->SMTPSecure = $smtpSecure;
+        $mail->Port = $smtpPort;
+        $mail->CharSet = 'UTF-8';
+
+        $mail->setFrom($fromEmail, 'Veteran Logistics Group');
+        $mail->addAddress($toEmail);
+        $mail->addReplyTo('support@veteranlogisticsgroup.us', 'Veteran Logistics Group Support');
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body = $htmlBody;
+        $mail->AltBody = trim(preg_replace('/\s+/', ' ', strip_tags($htmlBody)));
+        return $mail->send();
+    } catch (\PHPMailer\PHPMailer\Exception $e) {
+        error_log('control-panel: PHPMailer failed for to=' . $toEmail . ' from=' . $fromEmail . ' subject=' . $subject . ' err=' . $e->getMessage());
+    }
+
+    return false;
+}
+
+function cp_build_location_event_email_html(array $payload, string $recipientType): string {
+    $trackingNumber = htmlspecialchars((string)($payload['tracking_number'] ?? '-'), ENT_QUOTES, 'UTF-8');
+    $statusText = htmlspecialchars((string)($payload['status_text'] ?? '-'), ENT_QUOTES, 'UTF-8');
+    $locationName = htmlspecialchars((string)($payload['location_name'] ?? '-'), ENT_QUOTES, 'UTF-8');
+    $city = htmlspecialchars((string)($payload['city'] ?? ''), ENT_QUOTES, 'UTF-8');
+    $stateRegion = htmlspecialchars((string)($payload['state_region'] ?? ''), ENT_QUOTES, 'UTF-8');
+    $countryCode = htmlspecialchars((string)($payload['country_code'] ?? ''), ENT_QUOTES, 'UTF-8');
+    $eventTimeEpoch = (int)($payload['event_time_epoch'] ?? 0);
+    $eventTimeText = $eventTimeEpoch > 0 ? date('F j, Y h:i A T', $eventTimeEpoch) : '-';
+    $eventTimeText = htmlspecialchars($eventTimeText, ENT_QUOTES, 'UTF-8');
+    $recipientName = trim((string)($payload[$recipientType . '_name'] ?? 'Customer'));
+    $safeRecipientName = htmlspecialchars($recipientName !== '' ? $recipientName : 'Customer', ENT_QUOTES, 'UTF-8');
+    $roleText = $recipientType === 'sender' ? 'sender' : 'receiver';
+    $safeRoleText = htmlspecialchars($roleText, ENT_QUOTES, 'UTF-8');
+    $locationPieces = array_filter([$locationName, $city, $stateRegion, $countryCode], static fn($v) => trim((string)$v) !== '');
+    $locationText = implode(', ', array_map(static fn($v) => htmlspecialchars_decode($v, ENT_QUOTES), $locationPieces));
+    $safeLocationText = htmlspecialchars($locationText !== '' ? $locationText : '-', ENT_QUOTES, 'UTF-8');
+    $trackUrl = 'https://veteranlogisticsgroup.us/track/?id=' . rawurlencode((string)($payload['tracking_number'] ?? ''));
+
+    return '<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Shipment Location Update</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f3f4f6;font-family:Arial,Helvetica,sans-serif;color:#111827;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f3f4f6;padding:24px 0;">
+<tr><td align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="640" style="max-width:640px;background-color:#ffffff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
+<tr><td style="background-color:#0f172a;padding:16px 28px;"><img src="https://veteranlogisticsgroup.us/assets/images/branding/logo-horizontal-dark.png" alt="Veteran Logistics Group" width="220" style="display:block;border:0;max-width:220px;height:auto;"></td></tr>
+<tr><td style="padding:24px 40px 8px 40px;"><h1 style="margin:0;font-size:24px;line-height:1.3;color:#0f172a;">Shipment location event added</h1></td></tr>
+<tr><td style="padding:0 40px 14px 40px;"><p style="margin:0;font-size:15px;line-height:1.7;color:#374151;">Hello ' . $safeRecipientName . ', this is an automatic update for the ' . $safeRoleText . ' on your shipment.</p></td></tr>
+<tr><td style="padding:0 40px 18px 40px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e5e7eb;border-radius:8px;">
+<tr><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Tracking Number</td><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;">' . $trackingNumber . '</td></tr>
+<tr><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Status</td><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;">' . $statusText . '</td></tr>
+<tr><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Location</td><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;">' . $safeLocationText . '</td></tr>
+<tr><td style="padding:12px 14px;font-size:13px;color:#6b7280;">Event Time</td><td style="padding:12px 14px;font-size:14px;color:#111827;">' . $eventTimeText . '</td></tr>
+</table>
+</td></tr>
+<tr><td style="padding:0 40px 24px 40px;"><a href="' . htmlspecialchars($trackUrl, ENT_QUOTES, 'UTF-8') . '" style="display:inline-block;background-color:#1d4ed8;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:bold;">Track Shipment</a></td></tr>
+<tr><td style="background-color:#f8fafc;border-top:1px solid #e5e7eb;padding:16px 24px;"><p style="margin:0;font-size:11px;line-height:1.5;color:#6b7280;">© 2026 Veteran Logistics Group. Please do not reply to this email.</p></td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>';
+}
+
+function cp_send_location_event_notifications(mysqli $dbconn, int $shipmentId, string $trackingNumber, array $eventPayload): array {
+    $shipmentRow = null;
+
+    if ($shipmentId > 0) {
+        $stmtShipment = $dbconn->prepare(
+            "SELECT tracking_number, sender_name, sender_email, receiver_name, receiver_email
+             FROM shipments
+             WHERE id = ?
+             LIMIT 1"
+        );
+        if ($stmtShipment) {
+            $stmtShipment->bind_param('i', $shipmentId);
+            $stmtShipment->execute();
+            $res = $stmtShipment->get_result();
+            $shipmentRow = $res ? $res->fetch_assoc() : null;
+            $stmtShipment->close();
+        }
+    }
+
+    if (!$shipmentRow && $trackingNumber !== '') {
+        $stmtShipment = $dbconn->prepare(
+            "SELECT tracking_number, sender_name, sender_email, receiver_name, receiver_email
+             FROM shipments
+             WHERE tracking_number = ?
+             ORDER BY id DESC
+             LIMIT 1"
+        );
+        if ($stmtShipment) {
+            $stmtShipment->bind_param('s', $trackingNumber);
+            $stmtShipment->execute();
+            $res = $stmtShipment->get_result();
+            $shipmentRow = $res ? $res->fetch_assoc() : null;
+            $stmtShipment->close();
+        }
+    }
+
+    if (!$shipmentRow) {
+        return ['attempted' => 0, 'sent' => 0, 'failed' => 0, 'error' => 'Shipment record not found for notification emails.'];
+    }
+
+    $payload = array_merge($shipmentRow, $eventPayload);
+    $subject = 'Shipment Tracking Update: ' . (string)($payload['tracking_number'] ?? $trackingNumber);
+
+    $recipients = [
+        'sender' => trim((string)($shipmentRow['sender_email'] ?? '')),
+        'receiver' => trim((string)($shipmentRow['receiver_email'] ?? '')),
+    ];
+
+    $attempted = 0;
+    $sent = 0;
+    $failed = 0;
+
+    foreach ($recipients as $role => $email) {
+        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            continue;
+        }
+        $attempted++;
+        $html = cp_build_location_event_email_html($payload, $role);
+        if (cp_send_smtp_html_email($email, 'tracking@veteranlogisticsgroup.us', $subject, $html)) {
+            $sent++;
+        } else {
+            $failed++;
+        }
+    }
+
+    return ['attempted' => $attempted, 'sent' => $sent, 'failed' => $failed];
 }
 
 function cp_send_resend_html_email(string $toEmail, string $subject, string $html): array {
@@ -627,8 +871,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_location_event']) 
             try {
                 if ($stmt->execute()) {
                     $insertedId = (int)$stmt->insert_id;
+                    $notificationResult = cp_send_location_event_notifications(
+                        $dbconn,
+                        $shipmentId,
+                        $trackingNumber,
+                        [
+                            'tracking_number' => $trackingNumber,
+                            'status_text' => $statusText,
+                            'location_name' => $locationName,
+                            'city' => $city,
+                            'state_region' => $stateRegion,
+                            'country_code' => $countryCode,
+                            'event_time_epoch' => $eventTimeEpoch,
+                        ]
+                    );
+
                     $cp_location_event_notice = "Location event #{$insertedId} added successfully.";
-                    $cp_location_event_notice_type = 'success';
+                    if ((int)($notificationResult['attempted'] ?? 0) > 0) {
+                        $cp_location_event_notice .= ' Email notifications sent: ' . (int)$notificationResult['sent'] . '/' . (int)$notificationResult['attempted'] . '.';
+                    } elseif (!empty($notificationResult['error'])) {
+                        $cp_location_event_notice .= ' ' . (string)$notificationResult['error'];
+                    } else {
+                        $cp_location_event_notice .= ' No valid sender/receiver email found for notification.';
+                    }
+
+                    $cp_location_event_notice_type = ((int)($notificationResult['failed'] ?? 0) > 0) ? 'error' : 'success';
                 } else {
                     $cp_location_event_notice = 'Could not insert location event. Check shipment/tracking values and try again.';
                     $cp_location_event_notice_type = 'error';
