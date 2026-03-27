@@ -22,7 +22,7 @@
     </div>
     <div class="container content">
         
-        <section id="cp-add-location-event" class="cp-card">
+        <section id="cp-add-location-event" class="cp-card cp-card-action">
             <div class="cp-card-head">
                 <div>
                     <h2>Add Shipping Location Event</h2>
@@ -100,7 +100,7 @@
             </form>
         </section>
 
-        <section id="cp-exception-payments" class="cp-card">
+        <section id="cp-exception-payments" class="cp-card cp-card-list">
             <div class="cp-card-head">
                 <div>
                     <h2>Exception Payments</h2>
@@ -202,7 +202,7 @@
             <?php endif; ?>
         </section>
 
-        <section id="cp-user-payment-block" class="cp-card">
+        <section id="cp-user-payment-block" class="cp-card cp-card-action">
             <div class="cp-card-head">
                 <div>
                     <h2>User Payment Block</h2>
@@ -241,7 +241,7 @@
             </form>
         </section>
 
-        <section id="cp-support-email" class="cp-card">
+        <section id="cp-support-email" class="cp-card cp-card-action">
             <div class="cp-card-head">
                 <div>
                     <h2>Send Support Email</h2>
@@ -274,7 +274,7 @@
             </form>
         </section>
 
-        <section id="cp-shipments" class="cp-card">
+        <section id="cp-shipments" class="cp-card cp-card-list">
             <div class="cp-card-head">
                 <div>
                     <h2>Shipments</h2>
@@ -338,7 +338,7 @@
             </div>
         </section>
         
-        <section id="cp-service-quotes" class="cp-card">
+        <section id="cp-service-quotes" class="cp-card cp-card-list">
             <div class="cp-card-head">
                 <div>
                     <h2>Service Quotes</h2>
@@ -405,7 +405,7 @@
             </div>
         </section>
 
-        <section id="cp-payment-proofs" class="cp-card">
+        <section id="cp-payment-proofs" class="cp-card cp-card-list">
             <div class="cp-card-head">
                 <div>
                     <h2>Payment Proofs</h2>
@@ -478,7 +478,7 @@
                 </div>
             <?php endif; ?>
         </section>
-        <section id="cp-site-users" class="cp-card">
+        <section id="cp-site-users" class="cp-card cp-card-list">
             <div class="cp-card-head">
                 <div>
                     <h2>Site Users</h2>
@@ -536,7 +536,7 @@
             </div>
         </section>
 
-        <section id="cp-edit-service-quote" class="cp-card">
+        <section id="cp-edit-service-quote" class="cp-card cp-card-action">
             <div class="cp-card-head">
                 <div>
                     <h2>Edit Service Quote</h2>
@@ -569,7 +569,7 @@
             </form>
         </section>
 
-        <section id="cp-delete-service-quote" class="cp-card">
+        <section id="cp-delete-service-quote" class="cp-card cp-card-action">
             <div class="cp-card-head">
                 <div>
                     <h2>Delete Service Quote</h2>
@@ -594,7 +594,7 @@
             </form>
         </section>
 
-        <section id="cp-delete-shipment" class="cp-card">
+        <section id="cp-delete-shipment" class="cp-card cp-card-action">
             <div class="cp-card-head">
                 <div>
                     <h2>Delete Shipment</h2>
@@ -619,7 +619,7 @@
             </form>
         </section>
 
-        <section id="cp-delete-site-user" class="cp-card">
+        <section id="cp-delete-site-user" class="cp-card cp-card-action">
             <div class="cp-card-head">
                 <div>
                     <h2>Delete Site User</h2>

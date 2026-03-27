@@ -427,6 +427,17 @@ body {
   .cp-card {
     padding: 14px;
   }
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .content .cp-card-list {
+    order: 1;
+  }
+  .content .cp-card-action {
+    order: 2;
+  }
   .cp-card-head {
     flex-direction: column;
     align-items: flex-start;
