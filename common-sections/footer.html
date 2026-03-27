@@ -87,23 +87,66 @@
         <p class="copyright">Copyright ©2026 Veteran Logistics Group. All rights reserved.</p>
     </div>
 </footer>
+<!-- Smartsupp Live Chat script -->
 <script type="text/javascript">
-window._smartsupp = window._smartsupp || {};
-window._smartsupp.key = '287921468433f968f279a85148a4693ae660edc6';
-window.smartsupp || (function (d) {
-    var s, c, o = window.smartsupp = function () { o._.push(arguments); };
-    o._ = [];
-    s = d.getElementsByTagName('script')[0];
-    c = d.createElement('script');
-    c.type = 'text/javascript';
-    c.charset = 'utf-8';
-    c.async = true;
-    c.src = 'https://www.smartsuppchat.com/loader.js?';
-    s.parentNode.insertBefore(c, s);
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = 'ef956a95524fba0a0ba414a909ac95750918f48f';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
 })(document);
 </script>
-<noscript>Powered by <a href="https://www.smartsupp.com" target="_blank" rel="noopener noreferrer">Smartsupp</a></noscript>
+<noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 <script src="/assets/scripts/index.js"></script>
+
+<script>
+(function () {
+    function openSupportChat(message) {
+        var opened = false;
+
+        if (typeof window.smartsupp === 'function') {
+            window.smartsupp('chat:open');
+            opened = true;
+            if (message) {
+                try { window.smartsupp('chat:message', message); } catch (e) {}
+                try { window.smartsupp('message', message); } catch (e) {}
+            }
+        }
+
+        if (window._smartsupp && window._smartsupp.api) {
+            if (typeof window._smartsupp.api.open === 'function') {
+                window._smartsupp.api.open();
+                opened = true;
+            }
+            if (message) {
+                try {
+                    if (typeof window._smartsupp.api.message === 'function') window._smartsupp.api.message(message);
+                    if (typeof window._smartsupp.api.sendMessage === 'function') window._smartsupp.api.sendMessage(message);
+                    if (typeof window._smartsupp.api.setMessage === 'function') window._smartsupp.api.setMessage(message);
+                } catch (e) {}
+            }
+        }
+
+        return opened;
+    }
+
+    window.vlgOpenSupportChat = openSupportChat;
+
+    document.addEventListener('click', function (event) {
+        var trigger = event.target.closest('.js-open-support-chat');
+        if (!trigger) return;
+
+        event.preventDefault();
+        var message = trigger.getAttribute('data-chat-message') || '';
+
+        if (!openSupportChat(message)) {
+            window.location.href = '/support/';
+        }
+    });
+})();
+</script>
 <script>
 (function () {
     var sections = document.querySelectorAll('footer .footer-section');
@@ -137,4 +180,3 @@ window.smartsupp || (function (d) {
     window.addEventListener('resize', resetDesktopState);
 })();
 </script>
-

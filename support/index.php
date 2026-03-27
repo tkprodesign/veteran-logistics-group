@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../common-sections/globals.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,9 +53,9 @@
     <section class="support-alert">
         <div class="container">
             <div class="section-head">
-                <h2 class="alert-title"><img src="<?= htmlspecialchars(asset_url('/assets/images/ups/3d-icons/alert.png')); ?>" alt="Alert icon"> Changes to De Minimis May Impact Charges</h2>
+                <h2 class="alert-title"><img src="<?= htmlspecialchars(asset_url('/assets/images/ups/3d-icons/alert.png')); ?>" alt="Alert icon"> Changes to Delivery May Impact Charges</h2>
             </div>
-            <p>Effective August 29th, de minimis will be eliminated for all shipments imported into the U.S. We outlined key details to help you understand import fees as well as the latest tariff and de minimis updates.</p>
+            <p>Service changes can impact delivery timing, routing and final charges. Review your shipment status details for the latest delivery updates.</p>
         </div>
     </section>
 
@@ -66,36 +67,36 @@
                     <a href="/track/">Understanding Tracking Status</a>
                     <a href="/track/">Delivery Notice</a>
                     <a href="/track/">Missed Package Delivery</a>
-                    <a class="btn-gold" href="/track/">Get Tracking Help <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a class="btn-gold js-open-support-chat" href="#" role="button">Get Tracking Help <span class="material-symbols-outlined">chevron_right</span></a>
                 </article>
 
                 <article class="support-card">
                     <h3 class="card-title"><img src="<?= htmlspecialchars(asset_url('/assets/images/ups/3d-icons/box.png')); ?>" alt="Shipping icon"> Shipping</h3>
                     <a href="/shipping/">Shipping Cost Estimator</a>
-                    <a href="/shipping/">International Shipping</a>
+                    <a href="/services/">International Shipping</a>
                     <a href="/shipping/">Domestic Shipping</a>
-                    <a href="/shipping/">Freight Shipping</a>
-                    <a href="/shipping/">Packaging and Shipping Supplies</a>
-                    <a class="btn-gold" href="/shipping/">Get Shipping Help <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a href="/services/">Freight Shipping</a>
+                    <a class="js-open-support-chat" href="#">Packaging and Shipping Supplies</a>
+                    <a class="btn-gold js-open-support-chat" href="#" role="button">Get Shipping Help <span class="material-symbols-outlined">chevron_right</span></a>
                 </article>
 
                 <article class="support-card">
                     <h3 class="card-title"><img src="<?= htmlspecialchars(asset_url('/assets/images/ups/3d-icons/location.png')); ?>" alt="Delivery icon"> Delivery Changes</h3>
-                    <a href="/shipping/">Change Delivery</a>
-                    <a href="/shipping/">Deliver to New Address</a>
-                    <a href="/shipping/">Schedule a Pickup</a>
-                    <a href="/shipping/">Delivery Preferences</a>
-                    <a href="/shipping/">Issue with my Delivery</a>
-                    <a class="btn-gold" href="/shipping/">Get My Choice Help <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a href="/track/">Change Delivery</a>
+                    <a href="/track/">Deliver to New Address</a>
+                    <a href="/shipping/create/">Schedule a Pickup</a>
+                    <a href="/dashboard/">Delivery Preferences</a>
+                    <a href="/track/exception/">Issue with my Delivery</a>
+                    <a class="btn-gold js-open-support-chat" href="#" role="button">Get My Choice Help <span class="material-symbols-outlined">chevron_right</span></a>
                 </article>
             </div>
 
             <div class="support-card-grid bottom-row">
                 <article class="support-card">
                     <h3 class="card-title"><img src="<?= htmlspecialchars(asset_url('/assets/images/ups/3d-icons/claims.png')); ?>" alt="Claims icon"> Claims</h3>
-                    <a href="/support/">File a Claim</a>
-                    <a href="/support/">Check My Claims</a>
-                    <a class="btn-gold" href="/support/">Get Claims Help <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a class="js-open-support-chat" href="#">File a Claim</a>
+                    <a class="js-open-support-chat" href="#">Check My Claims</a>
+                    <a class="btn-gold js-open-support-chat" href="#" role="button">Get Claims Help <span class="material-symbols-outlined">chevron_right</span></a>
                 </article>
 
                 <article class="support-card">
@@ -103,7 +104,7 @@
                     <a href="/dashboard/">Manage Billing and Invoice</a>
                     <a href="/dashboard/?t=profile">Manage your profile</a>
                     <a href="/signup/">Sign up for My Choice</a>
-                    <a class="btn-gold" href="/dashboard/">Get Account Help <span class="material-symbols-outlined">chevron_right</span></a>
+                    <a class="btn-gold js-open-support-chat" href="#" role="button">Get Account Help <span class="material-symbols-outlined">chevron_right</span></a>
                 </article>
             </div>
         </div>
@@ -156,21 +157,6 @@
         </div>
     </section>
 
-    <section class="support-resources">
-        <div class="container">
-            <div class="section-head center">
-                <h2>Support Resources</h2>
-            </div>
-            <div class="resource-grid">
-                <a href="/support/">Tracking Support <span class="material-symbols-outlined">chevron_right</span></a>
-                <a href="/shipping/">Shipping Support <span class="material-symbols-outlined">chevron_right</span></a>
-                <a href="/support/">File a Claim <span class="material-symbols-outlined">chevron_right</span></a>
-                <a href="/dashboard/">Pay My Bill <span class="material-symbols-outlined">chevron_right</span></a>
-                <a href="/services/">International Shipping Guide <span class="material-symbols-outlined">chevron_right</span></a>
-                <a href="/dashboard/">Delivery Preferences <span class="material-symbols-outlined">chevron_right</span></a>
-            </div>
-        </div>
-    </section>
 </main>
 
 <?php include("../common-sections/footer.html"); ?>
@@ -179,6 +165,22 @@
 document.addEventListener('DOMContentLoaded', function () {
     var tabButtons = document.querySelectorAll('.faq-tabs button[data-faq-tab]');
     var panels = document.querySelectorAll('.faq-panel[data-faq-panel]');
+    var chatCtas = document.querySelectorAll('.js-open-support-chat');
+
+    function openSupportChat(message) {
+        if (typeof window.vlgOpenSupportChat === 'function') {
+            return window.vlgOpenSupportChat(message || '');
+        }
+        if (typeof window.smartsupp === 'function') {
+            window.smartsupp('chat:open');
+            return true;
+        }
+        if (window._smartsupp && window._smartsupp.api && typeof window._smartsupp.api.open === 'function') {
+            window._smartsupp.api.open();
+            return true;
+        }
+        return false;
+    }
 
     function activateFaqTab(key) {
         tabButtons.forEach(function (b) { b.classList.remove('active'); });
@@ -196,6 +198,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    chatCtas.forEach(function (cta) {
+        cta.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (!openSupportChat()) {
+                window.location.href = '/support/';
+            }
+        });
+    });
+
     if (window.location.hash === '#faq-account') {
         activateFaqTab('account');
         var faqSection = document.getElementById('faq');
@@ -209,4 +220,3 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </body>
 </html>
-
