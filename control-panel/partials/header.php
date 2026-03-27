@@ -10,25 +10,32 @@ $cpNavItems = [
     '/dashboard/' => 'Dashboard'
 ];
 ?>
-<header class="cp-topbar">
-    <div class="container cp-topbar-inner">
-        <a href="/control-panel/page/" class="cp-topbar-brand">
-<img src="/assets/images/branding/logo-horizontal-light.png?v=<?php echo time(); ?>" alt="Veteran Logistics Group Logo">
-            <div class="cp-topbar-brand-copy">
-                <strong>Control Panel</strong>
-<span>Veteran Logistics Group</span>
+<header>
+    <div class="container">
+        <div class="left">
+            <a href="/control-panel/page/" id="logo">
+                <img src="/assets/images/branding/logo-horizontal-light.png?v=<?php echo time(); ?>" alt="Veteran Logistics Group Logo">
+            </a>
+            <nav>
+                <ul class="pri-nav">
+                    <?php foreach ($cpNavItems as $cpHref => $cpLabel): ?>
+                        <li>
+                            <a href="<?= htmlspecialchars($cpHref) ?>" class="<?= ($cpCurrentPath === $cpHref) ? 'active' : '' ?>">
+                                <?= htmlspecialchars($cpLabel) ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </nav>
+        </div>
+        <div class="right">
+            <div class="cta">
+                <a href="/dashboard/" class="dtp">Dashboard</a>
+                <a href="/logout/?next=home" class="dtp dtp-secondary">Logout</a>
+                <a href="/dashboard/" class="mb" aria-label="Dashboard">
+                    <span class="material-symbols-outlined">account_circle</span>
+                </a>
             </div>
-        </a>
-        <nav class="cp-topbar-nav" aria-label="Control Panel Navigation">
-            <ul>
-                <?php foreach ($cpNavItems as $cpHref => $cpLabel): ?>
-                    <li>
-                        <a href="<?= htmlspecialchars($cpHref) ?>" class="<?= ($cpCurrentPath === $cpHref) ? 'active' : '' ?>">
-                            <?= htmlspecialchars($cpLabel) ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </nav>
+        </div>
     </div>
 </header>
