@@ -1,5 +1,13 @@
+html,
+body {
+  overflow-x: hidden;
+}
+
 .dashboard-hero {
   padding: 28px 16px 48px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 .dashboard-hero h1 {
   font-size: 2.1rem;
@@ -22,14 +30,19 @@
 }
 
 .dashboard-tabs, .activity-tabs {
+  width: 100%;
+  max-width: 100%;
   gap: 12px;
   overflow-x: auto;
   white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
   padding-right: 16px;
   margin-right: -4px;
+  box-sizing: border-box;
 }
 .dashboard-tabs .tab, .dashboard-tabs a, .activity-tabs .tab, .activity-tabs a {
   font-size: 0.95rem;
+  flex: 0 0 auto;
 }
 .dashboard-tabs::-webkit-scrollbar, .activity-tabs::-webkit-scrollbar {
   display: none;
@@ -45,6 +58,12 @@
 .track-form .link-help {
   width: 100%;
   justify-content: center;
+}
+
+.dashboard-body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .info-grid {
