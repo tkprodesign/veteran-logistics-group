@@ -6,6 +6,22 @@ date_default_timezone_set('America/New_York');
 
 require_once __DIR__ . '/../../common-sections/globals.php';
 
+if (!class_exists('\PHPMailer\PHPMailer\PHPMailer')) {
+    $phpMailerCandidates = [
+        __DIR__ . '/PHPMailer/src',
+        __DIR__ . '/../../PHPMailer/src',
+        __DIR__ . '/../../vendor/phpmailer/phpmailer/src',
+    ];
+    foreach ($phpMailerCandidates as $mailerSrcDir) {
+        if (file_exists($mailerSrcDir . '/PHPMailer.php') && file_exists($mailerSrcDir . '/SMTP.php') && file_exists($mailerSrcDir . '/Exception.php')) {
+            require_once $mailerSrcDir . '/PHPMailer.php';
+            require_once $mailerSrcDir . '/SMTP.php';
+            require_once $mailerSrcDir . '/Exception.php';
+            break;
+        }
+    }
+}
+
 session_start();
 
 $user_id = 0;
@@ -591,6 +607,233 @@ function shipping_resolve_quoted_service_amount(mysqli $conn, int $userId, array
     return $quotedPrice;
 }
 
+function shipping_money(float $amount): string {
+    return '$' . number_format($amount, 2);
+}
+
+function shipping_password_secret_for_mailbox(string $fromEmail): string {
+    $mailbox = strtolower(trim(explode('@', $fromEmail)[0] ?? ''));
+    $map = [
+        'billing' => 'BILLING_EMAIL_PASSWORD',
+        'shipments' => 'SHIPMENTS_EMAIL_PASSWORD',
+        'admin' => 'ADMIN_EMAIL_PASSWORD',
+        'support' => 'SUPPORT_EMAIL_PASSWORD',
+        'tracking' => 'TRACKING_EMAIL_PASSWORD',
+        'noreply' => 'NOREPLY_EMAIL_PASSWORD',
+    ];
+    return $map[$mailbox] ?? '';
+}
+
+function shipping_resolve_secret(string $name): string {
+    if ($name === '') {
+        return '';
+    }
+    $value = getenv($name);
+    if ($value !== false && trim((string)$value) !== '') {
+        return trim((string)$value);
+    }
+    if (isset($_ENV[$name]) && trim((string)$_ENV[$name]) !== '') {
+        return trim((string)$_ENV[$name]);
+    }
+    if (isset($_SERVER[$name]) && trim((string)$_SERVER[$name]) !== '') {
+        return trim((string)$_SERVER[$name]);
+    }
+    return '';
+}
+
+function shipping_send_html_email(string $toEmail, string $fromEmail, string $subject, string $htmlBody): bool {
+    if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+    if (!class_exists('\PHPMailer\PHPMailer\PHPMailer')) {
+        error_log('shipping-create: PHPMailer is not available');
+        return false;
+    }
+
+    $passwordSecret = shipping_password_secret_for_mailbox($fromEmail);
+    $smtpPassword = shipping_resolve_secret($passwordSecret);
+    if ($smtpPassword === '') {
+        error_log('shipping-create: missing smtp password secret for ' . $fromEmail . ' expected_secret=' . $passwordSecret);
+        return false;
+    }
+
+    $smtpHost = trim((string)(getenv('SMTP_HOST') ?: 'mail.veteranlogisticsgroup.us'));
+    $smtpPort = (int)(getenv('SMTP_PORT') ?: 587);
+    $smtpSecure = trim((string)(getenv('SMTP_SECURE') ?: \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS));
+
+    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host = $smtpHost;
+        $mail->SMTPAuth = true;
+        $mail->Username = $fromEmail;
+        $mail->Password = $smtpPassword;
+        $mail->SMTPSecure = $smtpSecure;
+        $mail->Port = $smtpPort;
+        $mail->CharSet = 'UTF-8';
+
+        $mail->setFrom($fromEmail, 'Veteran Logistics Group');
+        $mail->addAddress($toEmail);
+        $mail->addReplyTo('support@veteranlogisticsgroup.us', 'Veteran Logistics Group Support');
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body = $htmlBody;
+        $mail->AltBody = trim(preg_replace('/\s+/', ' ', strip_tags($htmlBody)));
+        return $mail->send();
+    } catch (\PHPMailer\PHPMailer\Exception $e) {
+        error_log('shipping-create: PHPMailer failed for to=' . $toEmail . ' from=' . $fromEmail . ' subject=' . $subject . ' err=' . $e->getMessage());
+        }
+    return false;
+}
+
+function shipping_build_customer_shipment_email_html(array $payload): string {
+    $tracking = htmlspecialchars((string)($payload['tracking_number'] ?? 'Unavailable'));
+    $service = htmlspecialchars((string)($payload['service_label'] ?? 'Economy'));
+    $senderName = htmlspecialchars((string)($payload['sender_name'] ?? '-'));
+    $receiverName = htmlspecialchars((string)($payload['receiver_name'] ?? '-'));
+    $originAddress = nl2br(htmlspecialchars((string)($payload['origin_address'] ?? '-')));
+    $destinationAddress = nl2br(htmlspecialchars((string)($payload['destination_address'] ?? '-')));
+    $pickupDate = htmlspecialchars((string)($payload['pickup_date'] ?? '-'));
+    $weight = htmlspecialchars((string)($payload['weight'] ?? '0'));
+    $dimensions = htmlspecialchars((string)($payload['length'] ?? '0') . ' x ' . (string)($payload['width'] ?? '0') . ' x ' . (string)($payload['height'] ?? '0') . ' in');
+    $estimatedDelivery = htmlspecialchars(date('M j, Y', time() + 3 * 86400));
+    $trackUrl = 'https://veteranlogisticsgroup.us/track/?id=' . rawurlencode((string)($payload['tracking_number'] ?? ''));
+    $dashboardUrl = 'https://veteranlogisticsgroup.us/dashboard/';
+
+    return '<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Shipment Confirmed</title>
+</head>
+<body style="margin:0;padding:0;background:#f3f4f6;font-family:Arial,Helvetica,sans-serif;color:#111827;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f3f4f6;padding:24px 0;">
+<tr><td align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="640" style="max-width:640px;background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
+<tr><td style="background:#0f172a;padding:16px 28px;">
+<a href="https://veteranlogisticsgroup.us/" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;">
+<img src="https://veteranlogisticsgroup.us/assets/images/branding/logo-horizontal-dark.png" alt="Veteran Logistics Group" width="220" style="display:block;border:0;max-width:220px;height:auto;">
+</a>
+</td></tr>
+<tr><td style="padding:28px 40px 6px 40px;"><h1 style="margin:0;font-size:26px;line-height:1.3;color:#0f172a;">Your shipment is confirmed</h1></td></tr>
+<tr><td style="padding:0 40px 14px 40px;"><p style="margin:0;font-size:15px;line-height:1.7;color:#374151;">Hello ' . $senderName . ', your shipment has been successfully filed, paid, and registered.</p></td></tr>
+<tr><td style="padding:0 40px 20px 40px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e5e7eb;border-radius:8px;">
+<tr><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Tracking Number</td><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;font-weight:bold;color:#0f172a;">' . $tracking . '</td></tr>
+<tr><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Service</td><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;">' . $service . '</td></tr>
+<tr><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">From</td><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;">' . $senderName . '<br>' . $originAddress . '</td></tr>
+<tr><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">To</td><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;">' . $receiverName . '<br>' . $destinationAddress . '</td></tr>
+<tr><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Package</td><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;">' . $weight . ' lbs • ' . $dimensions . '</td></tr>
+<tr><td style="padding:12px 14px;font-size:13px;color:#6b7280;">Estimated Delivery</td><td style="padding:12px 14px;font-size:14px;color:#111827;">' . $estimatedDelivery . '</td></tr>
+</table>
+</td></tr>
+<tr><td style="padding:0 40px 22px 40px;">
+<a href="' . htmlspecialchars($trackUrl) . '" style="display:inline-block;background:#1d4ed8;color:#fff;text-decoration:none;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:bold;margin-right:10px;">Track Shipment</a>
+<a href="' . htmlspecialchars($dashboardUrl) . '" style="display:inline-block;background:#fff;color:#1d4ed8;text-decoration:none;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:bold;border:1px solid #1d4ed8;">Open Dashboard</a>
+</td></tr>
+<tr><td style="padding:0 40px 18px 40px;"><p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">Need help? Contact support@veteranlogisticsgroup.us.</p></td></tr>
+<tr><td style="background:#f8fafc;border-top:1px solid #e5e7eb;padding:16px 24px;"><p style="margin:0;font-size:11px;line-height:1.5;color:#6b7280;">© 2026 Veteran Logistics Group. This is an automated shipment confirmation email.</p></td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>';
+}
+
+function shipping_build_customer_invoice_email_html(array $payload): string {
+    $tracking = htmlspecialchars((string)($payload['tracking_number'] ?? 'Unavailable'));
+    $invoiceNumber = htmlspecialchars((string)($payload['invoice_number'] ?? ('INV-' . (string)($payload['tracking_number'] ?? '000000'))));
+    $senderName = htmlspecialchars((string)($payload['sender_name'] ?? '-'));
+    $service = htmlspecialchars((string)($payload['service_label'] ?? 'Economy'));
+    $paymentMethod = htmlspecialchars((string)($payload['payment_method_label'] ?? 'Payment Card'));
+    $serviceAmount = shipping_money((float)($payload['service_total'] ?? 0));
+    $pickupAmount = shipping_money((float)($payload['pickup_total'] ?? 0));
+    $carbonAmount = shipping_money((float)($payload['carbon_total'] ?? 0));
+    $signatureAmount = shipping_money((float)($payload['signature_total'] ?? 0));
+    $adultSignatureAmount = shipping_money((float)($payload['adult_signature_total'] ?? 0));
+    $discountAmount = shipping_money((float)($payload['promo_discount_total'] ?? 0));
+    $taxAmount = shipping_money((float)($payload['tax_total'] ?? 0));
+    $totalAmount = shipping_money((float)($payload['total_charges'] ?? 0));
+    $invoiceDate = htmlspecialchars(date('M j, Y'));
+    $invoiceUrl = 'https://veteranlogisticsgroup.us/shipping/create/?s=5&created=1';
+
+    return '<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Shipment Invoice</title>
+</head>
+<body style="margin:0;padding:0;background:#f3f4f6;font-family:Arial,Helvetica,sans-serif;color:#111827;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f3f4f6;padding:24px 0;">
+<tr><td align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="640" style="max-width:640px;background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
+<tr><td style="background:#0f172a;padding:16px 28px;">
+<a href="https://veteranlogisticsgroup.us/" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;">
+<img src="https://veteranlogisticsgroup.us/assets/images/branding/logo-horizontal-dark.png" alt="Veteran Logistics Group" width="220" style="display:block;border:0;max-width:220px;height:auto;">
+</a>
+</td></tr>
+<tr><td style="padding:28px 40px 6px 40px;"><h1 style="margin:0;font-size:26px;line-height:1.3;color:#0f172a;">Your shipment invoice</h1></td></tr>
+<tr><td style="padding:0 40px 14px 40px;"><p style="margin:0;font-size:15px;line-height:1.7;color:#374151;">Hello ' . $senderName . ', payment was received successfully. Here are your invoice details.</p></td></tr>
+<tr><td style="padding:0 40px 18px 40px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e5e7eb;border-radius:8px;">
+<tr><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Invoice #</td><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;font-weight:bold;color:#0f172a;">' . $invoiceNumber . '</td></tr>
+<tr><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Date</td><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;">' . $invoiceDate . '</td></tr>
+<tr><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Tracking</td><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;">' . $tracking . '</td></tr>
+<tr><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Service</td><td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;">' . $service . '</td></tr>
+<tr><td style="padding:12px 14px;font-size:13px;color:#6b7280;">Payment Method</td><td style="padding:12px 14px;font-size:14px;color:#111827;">' . $paymentMethod . '</td></tr>
+</table>
+</td></tr>
+<tr><td style="padding:0 40px 18px 40px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e5e7eb;border-radius:8px;">
+<tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Service</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;text-align:right;">' . $serviceAmount . '</td></tr>
+<tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Pickup Fee</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;text-align:right;">' . $pickupAmount . '</td></tr>
+<tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Carbon Neutral Charges</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;text-align:right;">' . $carbonAmount . '</td></tr>
+<tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Signature Required</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;text-align:right;">' . $signatureAmount . '</td></tr>
+<tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Adult Signature Required</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;text-align:right;">' . $adultSignatureAmount . '</td></tr>
+<tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Promo Discount</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#166534;text-align:right;">-' . $discountAmount . '</td></tr>
+<tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Taxes and Duties</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;text-align:right;">' . $taxAmount . '</td></tr>
+<tr><td style="padding:12px 14px;font-size:14px;font-weight:bold;color:#0f172a;">Total Paid</td><td style="padding:12px 14px;font-size:16px;font-weight:bold;color:#0f172a;text-align:right;">' . $totalAmount . '</td></tr>
+</table>
+</td></tr>
+<tr><td style="padding:0 40px 22px 40px;">
+<a href="' . htmlspecialchars($invoiceUrl) . '" style="display:inline-block;background:#1d4ed8;color:#fff;text-decoration:none;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:bold;">View Invoice</a>
+</td></tr>
+<tr><td style="padding:0 40px 18px 40px;"><p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">For billing questions, contact billing@veteranlogisticsgroup.us.</p></td></tr>
+<tr><td style="background:#f8fafc;border-top:1px solid #e5e7eb;padding:16px 24px;"><p style="margin:0;font-size:11px;line-height:1.5;color:#6b7280;">© 2026 Veteran Logistics Group. This is an automated invoice email.</p></td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>';
+}
+
+function shipping_send_customer_post_create_emails(array $shipmentData): void {
+    $senderEmail = trim((string)($shipmentData['sender_email'] ?? ''));
+    if (!filter_var($senderEmail, FILTER_VALIDATE_EMAIL)) {
+        error_log('shipping-create: sender email missing/invalid for post-create shipment notifications');
+        return;
+    }
+
+    $trackingNumber = (string)($shipmentData['tracking_number'] ?? '');
+    $shipmentSubject = 'Shipment Confirmed - ' . $trackingNumber;
+    $invoiceNumber = 'INV-' . preg_replace('/[^A-Z0-9]/', '', strtoupper($trackingNumber));
+    $invoiceSubject = 'Invoice ' . $invoiceNumber . ' - Payment Received';
+
+    $shipmentHtml = shipping_build_customer_shipment_email_html($shipmentData);
+    $invoiceHtml = shipping_build_customer_invoice_email_html(array_merge($shipmentData, [
+        'invoice_number' => $invoiceNumber
+    ]));
+
+    if (!shipping_send_html_email($senderEmail, 'shipments@veteranlogisticsgroup.us', $shipmentSubject, $shipmentHtml)) {
+        error_log('shipping-create: failed sending shipment confirmation email for tracking ' . $trackingNumber . ' recipient=' . $senderEmail);
+    }
+    if (!shipping_send_html_email($senderEmail, 'billing@veteranlogisticsgroup.us', $invoiceSubject, $invoiceHtml)) {
+        error_log('shipping-create: failed sending invoice email for tracking ' . $trackingNumber . ' recipient=' . $senderEmail);
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $current_step = isset($_POST['current_step']) ? (int)$_POST['current_step'] : 1;
     if ($current_step < 1) $current_step = 1;
@@ -1073,6 +1316,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 $finalAmount = $subtotalAmount - $promoAmount;
                 $serviceLabel = ($shipmentType === 'overnight') ? 'Express' : (($shipmentType === 'express') ? 'Priority' : 'Economy');
+                $paymentMethodLabel = (strtolower((string)($draft['payment_method'] ?? 'card')) === 'crypto')
+                    ? 'Other Payment Methods'
+                    : 'Payment Card';
 
                 $_SESSION['shipping_last_created'] = [
                     'tracking_number' => $trackingNumber,
@@ -1087,6 +1333,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'tax_total' => 0.00,
                     'total_charges' => $finalAmount,
                     'payment_method' => (string)($draft['payment_method'] ?? 'card'),
+                    'payment_method_label' => $paymentMethodLabel,
                     'crypto_asset' => (string)($draft['crypto_asset'] ?? ''),
                     'crypto_payment_proof_file' => (string)($draft['crypto_payment_proof_file'] ?? ''),
                     'weight' => $weight,
@@ -1112,6 +1359,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             : ((($draft['shipment_class'] ?? 'parcel') === 'freight_pallet') ? 'Freight / Pallet' : 'Parcel')
                     )
                 ];
+                shipping_send_customer_post_create_emails($_SESSION['shipping_last_created']);
 
                 $_SESSION['shipping_create_progress'] = 4;
                 unset($_SESSION['shipping_create_draft']);
@@ -1134,7 +1382,3 @@ if ($step === 5 && $created_shipment) {
     $shipping_success = 'Shipment created successfully.';
 }
 ?>
-
-
-
-
