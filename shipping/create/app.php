@@ -8,9 +8,9 @@ require_once __DIR__ . '/../../common-sections/globals.php';
 
 if (!class_exists('\PHPMailer\PHPMailer\PHPMailer')) {
     $phpMailerCandidates = [
+        __DIR__ . '/PHPMailer/src',
         __DIR__ . '/../../PHPMailer/src',
-        __DIR__ . '/../../../PHPMailer/src',
-        __DIR__ . '/../../../../PHPMailer/src',
+        __DIR__ . '/../../vendor/phpmailer/phpmailer/src',
     ];
     foreach ($phpMailerCandidates as $mailerSrcDir) {
         if (file_exists($mailerSrcDir . '/PHPMailer.php') && file_exists($mailerSrcDir . '/SMTP.php') && file_exists($mailerSrcDir . '/Exception.php')) {
