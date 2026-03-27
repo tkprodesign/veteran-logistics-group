@@ -1,12 +1,35 @@
+.dashboard-hero {
+  padding: 28px 16px 48px;
+}
+.dashboard-hero h1 {
+  font-size: 2.1rem;
+  line-height: 1.15;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.dashboard-hero h1 .badge-choice {
+  font-size: 0.64rem;
+  padding: 4px 8px;
+  letter-spacing: 0.35px;
+}
 .dashboard-hero .user-stats {
   flex-direction: column;
   gap: 12px;
+  margin-bottom: 28px;
+}
+.dashboard-hero .user-stats span {
+  font-size: 0.82rem;
 }
 
 .dashboard-tabs, .activity-tabs {
-  gap: 16px;
+  gap: 12px;
   overflow-x: auto;
   white-space: nowrap;
+  padding-right: 16px;
+  margin-right: -4px;
+}
+.dashboard-tabs .tab, .dashboard-tabs a, .activity-tabs .tab, .activity-tabs a {
+  font-size: 0.95rem;
 }
 .dashboard-tabs::-webkit-scrollbar, .activity-tabs::-webkit-scrollbar {
   display: none;
@@ -17,6 +40,11 @@
 }
 .track-form input {
   width: 100%;
+}
+.track-form .btn-gold,
+.track-form .link-help {
+  width: 100%;
+  justify-content: center;
 }
 
 .info-grid {
