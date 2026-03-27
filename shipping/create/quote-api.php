@@ -94,7 +94,67 @@ function quote_payload_hash(array $snapshot): string {
     return hash('sha256', (string)$normalized);
 }
 
-function quote_send_resend_admin_email(string $subject, string $text): array {
+function quote_human_service_level(string $level): string {
+    $raw = strtolower(trim($level));
+    if ($raw === 'priority') return 'Priority';
+    if ($raw === 'express') return 'Express';
+    if ($raw === 'economy') return 'Economy';
+    return ucfirst($raw);
+}
+
+function quote_build_admin_email_html(
+    int $requestId,
+    int $userId,
+    string $userEmail,
+    string $serviceLevel,
+    string $payloadHash,
+    int $createdEpoch
+): string {
+    $safeRequestId = htmlspecialchars((string)$requestId, ENT_QUOTES, 'UTF-8');
+    $safeUserId = htmlspecialchars((string)$userId, ENT_QUOTES, 'UTF-8');
+    $safeUserEmail = htmlspecialchars($userEmail, ENT_QUOTES, 'UTF-8');
+    $safeServiceLevel = htmlspecialchars(quote_human_service_level($serviceLevel), ENT_QUOTES, 'UTF-8');
+    $safePayloadHash = htmlspecialchars($payloadHash, ENT_QUOTES, 'UTF-8');
+    $safeCreated = htmlspecialchars(date('M j, Y g:i A T', $createdEpoch), ENT_QUOTES, 'UTF-8');
+
+    return '<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Service Quote Internal Alert</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f3f4f6;font-family:Arial,Helvetica,sans-serif;color:#111827;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">A new service processing request was created.</div>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f3f4f6;padding:24px 0;">
+<tr><td align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="640" style="max-width:640px;background-color:#ffffff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
+<tr><td style="background-color:#0f172a;padding:16px 28px;">
+<a href="https://veteranlogisticsgroup.us/" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;">
+<img src="https://veteranlogisticsgroup.us/assets/images/branding/logo-horizontal-dark.png" alt="Veteran Logistics Group" width="220" style="display:block;border:0;max-width:220px;height:auto;">
+</a>
+</td></tr>
+<tr><td style="padding:28px 40px 6px 40px;"><h1 style="margin:0;font-size:26px;line-height:1.3;color:#0f172a;">New service quote request</h1></td></tr>
+<tr><td style="padding:0 40px 12px 40px;"><p style="margin:0;font-size:15px;line-height:1.7;color:#374151;">A customer submitted a processing request that requires pricing review.</p></td></tr>
+<tr><td style="padding:0 40px 18px 40px;">
+<p style="margin:0 0 8px 0;font-size:14px;color:#374151;"><strong>Request ID:</strong> ' . $safeRequestId . '</p>
+<p style="margin:0 0 8px 0;font-size:14px;color:#374151;"><strong>User ID:</strong> ' . $safeUserId . '</p>
+<p style="margin:0 0 8px 0;font-size:14px;color:#374151;"><strong>User Email:</strong> ' . $safeUserEmail . '</p>
+<p style="margin:0 0 8px 0;font-size:14px;color:#374151;"><strong>Service Level:</strong> ' . $safeServiceLevel . '</p>
+<p style="margin:0 0 8px 0;font-size:14px;color:#374151;"><strong>Payload Hash:</strong> ' . $safePayloadHash . '</p>
+<p style="margin:0;font-size:14px;color:#374151;"><strong>Created:</strong> ' . $safeCreated . '</p>
+</td></tr>
+<tr><td style="padding:0 40px 24px 40px;"><a href="https://veteranlogisticsgroup.us/control-panel/" style="display:inline-block;background-color:#1d4ed8;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:bold;">Open Control Panel</a></td></tr>
+<tr><td style="padding:0 40px 18px 40px;"><p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">If you did not expect this message, please contact support at support@veteranlogisticsgroup.us.</p></td></tr>
+<tr><td style="background-color:#f8fafc;border-top:1px solid #e5e7eb;padding:16px 24px;"><p style="margin:0;font-size:11px;line-height:1.5;color:#6b7280;">© 2026 Veteran Logistics Group. Please do not reply to this email.</p></td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>';
+}
+
+function quote_send_resend_admin_email(string $subject, string $text, string $html = ''): array {
     $apiKey = trim((string)getenv('RESEND_API_KEY'));
     if ($apiKey === '') {
         $apiKey = 're_TAJtYDC7_RmCtNScjqHzLCkj1uNZ96vtp';
@@ -104,8 +164,12 @@ function quote_send_resend_admin_email(string $subject, string $text): array {
         'from' => 'noreply@veteranlogisticsgroup.us',
         'to' => ['admin@veteranlogisticsgroup.us'],
         'subject' => $subject,
-        'text' => $text,
     ];
+    if ($html !== '') {
+        $payload['html'] = $html;
+    } else {
+        $payload['text'] = $text;
+    }
 
     $ch = curl_init('https://api.resend.com/emails');
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -236,9 +300,9 @@ if ($action === 'request') {
         . "User Email: {$user['email']}\n"
         . "Service Level: {$serviceLevel}\n"
         . "Payload Hash: {$payloadHash}\n"
-        . "Created At Epoch: {$now}\n\n"
-        . "Payload JSON:\n{$payloadJson}\n";
-    $emailResult = quote_send_resend_admin_email($subject, $message);
+        . "Created At Epoch: {$now}\n";
+    $html = quote_build_admin_email_html($requestId, $uid, (string)$user['email'], $serviceLevel, $payloadHash, $now);
+    $emailResult = quote_send_resend_admin_email($subject, $message, $html);
     $emailSent = !empty($emailResult['ok']);
 
     if ($emailSent) {
