@@ -1,6 +1,6 @@
 param(
   [string]$FtpHost = "server48.shared.spaceship.host",
-  [string]$FtpUser = "admin@veteranlogisticsgroup.com",
+  [string]$FtpUser = "admin@veteranlogisticsgroup.us",
   [string]$FtpPass = "Wateva06@",
   # IMPORTANT: set this to your REAL web root on the server (see step 2 below)
   [string]$RemotePath = "/htdocs"

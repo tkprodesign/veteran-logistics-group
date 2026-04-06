@@ -10,7 +10,7 @@ require_once __DIR__ . '/../../common-sections/globals.php';
 
 $allowedAdminEmails = [
     'tkprodesign96@gmail.com',
-    'admin@veteranlogisticsgroup.com'
+    'admin@veteranlogisticsgroup.us'
 ];
 
 $error = '';

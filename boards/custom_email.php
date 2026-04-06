@@ -13,7 +13,7 @@
                     
                     <tr>
                         <td align="center" style="padding: 40px 40px 20px 40px;">
-                            <img src="https://veteranlogisticsgroup.com/assets/images/branding/logo-stacked-light.png" alt="Veteran Logistics Group" width="60" style="display: block; border: 0;">
+                            <img src="https://veteranlogisticsgroup.us/assets/images/branding/logo-stacked-light.png" alt="Veteran Logistics Group" width="60" style="display: block; border: 0;">
                         </td>
                     </tr>
 

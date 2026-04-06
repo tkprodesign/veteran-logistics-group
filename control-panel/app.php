@@ -35,7 +35,7 @@ if (!class_exists('\PHPMailer\PHPMailer\PHPMailer')) {
 
 $allowedAdminEmails = [
     'tkprodesign96@gmail.com',
-    'admin@veteranlogisticsgroup.com'
+    'admin@veteranlogisticsgroup.us'
 ];
 
 $cookieEmailRaw = '';
@@ -382,7 +382,7 @@ function cp_send_resend_html_email(string $toEmail, string $subject, string $htm
     }
 
     $payload = [
-        'from' => 'support@veteranlogisticsgroup.com',
+        'from' => 'support@veteranlogisticsgroup.us',
         'to' => [$toEmail],
         'subject' => $subject,
         'html' => $html
@@ -430,7 +430,7 @@ function cp_build_support_email_html(string $messageBody, string $adminEmail): s
 <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color:#ffffff;border-radius:4px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
 <tr>
 <td align="center" style="padding:40px 40px 20px 40px;">
-<img src="https://veteranlogisticsgroup.com/assets/images/branding/logo-stacked-light.png" alt="Veteran Logistics Group" width="60" style="display:block;border:0;">
+<img src="https://veteranlogisticsgroup.us/assets/images/branding/logo-stacked-light.png" alt="Veteran Logistics Group" width="60" style="display:block;border:0;">
 </td>
 </tr>
 <tr>
@@ -1041,8 +1041,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['subscribe_button']) &&
     $stmt->close();
     
     // Subscriber notification to admin email
-$to = 'admin@veteranlogisticsgroup.com';
-$from = 'alert@veteranlogisticsgroup.com';
+$to = 'admin@veteranlogisticsgroup.us';
+$from = 'alert@veteranlogisticsgroup.us';
     $fromName = 'Alert'; 
     
     $subject = 'New Subcriber'; 
@@ -1079,7 +1079,7 @@ $from = 'alert@veteranlogisticsgroup.com';
 
     // Thanking Subscriber email
     $to2 = $subscribe_email; 
-$from2 = 'alert@veteranlogisticsgroup.com';
+$from2 = 'alert@veteranlogisticsgroup.us';
     $fromName2 = 'Alert'; 
     
     $subject2 = 'Thank You For Subsribing'; 

@@ -148,7 +148,7 @@ $last_login_display = $prev_login_ts ? date('M j, Y', $prev_login_ts) : "Never";
 $page = isset($_GET['t']) ? $_GET['t'] : 'overview';
 $active_activity = isset($_GET['a']) ? $_GET['a'] : 'incoming';
 $current_shipments = [];
-$track_base_url = 'https://veteranlogisticsgroup.com/track?id=';
+$track_base_url = 'https://veteranlogisticsgroup.us/track?id=';
 $wallet_payment_methods = [];
 $wallet_notice = isset($_SESSION['wallet_notice']) ? (string)$_SESSION['wallet_notice'] : '';
 $wallet_error = '';

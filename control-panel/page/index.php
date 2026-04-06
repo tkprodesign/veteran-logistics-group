@@ -245,7 +245,7 @@
             <div class="cp-card-head">
                 <div>
                     <h2>Send Support Email</h2>
-<p>Send styled support emails via Resend from support@veteranlogisticsgroup.com</p>
+<p>Send styled support emails via Resend from support@veteranlogisticsgroup.us</p>
                 </div>
             </div>
             <?php if (!empty($cp_support_email_notice)): ?>
