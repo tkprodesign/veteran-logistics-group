@@ -61,7 +61,7 @@ if (isset($conn) && $conn instanceof mysqli) {
     }
 
     $eventsSql = "
-        SELECT event_time_epoch, status_text, city, state_region, country_code, location_name, event_severity, issue_note
+        SELECT event_time_epoch, status_text, city, state_region, country_code, location_name, event_severity, issue_note, negative_event_paid
         FROM shipment_location_events
         WHERE tracking_number = ?
         ORDER BY event_time_epoch DESC, id DESC
@@ -88,13 +88,15 @@ if (isset($conn) && $conn instanceof mysqli) {
 
                 $severity = strtolower(trim((string)($row['event_severity'] ?? 'neutral')));
                 $isNegative = ($severity === 'negative');
+                $isNegativePaid = (int)($row['negative_event_paid'] ?? 0) === 1;
 
                 $history[] = [
                     "time" => $epoch > 0 ? date("h:i A", $epoch) : "--:--",
                     "date" => $epoch > 0 ? date("M j, Y", $epoch) : "-",
                     "location" => $locationText !== '' ? $locationText : "-",
                     "activity" => (string)($row['status_text'] ?? 'Update'),
-                    "is_negative" => $isNegative,
+                    "is_negative" => ($isNegative && !$isNegativePaid),
+                    "is_negative_paid" => $isNegativePaid,
                     "issue_note" => (string)($row['issue_note'] ?? '')
                 ];
             }
@@ -111,4 +113,3 @@ if (empty($history)) {
         ["time" => "11:00 AM", "date" => "Mar 1, 2026", "location" => "Lagos, NG", "activity" => "Shipped / Picked Up", "is_negative" => false, "issue_note" => ""]
     ];
 }
-

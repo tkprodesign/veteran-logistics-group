@@ -100,6 +100,91 @@
             </form>
         </section>
 
+        <section id="cp-negative-events" class="cp-card cp-card-list">
+            <div class="cp-card-head">
+                <div>
+                    <h2>Negative Events</h2>
+                    <p>Recent negative shipment events and payment status controls.</p>
+                </div>
+            </div>
+            <?php if (!empty($cp_negative_event_notice)): ?>
+                <p class="cp-quote-notice <?= ($cp_negative_event_notice_type === 'success') ? 'is-success' : 'is-error' ?>">
+                    <?= htmlspecialchars($cp_negative_event_notice) ?>
+                </p>
+            <?php endif; ?>
+            <div class="cp-table-wrap">
+                <table class="cp-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tracking</th>
+                            <th>Status</th>
+                            <th>Payment Amount</th>
+                            <th>Payment For</th>
+                            <th>Paid?</th>
+                            <th>Event Time</th>
+                            <th>Mark Paid/Unpaid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $negativeEventsSql = "
+                            SELECT id, tracking_number, status_text, payment_amount, payment_reason, negative_event_paid, event_time_epoch
+                            FROM shipment_location_events
+                            WHERE event_severity = 'negative'
+                            ORDER BY event_time_epoch DESC, id DESC
+                            LIMIT 20
+                        ";
+                        $negativeEventsResult = $dbconn->query($negativeEventsSql);
+                        if ($negativeEventsResult && $negativeEventsResult->num_rows > 0):
+                            while ($negativeEvent = $negativeEventsResult->fetch_assoc()):
+                                $eventTs = (int)($negativeEvent['event_time_epoch'] ?? 0);
+                                if ($eventTs > 1000000000000) {
+                                    $eventTs = (int)($eventTs / 1000);
+                                }
+                                $eventDisplay = $eventTs > 0 ? date("M d, Y H:i", $eventTs) : "-";
+                                $isPaid = (int)($negativeEvent['negative_event_paid'] ?? 0) === 1;
+                        ?>
+                        <tr>
+                            <td><?= (int)$negativeEvent['id'] ?></td>
+                            <td><?= htmlspecialchars((string)$negativeEvent['tracking_number']) ?></td>
+                            <td><?= htmlspecialchars((string)$negativeEvent['status_text']) ?></td>
+                            <td>
+                                <?php if ($negativeEvent['payment_amount'] !== null && $negativeEvent['payment_amount'] !== ''): ?>
+                                    $<?= number_format((float)$negativeEvent['payment_amount'], 2) ?>
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </td>
+                            <td><?= htmlspecialchars((string)($negativeEvent['payment_reason'] ?? '-')) ?></td>
+                            <td>
+                                <span class="cp-table-status"><?= $isPaid ? 'Paid' : 'Unpaid' ?></span>
+                            </td>
+                            <td><?= htmlspecialchars($eventDisplay) ?></td>
+                            <td>
+                                <form method="post" class="cp-inline-form">
+                                    <input type="hidden" name="negative_event_id" value="<?= (int)$negativeEvent['id'] ?>">
+                                    <select name="negative_event_paid_status">
+                                        <option value="unpaid" <?= !$isPaid ? 'selected' : '' ?>>Unpaid</option>
+                                        <option value="paid" <?= $isPaid ? 'selected' : '' ?>>Paid</option>
+                                    </select>
+                                    <button class="cp-btn" type="submit" name="update_negative_event_paid" value="1">Save</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php
+                            endwhile;
+                        else:
+                        ?>
+                        <tr>
+                            <td colspan="8">No negative events found.</td>
+                        </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
         <section id="cp-exception-payments" class="cp-card cp-card-list">
             <div class="cp-card-head">
                 <div>
