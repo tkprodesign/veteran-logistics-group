@@ -254,6 +254,8 @@ $tableSql = [
             `issue_note` TEXT DEFAULT NULL,
             `payment_amount` DECIMAL(10,2) DEFAULT NULL,
             `payment_reason` VARCHAR(255) DEFAULT NULL,
+            `negative_event_paid` TINYINT(1) NOT NULL DEFAULT 0,
+            `negative_event_paid_at_epoch` BIGINT DEFAULT NULL,
             `event_time_epoch` BIGINT NOT NULL,
             `created_at_epoch` BIGINT NOT NULL,
             `updated_at_epoch` BIGINT NOT NULL,

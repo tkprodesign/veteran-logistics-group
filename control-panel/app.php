@@ -97,11 +97,15 @@ $cp_support_email_notice = '';
 $cp_support_email_notice_type = '';
 $cp_exception_payment_notice = '';
 $cp_exception_payment_notice_type = '';
+$cp_negative_event_notice = '';
+$cp_negative_event_notice_type = '';
 
 function cp_ensure_shipment_location_event_payment_columns(mysqli $dbconn): void {
     $columnSql = [
         "ALTER TABLE shipment_location_events ADD COLUMN payment_amount DECIMAL(10,2) NULL DEFAULT NULL",
-        "ALTER TABLE shipment_location_events ADD COLUMN payment_reason VARCHAR(255) NULL DEFAULT NULL"
+        "ALTER TABLE shipment_location_events ADD COLUMN payment_reason VARCHAR(255) NULL DEFAULT NULL",
+        "ALTER TABLE shipment_location_events ADD COLUMN negative_event_paid TINYINT(1) NOT NULL DEFAULT 0",
+        "ALTER TABLE shipment_location_events ADD COLUMN negative_event_paid_at_epoch BIGINT NULL DEFAULT NULL"
     ];
 
     foreach ($columnSql as $sql) {
@@ -112,6 +116,7 @@ function cp_ensure_shipment_location_event_payment_columns(mysqli $dbconn): void
         }
     }
 }
+cp_ensure_shipment_location_event_payment_columns($dbconn);
 
 if (isset($_SESSION['cp_quote_notice']) && is_array($_SESSION['cp_quote_notice'])) {
     $cp_quote_update_notice = (string)($_SESSION['cp_quote_notice']['message'] ?? '');
@@ -152,6 +157,11 @@ if (isset($_SESSION['cp_exception_payment_notice']) && is_array($_SESSION['cp_ex
     $cp_exception_payment_notice = (string)($_SESSION['cp_exception_payment_notice']['message'] ?? '');
     $cp_exception_payment_notice_type = (string)($_SESSION['cp_exception_payment_notice']['type'] ?? '');
     unset($_SESSION['cp_exception_payment_notice']);
+}
+if (isset($_SESSION['cp_negative_event_notice']) && is_array($_SESSION['cp_negative_event_notice'])) {
+    $cp_negative_event_notice = (string)($_SESSION['cp_negative_event_notice']['message'] ?? '');
+    $cp_negative_event_notice_type = (string)($_SESSION['cp_negative_event_notice']['type'] ?? '');
+    unset($_SESSION['cp_negative_event_notice']);
 }
 
 
@@ -558,6 +568,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_exception_paym
     exit();
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_negative_event_paid']) && !empty($_POST['update_negative_event_paid'])) {
+    cp_ensure_shipment_location_event_payment_columns($dbconn);
+
+    $eventId = isset($_POST['negative_event_id']) ? (int)$_POST['negative_event_id'] : 0;
+    $paidStatusRaw = strtolower(trim((string)($_POST['negative_event_paid_status'] ?? 'unpaid')));
+    $isPaid = $paidStatusRaw === 'paid' ? 1 : 0;
+    $paidAt = $isPaid === 1 ? time() : null;
+    $updatedAt = time();
+
+    if ($eventId <= 0) {
+        $cp_negative_event_notice = 'Event ID must be a valid number.';
+        $cp_negative_event_notice_type = 'error';
+    } else {
+        $stmtCheck = $dbconn->prepare("SELECT id FROM shipment_location_events WHERE id = ? AND event_severity = 'negative' LIMIT 1");
+        if (!$stmtCheck) {
+            $cp_negative_event_notice = 'Unable to validate negative event record.';
+            $cp_negative_event_notice_type = 'error';
+        } else {
+            $stmtCheck->bind_param("i", $eventId);
+            $stmtCheck->execute();
+            $resCheck = $stmtCheck->get_result();
+            $eventExists = ($resCheck && $resCheck->num_rows > 0);
+            $stmtCheck->close();
+
+            if (!$eventExists) {
+                $cp_negative_event_notice = "Negative event #{$eventId} was not found.";
+                $cp_negative_event_notice_type = 'error';
+            } else {
+                $stmt = $dbconn->prepare(
+                    "UPDATE shipment_location_events
+                     SET negative_event_paid = ?, negative_event_paid_at_epoch = IF(? = 1, ?, NULL), updated_at_epoch = ?
+                     WHERE id = ? AND event_severity = 'negative'
+                     LIMIT 1"
+                );
+
+                if (!$stmt) {
+                    $cp_negative_event_notice = 'Unable to prepare negative event update.';
+                    $cp_negative_event_notice_type = 'error';
+                } else {
+                    $stmt->bind_param("iiiii", $isPaid, $isPaid, $paidAt, $updatedAt, $eventId);
+                    $stmt->execute();
+                    $stmt->close();
+
+                    $cp_negative_event_notice = $isPaid === 1
+                        ? "Negative event #{$eventId} marked as paid."
+                        : "Negative event #{$eventId} marked as unpaid.";
+                    $cp_negative_event_notice_type = 'success';
+                }
+            }
+        }
+    }
+
+    $_SESSION['cp_negative_event_notice'] = [
+        'message' => $cp_negative_event_notice,
+        'type' => $cp_negative_event_notice_type
+    ];
+    header('Location: /control-panel/page/#cp-negative-events');
+    exit();
+}
+
 // Delete users row by id
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_site_user']) && !empty($_POST['delete_site_user'])) {
     $userId = isset($_POST['delete_user_id']) ? (int)$_POST['delete_user_id'] : 0;
@@ -837,8 +907,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_location_event']) 
         }
 
         $sql = "INSERT INTO shipment_location_events
-                (shipment_id, tracking_number, location_label, event_severity, is_current, is_origin, is_destination, location_name, city, state_region, country_code, postal_code, status_text, issue_note, payment_amount, payment_reason, event_time_epoch, created_at_epoch, updated_at_epoch)
-                VALUES (?, ?, ?, ?, ?, IF(? = 1, 1, NULL), IF(? = 1, 1, NULL), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                (shipment_id, tracking_number, location_label, event_severity, is_current, is_origin, is_destination, location_name, city, state_region, country_code, postal_code, status_text, issue_note, payment_amount, payment_reason, negative_event_paid, negative_event_paid_at_epoch, event_time_epoch, created_at_epoch, updated_at_epoch)
+                VALUES (?, ?, ?, ?, ?, IF(? = 1, 1, NULL), IF(? = 1, 1, NULL), ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, NULL, ?, ?, ?)";
         $stmt = $dbconn->prepare($sql);
 
         if (!$stmt) {
@@ -1353,5 +1423,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_item']) && !emp
     mysqli_query($dbconn, "DELETE FROM items WHERE tracking_id = '$id' AND item_number = $item_number");
 }
 ?>
-
-
