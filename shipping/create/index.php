@@ -86,7 +86,12 @@ $promo_code_applied = trim((string)($shipment_form['promo_code'] ?? ''));
 $promo_discount_amount = (float)($shipment_form['promo_discount_amount'] ?? 0);
 if ($promo_discount_amount < 0) $promo_discount_amount = 0;
 if ($promo_discount_amount > $subtotal_charges) $promo_discount_amount = $subtotal_charges;
-$total_charges = $subtotal_charges - $promo_discount_amount;
+$amount_before_crypto_fee = $subtotal_charges - $promo_discount_amount;
+$payment_method_current = strtolower(trim((string)($shipment_form['payment_method'] ?? 'card')));
+$crypto_processing_fee = ($payment_method_current === 'crypto')
+    ? shipping_crypto_processing_fee((float)$amount_before_crypto_fee)
+    : 0.00;
+$total_charges = $amount_before_crypto_fee + $crypto_processing_fee;
 $selected_service_label = ($selected_service_ui === 'economy')
     ? 'Economy'
     : (($selected_service_ui === 'priority') ? 'Priority' : 'Express');
@@ -267,6 +272,7 @@ if ($step === 5 && !empty($created_shipment) && is_array($created_shipment)) {
                         <?php if ($step === 3 || $step === 4): ?>
                             <div class="sum-row" id="summary-carbon-row" <?= ($option_carbon_fee > 0) ? '' : 'hidden' ?>><span>Carbon Neutral Charges</span><strong id="summary-carbon-value">$<?= number_format($option_carbon_fee, 2) ?></strong></div>
                             <div class="sum-row" id="summary-options-row" <?= ($shipment_options_total > 0) ? '' : 'hidden' ?>><span>Shipment Options</span><strong id="summary-options-value">$<?= number_format($shipment_options_total, 2) ?></strong></div>
+                            <div class="sum-row" id="summary-crypto-processing-row" <?= ($step === 4 && $payment_method_current === 'crypto' && $crypto_processing_fee > 0) ? '' : 'hidden' ?>><span>Blockchain Network Processing Fee</span><strong id="summary-crypto-processing-value">$<?= number_format($crypto_processing_fee, 2) ?></strong></div>
                         <?php endif; ?>
                         <?php if ($promo_discount_amount > 0): ?>
                             <div class="sum-row promo-row" id="summary-promo-row"><span>Promo Discount (<span id="summary-promo-code"><?= htmlspecialchars($promo_code_applied) ?></span>)</span><strong id="summary-promo-value">-$<?= number_format($promo_discount_amount, 2) ?></strong></div>
@@ -341,6 +347,8 @@ window.shippingCreateConfig = {
     optionsTotal: <?= json_encode((float)$shipment_options_total) ?>,
     carbonFeeAmount: <?= json_encode((float)$option_carbon_fee) ?>,
     promoDiscountAmount: <?= json_encode((float)$promo_discount_amount) ?>,
+    cryptoProcessingFee: <?= json_encode((float)$crypto_processing_fee) ?>,
+    paymentMethod: <?= json_encode((string)$payment_method_current) ?>,
     selectedServiceLevel: <?= json_encode((string)$selected_service_ui) ?>,
     selectedPickupOption: <?= json_encode((string)$selected_pickup) ?>
 };

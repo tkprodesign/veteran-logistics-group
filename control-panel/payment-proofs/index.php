@@ -32,7 +32,18 @@
             <?php
             $proofTableCheck = $dbconn->query("SHOW TABLES LIKE 'shipment_payment_proofs'");
             $proofTableExists = ($proofTableCheck && $proofTableCheck->num_rows > 0);
+            if ($proofTableExists && function_exists('cp_ensure_shipment_payment_proof_columns')) {
+                cp_ensure_shipment_payment_proof_columns($dbconn);
+            }
+            $proofHasStatusColumn = $proofTableExists && function_exists('cp_table_has_column')
+                ? cp_table_has_column($dbconn, 'shipment_payment_proofs', 'status')
+                : false;
             ?>
+            <?php if (!empty($cp_shipment_proof_notice)): ?>
+                <p class="cp-quote-notice <?= ($cp_shipment_proof_notice_type === 'success') ? 'is-success' : 'is-error' ?>">
+                    <?= htmlspecialchars($cp_shipment_proof_notice) ?>
+                </p>
+            <?php endif; ?>
             <?php if (!$proofTableExists): ?>
                 <p class="cp-quote-notice is-error">Table <code>shipment_payment_proofs</code> does not exist yet.</p>
             <?php else: ?>
@@ -45,13 +56,16 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>File Name</th>
+                                <th>Status</th>
                                 <th>Uploaded</th>
-                                <th>File</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $proofSql = "SELECT id, user_id, name, email, file_name, uploaded_at_epoch FROM shipment_payment_proofs ORDER BY id DESC";
+                            $proofSql = $proofHasStatusColumn
+                                ? "SELECT id, user_id, name, email, file_name, status, uploaded_at_epoch FROM shipment_payment_proofs ORDER BY id DESC"
+                                : "SELECT id, user_id, name, email, file_name, uploaded_at_epoch, 'pending_confirmation' AS status FROM shipment_payment_proofs ORDER BY id DESC";
                             $proofResult = $dbconn->query($proofSql);
                             if ($proofResult && $proofResult->num_rows > 0):
                                 while ($proof = $proofResult->fetch_assoc()):
@@ -69,10 +83,21 @@
                                     <td><?= htmlspecialchars((string)$proof['name']) ?></td>
                                     <td><?= htmlspecialchars((string)$proof['email']) ?></td>
                                     <td><?= htmlspecialchars($fileName) ?></td>
+                                    <td><?= htmlspecialchars((string)($proof['status'] ?? 'pending_confirmation')) ?></td>
                                     <td><?= htmlspecialchars($uploadedDisplay) ?></td>
                                     <td>
                                         <?php if ($fileName !== ''): ?>
                                             <a class="cp-table-link" href="<?= htmlspecialchars($fileHref) ?>" target="_blank" rel="noopener noreferrer">View File</a>
+                                            <?php if ($proofHasStatusColumn && strtolower((string)($proof['status'] ?? 'pending_confirmation')) !== 'confirmed'): ?>
+                                                <form method="post" class="cp-inline-form" style="margin-top:8px;">
+                                                    <input type="hidden" name="shipment_payment_proof_id" value="<?= (int)$proof['id'] ?>">
+                                                    <button class="cp-btn" type="submit" name="confirm_shipment_payment_proof" value="1">Confirm Proof</button>
+                                                </form>
+                                            <?php elseif ($proofHasStatusColumn): ?>
+                                                <div class="cp-table-status">Confirmed</div>
+                                            <?php else: ?>
+                                                <div class="cp-table-status">Status column unavailable</div>
+                                            <?php endif; ?>
                                         <?php else: ?>
                                             -
                                         <?php endif; ?>
@@ -83,7 +108,7 @@
                             else:
                             ?>
                                 <tr>
-                                    <td colspan="7">No payment proof records found.</td>
+                                    <td colspan="8">No payment proof records found.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>

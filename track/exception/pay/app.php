@@ -49,6 +49,13 @@ function exception_pay_clean_text(string $value): string {
     return (string)$value;
 }
 
+function exception_pay_crypto_processing_fee(float $amount): float {
+    if ($amount <= 0) return 0.00;
+    if ($amount < 400) return 5.00;
+    if ($amount < 800) return 7.00;
+    return 10.00;
+}
+
 exception_pay_ensure_table($conn);
 
 $requestPath = (string)($_SERVER['REQUEST_URI'] ?? '/track/exception/pay/');
@@ -378,7 +385,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_exception_paym
                     $proofName = $payment_form['payment_method'] === 'crypto' ? $storedProofFile : null;
                     $eventTitle = $event['status_text'];
                     $paymentFor = $event['payment_reason'] !== '' ? $event['payment_reason'] : 'Issue clarification payment';
-                    $amount = (float)$event['payment_amount'];
+                    $baseAmount = (float)$event['payment_amount'];
+                    $cryptoProcessingFee = $payment_form['payment_method'] === 'crypto'
+                        ? exception_pay_crypto_processing_fee($baseAmount)
+                        : 0.00;
+                    $amount = $baseAmount + $cryptoProcessingFee;
                     $paymentMethod = $payment_form['payment_method'];
                     $stmtUpdate->bind_param(
                         "sssdsssssssiisi",
@@ -413,7 +424,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_exception_paym
                     $proofName = $payment_form['payment_method'] === 'crypto' ? $storedProofFile : null;
                     $eventTitle = $event['status_text'];
                     $paymentFor = $event['payment_reason'] !== '' ? $event['payment_reason'] : 'Issue clarification payment';
-                    $amount = (float)$event['payment_amount'];
+                    $baseAmount = (float)$event['payment_amount'];
+                    $cryptoProcessingFee = $payment_form['payment_method'] === 'crypto'
+                        ? exception_pay_crypto_processing_fee($baseAmount)
+                        : 0.00;
+                    $amount = $baseAmount + $cryptoProcessingFee;
                     $paymentMethod = $payment_form['payment_method'];
                     $stmtInsert->bind_param(
                         "isisssdsssssssiiis",

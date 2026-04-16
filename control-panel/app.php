@@ -97,8 +97,12 @@ $cp_support_email_notice = '';
 $cp_support_email_notice_type = '';
 $cp_exception_payment_notice = '';
 $cp_exception_payment_notice_type = '';
+$cp_shipment_proof_notice = '';
+$cp_shipment_proof_notice_type = '';
 $cp_negative_event_notice = '';
 $cp_negative_event_notice_type = '';
+$cp_arrival_date_notice = '';
+$cp_arrival_date_notice_type = '';
 
 function cp_ensure_shipment_location_event_payment_columns(mysqli $dbconn): void {
     $columnSql = [
@@ -158,10 +162,63 @@ if (isset($_SESSION['cp_exception_payment_notice']) && is_array($_SESSION['cp_ex
     $cp_exception_payment_notice_type = (string)($_SESSION['cp_exception_payment_notice']['type'] ?? '');
     unset($_SESSION['cp_exception_payment_notice']);
 }
+if (isset($_SESSION['cp_shipment_proof_notice']) && is_array($_SESSION['cp_shipment_proof_notice'])) {
+    $cp_shipment_proof_notice = (string)($_SESSION['cp_shipment_proof_notice']['message'] ?? '');
+    $cp_shipment_proof_notice_type = (string)($_SESSION['cp_shipment_proof_notice']['type'] ?? '');
+    unset($_SESSION['cp_shipment_proof_notice']);
+}
 if (isset($_SESSION['cp_negative_event_notice']) && is_array($_SESSION['cp_negative_event_notice'])) {
     $cp_negative_event_notice = (string)($_SESSION['cp_negative_event_notice']['message'] ?? '');
     $cp_negative_event_notice_type = (string)($_SESSION['cp_negative_event_notice']['type'] ?? '');
     unset($_SESSION['cp_negative_event_notice']);
+}
+
+function cp_ensure_shipment_payment_proof_columns(mysqli $dbconn): void {
+    $columnSql = [
+        "ALTER TABLE shipment_payment_proofs ADD COLUMN status VARCHAR(40) NOT NULL DEFAULT 'pending_confirmation'",
+        "ALTER TABLE shipment_payment_proofs ADD COLUMN confirmed_at_epoch BIGINT NULL DEFAULT NULL",
+        "ALTER TABLE shipment_payment_proofs ADD COLUMN confirmed_by VARCHAR(190) NULL DEFAULT NULL"
+    ];
+    foreach ($columnSql as $sql) {
+        try {
+            $dbconn->query($sql);
+        } catch (Throwable $e) {
+            // Ignore duplicate-column or missing-table errors.
+        }
+    }
+}
+
+function cp_table_has_column(mysqli $dbconn, string $table, string $column): bool {
+    $tableEsc = $dbconn->real_escape_string($table);
+    $columnEsc = $dbconn->real_escape_string($column);
+    $sql = "SHOW COLUMNS FROM `{$tableEsc}` LIKE '{$columnEsc}'";
+    $res = $dbconn->query($sql);
+    return (bool)($res && $res->num_rows > 0);
+}
+if (isset($_SESSION['cp_arrival_date_notice']) && is_array($_SESSION['cp_arrival_date_notice'])) {
+    $cp_arrival_date_notice = (string)($_SESSION['cp_arrival_date_notice']['message'] ?? '');
+    $cp_arrival_date_notice_type = (string)($_SESSION['cp_arrival_date_notice']['type'] ?? '');
+    unset($_SESSION['cp_arrival_date_notice']);
+}
+
+function cp_detect_arrival_column_type(mysqli $dbconn): string {
+    $type = 'numeric';
+    $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'shipments' AND COLUMN_NAME = 'estimated_delivery_time' LIMIT 1";
+    $result = $dbconn->query($sql);
+    if ($result && ($row = $result->fetch_assoc())) {
+        $dataType = strtolower(trim((string)($row['DATA_TYPE'] ?? '')));
+        if (in_array($dataType, ['datetime', 'timestamp', 'date'], true)) {
+            $type = 'datetime';
+        }
+    }
+    return $type;
+}
+
+function cp_format_arrival_for_storage(string $columnType, int $epoch): string {
+    if ($columnType === 'datetime') {
+        return date('Y-m-d H:i:s', $epoch);
+    }
+    return (string)$epoch;
 }
 
 
@@ -568,6 +625,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_exception_paym
     exit();
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_shipment_payment_proof']) && !empty($_POST['confirm_shipment_payment_proof'])) {
+    cp_ensure_shipment_payment_proof_columns($dbconn);
+    $hasStatusColumn = cp_table_has_column($dbconn, 'shipment_payment_proofs', 'status');
+    $proofId = isset($_POST['shipment_payment_proof_id']) ? (int)$_POST['shipment_payment_proof_id'] : 0;
+
+    if (!$hasStatusColumn) {
+        $cp_shipment_proof_notice = 'Payment proof status columns are unavailable in this database. Please run schema update.';
+        $cp_shipment_proof_notice_type = 'error';
+    } elseif ($proofId <= 0) {
+        $cp_shipment_proof_notice = 'Payment proof ID must be a valid number.';
+        $cp_shipment_proof_notice_type = 'error';
+    } else {
+        $stmt = $dbconn->prepare(
+            "UPDATE shipment_payment_proofs
+             SET status = 'confirmed', confirmed_at_epoch = ?, confirmed_by = ?
+             WHERE id = ? AND status <> 'confirmed'
+             LIMIT 1"
+        );
+        if (!$stmt) {
+            $cp_shipment_proof_notice = 'Unable to prepare shipment payment proof confirmation.';
+            $cp_shipment_proof_notice_type = 'error';
+        } else {
+            $confirmedAt = time();
+            $confirmedBy = $_SESSION['email'] ?? 'admin@veteranlogisticsgroup.us';
+            $stmt->bind_param("isi", $confirmedAt, $confirmedBy, $proofId);
+            $stmt->execute();
+            $affected = $stmt->affected_rows;
+            $stmt->close();
+
+            if ($affected > 0) {
+                $cp_shipment_proof_notice = "Shipment payment proof #{$proofId} confirmed.";
+                $cp_shipment_proof_notice_type = 'success';
+            } else {
+                $cp_shipment_proof_notice = "Proof #{$proofId} was already confirmed or not found.";
+                $cp_shipment_proof_notice_type = 'error';
+            }
+        }
+    }
+
+    $_SESSION['cp_shipment_proof_notice'] = [
+        'message' => $cp_shipment_proof_notice,
+        'type' => $cp_shipment_proof_notice_type
+    ];
+    header('Location: /control-panel/page/#cp-payment-proofs');
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_negative_event_paid']) && !empty($_POST['update_negative_event_paid'])) {
     cp_ensure_shipment_location_event_payment_columns($dbconn);
 
@@ -625,6 +729,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_negative_event_
         'type' => $cp_negative_event_notice_type
     ];
     header('Location: /control-panel/page/#cp-negative-events');
+    exit();
+}
+
+// Update shipment arrival date by tracking number
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_shipment_arrival_date']) && !empty($_POST['update_shipment_arrival_date'])) {
+    $trackingNumber = trim((string)($_POST['arrival_tracking_number'] ?? ''));
+    $arrivalRaw = trim((string)($_POST['arrival_date'] ?? ''));
+
+    if ($trackingNumber === '') {
+        $cp_arrival_date_notice = 'Tracking Number is required.';
+        $cp_arrival_date_notice_type = 'error';
+    } elseif ($arrivalRaw === '') {
+        $cp_arrival_date_notice = 'Arrival date is required.';
+        $cp_arrival_date_notice_type = 'error';
+    } else {
+        $arrivalEpoch = strtotime($arrivalRaw);
+        if ($arrivalEpoch === false || $arrivalEpoch <= 0) {
+            $cp_arrival_date_notice = 'Arrival date format is invalid.';
+            $cp_arrival_date_notice_type = 'error';
+        } else {
+            $columnType = cp_detect_arrival_column_type($dbconn);
+            $arrivalValue = cp_format_arrival_for_storage($columnType, (int)$arrivalEpoch);
+            $updatedAt = time();
+
+            $stmt = $dbconn->prepare("UPDATE shipments SET estimated_delivery_time = ?, date_updated = ? WHERE tracking_number = ? LIMIT 1");
+            if (!$stmt) {
+                $cp_arrival_date_notice = 'Unable to prepare arrival date update.';
+                $cp_arrival_date_notice_type = 'error';
+            } else {
+                $stmt->bind_param('sis', $arrivalValue, $updatedAt, $trackingNumber);
+                $stmt->execute();
+                $affected = $stmt->affected_rows;
+                $stmt->close();
+
+                if ($affected > 0) {
+                    $storageLabel = $columnType === 'datetime' ? 'datetime' : 'epoch number';
+                    $cp_arrival_date_notice = 'Arrival date updated for tracking ' . $trackingNumber . ' (stored as ' . $storageLabel . ').';
+                    $cp_arrival_date_notice_type = 'success';
+                } else {
+                    $cp_arrival_date_notice = 'No shipment was updated. Check tracking number or unchanged value.';
+                    $cp_arrival_date_notice_type = 'error';
+                }
+            }
+        }
+    }
+
+    $_SESSION['cp_arrival_date_notice'] = [
+        'message' => $cp_arrival_date_notice,
+        'type' => $cp_arrival_date_notice_type
+    ];
+    header('Location: /control-panel/page/#cp-update-arrival-date');
     exit();
 }
 

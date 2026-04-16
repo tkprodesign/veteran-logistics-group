@@ -89,6 +89,9 @@
                                         <input type="text" name="crypto_wallet_address" class="js-crypto-wallet" value="<?= htmlspecialchars($crypto_wallet_address) ?>" readonly>
                                     </div>
                                     <p class="billing-note crypto-note">Use this wallet address for the selected cryptocurrency network only (BTC, ERC20, or TRC20).</p>
+                                    <p class="billing-note crypto-note">Blockchain Network Processing Fee for this payment: <strong id="crypto-processing-fee-display">$0.00</strong></p>
+                                    <p class="billing-note crypto-note">A mandatory Blockchain Network Processing Fee is added to cryptocurrency payments and included in your total.</p>
+                                    <p class="billing-note crypto-note">Additional miner/validator transaction fees may still apply separately at transfer time.</p>
                                     <div class="input-stack crypto-proof-wrap">
                                         <label for="crypto_payment_proof">Upload proof of payment (Image or PDF)</label>
                                         <input
@@ -104,6 +107,19 @@
                                             </p>
                                         <?php endif; ?>
                                     </div>
+                                </div>
+
+                                <?php
+                                $payment_total_base_amount = (float)($amount_before_crypto_fee ?? 0);
+                                $payment_total_crypto_fee = (float)($crypto_processing_fee ?? 0);
+                                $payment_total_final_amount = (float)($total_charges ?? 0);
+                                ?>
+                                <div class="summary-card" style="margin-top:16px;">
+                                    <h4 class="pay-subtitle" style="margin-top:0;">Total Payment</h4>
+                                    <div class="sum-row"><span>Shipment Amount</span><strong id="payment-total-base-value">$<?= number_format($payment_total_base_amount, 2) ?></strong></div>
+                                    <div class="sum-row js-payment-total-crypto-row" <?= ($payment_method === 'crypto' && $payment_total_crypto_fee > 0) ? '' : 'hidden' ?>><span>Blockchain Network Processing Fee</span><strong id="payment-total-crypto-value">$<?= number_format($payment_total_crypto_fee, 2) ?></strong></div>
+                                    <div class="summary-line"></div>
+                                    <div class="sum-row"><span>Total Payment</span><strong id="payment-total-final-value">$<?= number_format($payment_total_final_amount, 2) ?></strong></div>
                                 </div>
                             </article>
 
@@ -122,4 +138,3 @@
                                     <a href="https://www.ups.com/us/en/support/shipping-support/shipping-special-care-regulated-items/prohibited-items.page" target="_blank" rel="noopener noreferrer">List of Prohibited Articles for Shipping</a>
                                 </p>
                             </article>
-
