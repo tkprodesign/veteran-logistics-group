@@ -133,7 +133,8 @@
                                 <th>Method</th>
                                 <th>Status</th>
                                 <th>Proof</th>
-                                <th>Created</th>
+                                <th>Arrival</th>
+                            <th>Created</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

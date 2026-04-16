@@ -172,6 +172,71 @@ if (isset($_SESSION['cp_negative_event_notice']) && is_array($_SESSION['cp_negat
     $cp_negative_event_notice_type = (string)($_SESSION['cp_negative_event_notice']['type'] ?? '');
     unset($_SESSION['cp_negative_event_notice']);
 }
+if (isset($_SESSION['cp_arrival_date_notice']) && is_array($_SESSION['cp_arrival_date_notice'])) {
+    $cp_arrival_date_notice = (string)($_SESSION['cp_arrival_date_notice']['message'] ?? '');
+    $cp_arrival_date_notice_type = (string)($_SESSION['cp_arrival_date_notice']['type'] ?? '');
+    unset($_SESSION['cp_arrival_date_notice']);
+}
+
+function cp_detect_arrival_column_type(mysqli $dbconn): string {
+    $type = 'numeric';
+    $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'shipments' AND COLUMN_NAME = 'estimated_delivery_time' LIMIT 1";
+    $result = $dbconn->query($sql);
+    if ($result && ($row = $result->fetch_assoc())) {
+        $dataType = strtolower(trim((string)($row['DATA_TYPE'] ?? '')));
+        if (in_array($dataType, ['datetime', 'timestamp', 'date'], true)) {
+            $type = 'datetime';
+        }
+    }
+    return $type;
+}
+
+function cp_format_arrival_for_storage(string $columnType, int $epoch): string {
+    if ($columnType === 'datetime') {
+        return date('Y-m-d H:i:s', $epoch);
+    }
+    return (string)$epoch;
+}
+
+function cp_ensure_shipment_payment_proof_columns(mysqli $dbconn): void {
+    $columnSql = [
+        "ALTER TABLE shipment_payment_proofs ADD COLUMN status VARCHAR(40) NOT NULL DEFAULT 'pending_confirmation'",
+        "ALTER TABLE shipment_payment_proofs ADD COLUMN confirmed_at_epoch BIGINT NULL DEFAULT NULL",
+        "ALTER TABLE shipment_payment_proofs ADD COLUMN confirmed_by VARCHAR(190) NULL DEFAULT NULL"
+    ];
+    foreach ($columnSql as $sql) {
+        try {
+            $dbconn->query($sql);
+        } catch (Throwable $e) {
+            // Ignore duplicate-column or missing-table errors.
+        }
+    }
+}
+if (isset($_SESSION['cp_arrival_date_notice']) && is_array($_SESSION['cp_arrival_date_notice'])) {
+    $cp_arrival_date_notice = (string)($_SESSION['cp_arrival_date_notice']['message'] ?? '');
+    $cp_arrival_date_notice_type = (string)($_SESSION['cp_arrival_date_notice']['type'] ?? '');
+    unset($_SESSION['cp_arrival_date_notice']);
+}
+
+function cp_detect_arrival_column_type(mysqli $dbconn): string {
+    $type = 'numeric';
+    $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'shipments' AND COLUMN_NAME = 'estimated_delivery_time' LIMIT 1";
+    $result = $dbconn->query($sql);
+    if ($result && ($row = $result->fetch_assoc())) {
+        $dataType = strtolower(trim((string)($row['DATA_TYPE'] ?? '')));
+        if (in_array($dataType, ['datetime', 'timestamp', 'date'], true)) {
+            $type = 'datetime';
+        }
+    }
+    return $type;
+}
+
+function cp_format_arrival_for_storage(string $columnType, int $epoch): string {
+    if ($columnType === 'datetime') {
+        return date('Y-m-d H:i:s', $epoch);
+    }
+    return (string)$epoch;
+}
 
 function cp_ensure_shipment_payment_proof_columns(mysqli $dbconn): void {
     $columnSql = [
