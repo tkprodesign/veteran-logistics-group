@@ -39,13 +39,14 @@
                             <th>Email</th>
                             <th>Name</th>
                             <th>Status</th>
+                            <th>Arrival</th>
                             <th>Created</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $shipSql = "
-                            SELECT s.id, s.tracking_number, s.user_id, s.status, s.date_created, u.email, u.name
+                            SELECT s.id, s.tracking_number, s.user_id, s.status, s.estimated_delivery_time, s.date_created, u.email, u.name
                             FROM shipments s
                             LEFT JOIN users u ON u.id = s.user_id
                             ORDER BY s.id DESC
@@ -58,6 +59,26 @@
                                     $shipTs = (int)($shipTs / 1000);
                                 }
                                 $shipDisplay = $shipTs > 0 ? date("M d, Y H:i", $shipTs) : "-";
+                                $arrivalRaw = $s['estimated_delivery_time'] ?? null;
+                                $arrivalDisplay = "-";
+                                if ($arrivalRaw !== null && $arrivalRaw !== "") {
+                                    if (is_numeric((string)$arrivalRaw)) {
+                                        $arrivalTs = (int)$arrivalRaw;
+                                        if ($arrivalTs > 1000000000000) {
+                                            $arrivalTs = (int)($arrivalTs / 1000);
+                                        }
+                                        if ($arrivalTs > 0) {
+                                            $arrivalDisplay = date("M d, Y H:i", $arrivalTs) . " (epoch)";
+                                        }
+                                    } else {
+                                        $parsedArrival = strtotime((string)$arrivalRaw);
+                                        if ($parsedArrival !== false && $parsedArrival > 0) {
+                                            $arrivalDisplay = date("M d, Y H:i", $parsedArrival) . " (datetime)";
+                                        } else {
+                                            $arrivalDisplay = (string)$arrivalRaw;
+                                        }
+                                    }
+                                }
                         ?>
                         <tr>
                             <td><?= (int)$s['id'] ?></td>
@@ -66,6 +87,7 @@
                             <td><?= htmlspecialchars((string)($s['email'] ?? '-')) ?></td>
                             <td><?= htmlspecialchars((string)($s['name'] ?? '-')) ?></td>
                             <td><?= htmlspecialchars((string)$s['status']) ?></td>
+                            <td><?= htmlspecialchars($arrivalDisplay) ?></td>
                             <td><?= htmlspecialchars($shipDisplay) ?></td>
                         </tr>
                         <?php
@@ -73,7 +95,7 @@
                         else:
                         ?>
                         <tr>
-                            <td colspan="7">No shipments found.</td>
+                            <td colspan="8">No shipments found.</td>
                         </tr>
                         <?php endif; ?>
                     </tbody>

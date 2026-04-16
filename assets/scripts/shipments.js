@@ -30,6 +30,7 @@
     var optionsTotalBase = Number(cfg.optionsTotal || 0);
     var carbonFeeBase = Number(cfg.carbonFeeAmount || 0);
     var promoDiscountBase = Number(cfg.promoDiscountAmount || 0);
+    var paymentMethodBase = String(cfg.paymentMethod || 'card').toLowerCase();
     var selectedServiceLevelBase = String(cfg.selectedServiceLevel || '').toLowerCase();
     var selectedPickupOptionBase = String(cfg.selectedPickupOption || 'dropoff').toLowerCase();
 
@@ -343,6 +344,10 @@
     var summaryOptionsValue = document.getElementById('summary-options-value');
     var summaryCarbonRow = document.getElementById('summary-carbon-row');
     var summaryCarbonValue = document.getElementById('summary-carbon-value');
+    var summaryCryptoRow = document.getElementById('summary-crypto-processing-row');
+    var summaryCryptoValue = document.getElementById('summary-crypto-processing-value');
+    var paymentMethodInput = document.querySelector('.js-payment-method-input');
+    var paymentToggle = document.querySelector('.js-payment-toggle');
 
     function formatUsd(amount) { return '$' + Number(amount || 0).toFixed(2); }
 
@@ -361,6 +366,21 @@
       if (value === 'express') return 'Express';
       if (value === 'economy') return 'Economy';
       return 'Service';
+    }
+
+    function calcCryptoProcessingFee(amount) {
+      var value = Number(amount || 0);
+      if (isNaN(value) || value <= 0) return 0;
+      if (value < 400) return 5;
+      if (value < 800) return 7;
+      return 10;
+    }
+
+    function currentPaymentMethod() {
+      if (paymentMethodInput && paymentMethodInput.value) {
+        return String(paymentMethodInput.value).toLowerCase();
+      }
+      return paymentMethodBase;
     }
 
     function currentServiceLevelValue() {
@@ -385,7 +405,9 @@
       var quotedServicePrice = selectedQuotedServicePrice();
       var serviceAmount = quotedServicePrice !== null ? quotedServicePrice : (serviceQuoteReady ? serviceTotalBase : 0);
       var subtotal = serviceAmount + optionsTotalBase + pickupAmount;
-      var total = Math.max(0, subtotal - promoAmount);
+      var amountBeforeCryptoFee = Math.max(0, subtotal - promoAmount);
+      var cryptoProcessingFee = currentPaymentMethod() === 'crypto' ? calcCryptoProcessingFee(amountBeforeCryptoFee) : 0;
+      var total = amountBeforeCryptoFee + cryptoProcessingFee;
 
       if (summaryPickupLabel) summaryPickupLabel.textContent = isCustomPickup ? 'Custom Pickup Fee' : 'Postman Pickup';
       if (summaryPickupValue) summaryPickupValue.textContent = isCustomPickup ? formatUsd(pickupAmount) : 'Free';
@@ -439,7 +461,9 @@
       if (currentStep === 4 && carbonAmount <= 0) carbonAmount = carbonFeeBase;
 
       var subtotal = serviceAmount + pickupAmount + optionsAmount + carbonAmount;
-      var total = Math.max(0, subtotal - promoAmount);
+      var amountBeforeCryptoFee = Math.max(0, subtotal - promoAmount);
+      var cryptoProcessingFee = currentPaymentMethod() === 'crypto' ? calcCryptoProcessingFee(amountBeforeCryptoFee) : 0;
+      var total = amountBeforeCryptoFee + cryptoProcessingFee;
 
       if (summaryServiceCharge) summaryServiceCharge.textContent = formatUsd(serviceAmount);
       if (summaryServiceLabel) summaryServiceLabel.textContent = humanizeServiceLevel(currentServiceLevelValue());
@@ -454,6 +478,11 @@
       if (summaryCarbonRow && summaryCarbonValue) {
         summaryCarbonRow.hidden = carbonAmount <= 0;
         summaryCarbonValue.textContent = formatUsd(carbonAmount);
+      }
+
+      if (summaryCryptoRow && summaryCryptoValue) {
+        summaryCryptoRow.hidden = cryptoProcessingFee <= 0;
+        summaryCryptoValue.textContent = formatUsd(cryptoProcessingFee);
       }
 
       totalChargeEl.textContent = formatUsd(total);
@@ -551,6 +580,11 @@
     document.querySelectorAll('.js-shipment-option').forEach(function (input) {
       input.addEventListener('change', syncAdditionalDetailsSummary);
     });
+    if (paymentToggle) {
+      paymentToggle.addEventListener('click', function () {
+        window.setTimeout(syncAdditionalDetailsSummary, 0);
+      });
+    }
     syncAdditionalDetailsSummary();
 
     var serviceCard = document.getElementById('service-level-card');

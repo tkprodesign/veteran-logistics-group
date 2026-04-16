@@ -1,4 +1,11 @@
 <?php require_once __DIR__ . '/app.php'; ?>
+<?php
+$exception_base_amount = (float)($event['payment_amount'] ?? 0);
+$exception_crypto_processing_fee = exception_pay_crypto_processing_fee($exception_base_amount);
+$exception_form_method = strtolower((string)($payment_form['payment_method'] ?? 'card'));
+$exception_summary_processing_fee = ($exception_form_method === 'crypto') ? $exception_crypto_processing_fee : 0.00;
+$exception_summary_total_due = $exception_base_amount + $exception_summary_processing_fee;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,6 +43,9 @@
         $confirmedDate = $confirmedEpoch > 0 ? date('F j, Y', $confirmedEpoch) : date('F j, Y');
         $confirmedTime = $confirmedEpoch > 0 ? date('h:i A', $confirmedEpoch) : '';
         $paymentMethodLabel = strtolower((string)($existingPayment['payment_method'] ?? 'card')) === 'crypto' ? 'Other Payment Methods' : 'Payment Card';
+        $confirmedBaseAmount = (float)($event['payment_amount'] ?? 0);
+        $confirmedTotalAmount = (float)($existingPayment['amount'] ?? 0);
+        $confirmedCryptoProcessingFee = max(0, $confirmedTotalAmount - $confirmedBaseAmount);
         $cryptoAssetLabel = strtolower((string)($existingPayment['crypto_asset'] ?? ''));
         ?>
         <section class="main-card exception-pay-success" id="exceptionPaymentInvoice">
@@ -125,8 +135,18 @@
                             <div class="invoice-detail-card">
                                 <p class="invoice-label">Payment Details</p>
                                 <div class="invoice-detail-row">
-                                    <span>Amount</span>
-                                    <strong>$<?= number_format((float)($existingPayment['amount'] ?? 0), 2) ?></strong>
+                                    <span>Exception Amount</span>
+                                    <strong>$<?= number_format($confirmedBaseAmount, 2) ?></strong>
+                                </div>
+                                <?php if (strtolower((string)($existingPayment['payment_method'] ?? 'card')) === 'crypto'): ?>
+                                    <div class="invoice-detail-row">
+                                        <span>Blockchain Network Processing Fee</span>
+                                        <strong>$<?= number_format($confirmedCryptoProcessingFee, 2) ?></strong>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="invoice-detail-row">
+                                    <span>Total Paid</span>
+                                    <strong>$<?= number_format($confirmedTotalAmount, 2) ?></strong>
                                 </div>
                                 <div class="invoice-detail-row">
                                     <span>Payment For</span>
@@ -230,7 +250,7 @@
 
             <div class="exception-pay-detail-grid">
                 <div class="exception-pay-detail-item">
-                    <small>Amount</small>
+                    <small>Total Submitted</small>
                     <strong>$<?= number_format((float)($existingPayment['amount'] ?? 0), 2) ?></strong>
                 </div>
                 <div class="exception-pay-detail-item">
@@ -340,6 +360,8 @@
                                 <input type="text" name="crypto_wallet_address" class="js-exception-crypto-wallet" value="<?= htmlspecialchars((string)$payment_form['crypto_wallet_address']) ?>" readonly>
                             </div>
                             <p class="billing-note crypto-note">Use this wallet address for the selected cryptocurrency network only (BTC, ERC20, or TRC20).</p>
+                            <p class="billing-note crypto-note">A mandatory Blockchain Network Processing Fee is added to cryptocurrency exception payments and included in the total due.</p>
+                            <p class="billing-note crypto-note">Additional miner/validator transaction fees may still apply separately at transfer time.</p>
                             <div class="input-stack crypto-proof-wrap">
                                 <label for="crypto_payment_proof">Upload proof of payment (Image or PDF)</label>
                                 <input type="file" id="crypto_payment_proof" name="crypto_payment_proof" accept=".pdf,image/*" data-has-existing-proof="<?= !empty($payment_form['proof_file_name']) ? '1' : '0' ?>">
@@ -377,9 +399,11 @@
                     <div class="sum-row"><span>Tracking Number</span><strong><?= htmlspecialchars($tracking_number) ?></strong></div>
                     <div class="sum-row"><span>Issue</span><strong><?= htmlspecialchars((string)$event['status_text']) ?></strong></div>
                     <div class="sum-row"><span>Payment For</span><strong><?= htmlspecialchars((string)($event['payment_reason'] !== '' ? $event['payment_reason'] : 'Issue clarification payment')) ?></strong></div>
-                    <div class="sum-row"><span>Amount Due</span><strong>$<?= number_format((float)$event['payment_amount'], 2) ?></strong></div>
+                    <div class="sum-row"><span>Exception Amount</span><strong>$<?= number_format($exception_base_amount, 2) ?></strong></div>
+                    <div class="sum-row" id="exception-summary-processing-row" <?= ($exception_summary_processing_fee > 0) ? '' : 'hidden' ?>><span>Blockchain Network Processing Fee</span><strong id="exception-summary-processing-value">$<?= number_format($exception_summary_processing_fee, 2) ?></strong></div>
+                    <div class="sum-row"><span>Total Due</span><strong id="exception-summary-total-due">$<?= number_format($exception_summary_total_due, 2) ?></strong></div>
                     <div class="summary-line"></div>
-                    <p>Once payment is confirmed, an invoice will be available on this page.</p>
+                    <p>Once payment is confirmed, an invoice will be available on this page. Additional miner/validator transaction fees may still apply separately at transfer time.</p>
                 </article>
 
                 <article class="summary-card detail-card">
@@ -403,6 +427,22 @@
                 var cryptoAsset = document.querySelector('.js-exception-crypto-asset');
                 var cryptoWallet = document.querySelector('.js-exception-crypto-wallet');
                 var copyBtn = document.querySelector('.js-exception-crypto-copy');
+                var processingRow = document.getElementById('exception-summary-processing-row');
+                var processingValue = document.getElementById('exception-summary-processing-value');
+                var totalDueEl = document.getElementById('exception-summary-total-due');
+                var baseAmount = <?= json_encode((float)$exception_base_amount) ?>;
+
+                function calcCryptoProcessingFee(amount) {
+                    var value = Number(amount || 0);
+                    if (isNaN(value) || value <= 0) return 0;
+                    if (value < 400) return 5;
+                    if (value < 800) return 7;
+                    return 10;
+                }
+
+                function formatUsd(amount) {
+                    return '$' + Number(amount || 0).toFixed(2);
+                }
 
                 function syncMode(nextMode) {
                     if (!hiddenInput) return;
@@ -416,6 +456,10 @@
                         var hasExisting = proofInput.getAttribute('data-has-existing-proof') === '1';
                         proofInput.required = nextMode === 'crypto' && !hasExisting;
                     }
+                    var processingFee = nextMode === 'crypto' ? calcCryptoProcessingFee(baseAmount) : 0;
+                    if (processingRow) processingRow.hidden = processingFee <= 0;
+                    if (processingValue) processingValue.textContent = formatUsd(processingFee);
+                    if (totalDueEl) totalDueEl.textContent = formatUsd(baseAmount + processingFee);
                 }
 
                 toggle.addEventListener('click', function (event) {

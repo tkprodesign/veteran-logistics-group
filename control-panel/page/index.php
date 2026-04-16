@@ -100,91 +100,6 @@
             </form>
         </section>
 
-        <section id="cp-negative-events" class="cp-card cp-card-list">
-            <div class="cp-card-head">
-                <div>
-                    <h2>Negative Events</h2>
-                    <p>Recent negative shipment events and payment status controls.</p>
-                </div>
-            </div>
-            <?php if (!empty($cp_negative_event_notice)): ?>
-                <p class="cp-quote-notice <?= ($cp_negative_event_notice_type === 'success') ? 'is-success' : 'is-error' ?>">
-                    <?= htmlspecialchars($cp_negative_event_notice) ?>
-                </p>
-            <?php endif; ?>
-            <div class="cp-table-wrap">
-                <table class="cp-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Tracking</th>
-                            <th>Status</th>
-                            <th>Payment Amount</th>
-                            <th>Payment For</th>
-                            <th>Paid?</th>
-                            <th>Event Time</th>
-                            <th>Mark Paid/Unpaid</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $negativeEventsSql = "
-                            SELECT id, tracking_number, status_text, payment_amount, payment_reason, negative_event_paid, event_time_epoch
-                            FROM shipment_location_events
-                            WHERE event_severity = 'negative'
-                            ORDER BY event_time_epoch DESC, id DESC
-                            LIMIT 20
-                        ";
-                        $negativeEventsResult = $dbconn->query($negativeEventsSql);
-                        if ($negativeEventsResult && $negativeEventsResult->num_rows > 0):
-                            while ($negativeEvent = $negativeEventsResult->fetch_assoc()):
-                                $eventTs = (int)($negativeEvent['event_time_epoch'] ?? 0);
-                                if ($eventTs > 1000000000000) {
-                                    $eventTs = (int)($eventTs / 1000);
-                                }
-                                $eventDisplay = $eventTs > 0 ? date("M d, Y H:i", $eventTs) : "-";
-                                $isPaid = (int)($negativeEvent['negative_event_paid'] ?? 0) === 1;
-                        ?>
-                        <tr>
-                            <td><?= (int)$negativeEvent['id'] ?></td>
-                            <td><?= htmlspecialchars((string)$negativeEvent['tracking_number']) ?></td>
-                            <td><?= htmlspecialchars((string)$negativeEvent['status_text']) ?></td>
-                            <td>
-                                <?php if ($negativeEvent['payment_amount'] !== null && $negativeEvent['payment_amount'] !== ''): ?>
-                                    $<?= number_format((float)$negativeEvent['payment_amount'], 2) ?>
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </td>
-                            <td><?= htmlspecialchars((string)($negativeEvent['payment_reason'] ?? '-')) ?></td>
-                            <td>
-                                <span class="cp-table-status"><?= $isPaid ? 'Paid' : 'Unpaid' ?></span>
-                            </td>
-                            <td><?= htmlspecialchars($eventDisplay) ?></td>
-                            <td>
-                                <form method="post" class="cp-inline-form">
-                                    <input type="hidden" name="negative_event_id" value="<?= (int)$negativeEvent['id'] ?>">
-                                    <select name="negative_event_paid_status">
-                                        <option value="unpaid" <?= !$isPaid ? 'selected' : '' ?>>Unpaid</option>
-                                        <option value="paid" <?= $isPaid ? 'selected' : '' ?>>Paid</option>
-                                    </select>
-                                    <button class="cp-btn" type="submit" name="update_negative_event_paid" value="1">Save</button>
-                                </form>
-                            </td>
-                        </tr>
-                        <?php
-                            endwhile;
-                        else:
-                        ?>
-                        <tr>
-                            <td colspan="8">No negative events found.</td>
-                        </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
         <section id="cp-exception-payments" class="cp-card cp-card-list">
             <div class="cp-card-head">
                 <div>
@@ -275,7 +190,7 @@
                             else:
                             ?>
                             <tr>
-                                <td colspan="11">No exception payment records found.</td>
+                                <td colspan="10">No exception payment records found.</td>
                             </tr>
                             <?php endif; ?>
                         </tbody>
@@ -377,13 +292,14 @@
                             <th>Email</th>
                             <th>Name</th>
                             <th>Status</th>
+                            <th>Arrival</th>
                             <th>Created</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $shipSql = "
-                            SELECT s.id, s.tracking_number, s.user_id, s.status, s.date_created, u.email, u.name
+                            SELECT s.id, s.tracking_number, s.user_id, s.status, s.estimated_delivery_time, s.date_created, u.email, u.name
                             FROM shipments s
                             LEFT JOIN users u ON u.id = s.user_id
                             ORDER BY s.id DESC
@@ -397,6 +313,26 @@
                                     $shipTs = (int)($shipTs / 1000);
                                 }
                                 $shipDisplay = $shipTs > 0 ? date("M d, Y H:i", $shipTs) : "-";
+                                $arrivalRaw = $s['estimated_delivery_time'] ?? null;
+                                $arrivalDisplay = '-';
+                                if ($arrivalRaw !== null && $arrivalRaw !== '') {
+                                    if (is_numeric((string)$arrivalRaw)) {
+                                        $arrivalTs = (int)$arrivalRaw;
+                                        if ($arrivalTs > 1000000000000) {
+                                            $arrivalTs = (int)($arrivalTs / 1000);
+                                        }
+                                        if ($arrivalTs > 0) {
+                                            $arrivalDisplay = date("M d, Y H:i", $arrivalTs) . ' (epoch)';
+                                        }
+                                    } else {
+                                        $parsedArrival = strtotime((string)$arrivalRaw);
+                                        if ($parsedArrival !== false && $parsedArrival > 0) {
+                                            $arrivalDisplay = date("M d, Y H:i", $parsedArrival) . ' (datetime)';
+                                        } else {
+                                            $arrivalDisplay = (string)$arrivalRaw;
+                                        }
+                                    }
+                                }
                         ?>
                         <tr>
                             <td><?= (int)$s['id'] ?></td>
@@ -405,6 +341,7 @@
                             <td><?= htmlspecialchars((string)($s['email'] ?? '-')) ?></td>
                             <td><?= htmlspecialchars((string)($s['name'] ?? '-')) ?></td>
                             <td><?= htmlspecialchars((string)$s['status']) ?></td>
+                            <td><?= htmlspecialchars($arrivalDisplay) ?></td>
                             <td><?= htmlspecialchars($shipDisplay) ?></td>
                         </tr>
                         <?php
@@ -412,7 +349,7 @@
                         else:
                         ?>
                         <tr>
-                            <td colspan="7">No shipments found.</td>
+                            <td colspan="8">No shipments found.</td>
                         </tr>
                         <?php endif; ?>
                     </tbody>
@@ -423,6 +360,37 @@
             </div>
         </section>
         
+
+        <section id="cp-update-arrival-date" class="cp-card cp-card-action">
+            <div class="cp-card-head">
+                <div>
+                    <h2>Update Shipment Arrival Date</h2>
+                    <p>Change estimated delivery/arrival date by tracking number.</p>
+                </div>
+            </div>
+            <?php if (!empty($cp_arrival_date_notice)): ?>
+                <p class="cp-quote-notice <?= ($cp_arrival_date_notice_type === 'success') ? 'is-success' : 'is-error' ?>">
+                    <?= htmlspecialchars($cp_arrival_date_notice) ?>
+                </p>
+            <?php endif; ?>
+            <p class="cp-form-helper">This checks the <code>shipments.estimated_delivery_time</code> column type first, then stores either epoch seconds or datetime accordingly.</p>
+            <form method="post" class="cp-quote-form">
+                <div class="cp-quote-grid">
+                    <div>
+                        <label for="arrival_tracking_number">Tracking Number</label>
+                        <input id="arrival_tracking_number" type="text" name="arrival_tracking_number" required>
+                    </div>
+                    <div>
+                        <label for="arrival_date">Arrival Date</label>
+                        <input id="arrival_date" type="datetime-local" name="arrival_date" required>
+                    </div>
+                </div>
+                <div class="cp-quote-actions">
+                    <button class="cp-btn" type="submit" name="update_shipment_arrival_date" value="1">Update Arrival Date</button>
+                </div>
+            </form>
+        </section>
+
         <section id="cp-service-quotes" class="cp-card cp-card-list">
             <div class="cp-card-head">
                 <div>

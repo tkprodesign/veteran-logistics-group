@@ -89,6 +89,8 @@
                                         <input type="text" name="crypto_wallet_address" class="js-crypto-wallet" value="<?= htmlspecialchars($crypto_wallet_address) ?>" readonly>
                                     </div>
                                     <p class="billing-note crypto-note">Use this wallet address for the selected cryptocurrency network only (BTC, ERC20, or TRC20).</p>
+                                    <p class="billing-note crypto-note">A mandatory Blockchain Network Processing Fee is added to cryptocurrency payments and included in your total.</p>
+                                    <p class="billing-note crypto-note">Additional miner/validator transaction fees may still apply separately at transfer time.</p>
                                     <div class="input-stack crypto-proof-wrap">
                                         <label for="crypto_payment_proof">Upload proof of payment (Image or PDF)</label>
                                         <input
@@ -122,4 +124,3 @@
                                     <a href="https://www.ups.com/us/en/support/shipping-support/shipping-special-care-regulated-items/prohibited-items.page" target="_blank" rel="noopener noreferrer">List of Prohibited Articles for Shipping</a>
                                 </p>
                             </article>
-
