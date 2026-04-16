@@ -621,6 +621,19 @@ function shipping_money(float $amount): string {
     return '$' . number_format($amount, 2);
 }
 
+function shipping_crypto_processing_fee(float $amount): float {
+    if ($amount <= 0) {
+        return 0.00;
+    }
+    if ($amount < 400) {
+        return 5.00;
+    }
+    if ($amount < 800) {
+        return 7.00;
+    }
+    return 10.00;
+}
+
 function shipping_password_secret_for_mailbox(string $fromEmail): string {
     $mailbox = strtolower(trim(explode('@', $fromEmail)[0] ?? ''));
     $map = [
@@ -786,6 +799,8 @@ function shipping_build_customer_invoice_email_html(array $payload): string {
     $adultSignatureAmount = shipping_money((float)($payload['adult_signature_total'] ?? 0));
     $discountAmount = shipping_money((float)($payload['promo_discount_total'] ?? 0));
     $taxAmount = shipping_money((float)($payload['tax_total'] ?? 0));
+    $cryptoProcessingFee = (float)($payload['crypto_processing_fee'] ?? 0);
+    $cryptoProcessingFeeAmount = shipping_money($cryptoProcessingFee);
     $totalAmount = shipping_money((float)($payload['total_charges'] ?? 0));
     $invoiceDate = htmlspecialchars(date('M j, Y'));
     $invoiceUrl = 'https://veteranlogisticsgroup.us/shipping/create/?s=5&created=1';
@@ -824,6 +839,7 @@ function shipping_build_customer_invoice_email_html(array $payload): string {
 <tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Carbon Neutral Charges</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;text-align:right;">' . $carbonAmount . '</td></tr>
 <tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Signature Required</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;text-align:right;">' . $signatureAmount . '</td></tr>
 <tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Adult Signature Required</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;text-align:right;">' . $adultSignatureAmount . '</td></tr>
+<tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Blockchain Network Processing Fee</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;text-align:right;">' . $cryptoProcessingFeeAmount . '</td></tr>
 <tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Promo Discount</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#166534;text-align:right;">-' . $discountAmount . '</td></tr>
 <tr><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:13px;color:#6b7280;">Taxes and Duties</td><td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#111827;text-align:right;">' . $taxAmount . '</td></tr>
 <tr><td style="padding:12px 14px;font-size:14px;font-weight:bold;color:#0f172a;">Total Paid</td><td style="padding:12px 14px;font-size:16px;font-weight:bold;color:#0f172a;text-align:right;">' . $totalAmount . '</td></tr>
@@ -832,7 +848,8 @@ function shipping_build_customer_invoice_email_html(array $payload): string {
 <tr><td style="padding:0 40px 22px 40px;">
 <a href="' . htmlspecialchars($invoiceUrl) . '" style="display:inline-block;background:#1d4ed8;color:#fff;text-decoration:none;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:bold;">View Invoice</a>
 </td></tr>
-<tr><td style="padding:0 40px 18px 40px;"><p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">For billing questions, contact billing@veteranlogisticsgroup.us.</p></td></tr>
+<tr><td style="padding:0 40px 8px 40px;"><p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">For billing questions, contact billing@veteranlogisticsgroup.us.</p></td></tr>
+<tr><td style="padding:0 40px 18px 40px;"><p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">Blockchain miner/validator transaction fees may still apply separately at transfer time.</p></td></tr>
 <tr><td style="background:#f8fafc;border-top:1px solid #e5e7eb;padding:16px 24px;"><p style="margin:0;font-size:11px;line-height:1.5;color:#6b7280;">© 2026 Veteran Logistics Group. This is an automated invoice email.</p></td></tr>
 </table>
 </td></tr>
@@ -1346,7 +1363,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($promoAmount > $subtotalAmount) {
                     $promoAmount = $subtotalAmount;
                 }
-                $finalAmount = $subtotalAmount - $promoAmount;
+                $amountBeforeCryptoFee = $subtotalAmount - $promoAmount;
+                $cryptoProcessingFee = (strtolower((string)($draft['payment_method'] ?? 'card')) === 'crypto')
+                    ? shipping_crypto_processing_fee($amountBeforeCryptoFee)
+                    : 0.00;
+                $finalAmount = $amountBeforeCryptoFee + $cryptoProcessingFee;
                 $serviceLabel = ($shipmentType === 'overnight') ? 'Express' : (($shipmentType === 'express') ? 'Priority' : 'Economy');
                 $paymentMethodLabel = (strtolower((string)($draft['payment_method'] ?? 'card')) === 'crypto')
                     ? 'Other Payment Methods'
@@ -1362,6 +1383,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'signature_total' => $signatureAmount,
                     'adult_signature_total' => $adultSignatureAmount,
                     'promo_discount_total' => $promoAmount,
+                    'crypto_processing_fee' => $cryptoProcessingFee,
                     'tax_total' => 0.00,
                     'total_charges' => $finalAmount,
                     'payment_method' => (string)($draft['payment_method'] ?? 'card'),
