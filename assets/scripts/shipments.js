@@ -346,6 +346,7 @@
     var summaryCarbonValue = document.getElementById('summary-carbon-value');
     var summaryCryptoRow = document.getElementById('summary-crypto-processing-row');
     var summaryCryptoValue = document.getElementById('summary-crypto-processing-value');
+    var cryptoProcessingDisplay = document.getElementById('crypto-processing-fee-display');
     var paymentMethodInput = document.querySelector('.js-payment-method-input');
     var paymentToggle = document.querySelector('.js-payment-toggle');
 
@@ -483,6 +484,9 @@
       if (summaryCryptoRow && summaryCryptoValue) {
         summaryCryptoRow.hidden = cryptoProcessingFee <= 0;
         summaryCryptoValue.textContent = formatUsd(cryptoProcessingFee);
+      }
+      if (cryptoProcessingDisplay) {
+        cryptoProcessingDisplay.textContent = formatUsd(cryptoProcessingFee);
       }
 
       totalChargeEl.textContent = formatUsd(total);
@@ -1085,6 +1089,7 @@
         if (cryptoPane) cryptoPane.classList.toggle('is-hidden', activeMode !== 'crypto');
         setCardFieldsEnabled(activeMode === 'card');
         setCryptoFieldsEnabled(activeMode === 'crypto');
+        syncAdditionalDetailsSummary();
       }
 
       var cvvHelpTrigger = paymentToggle.parentElement ? paymentToggle.parentElement.querySelector('.js-cvv-help-trigger') : null;

@@ -89,6 +89,7 @@
                                         <input type="text" name="crypto_wallet_address" class="js-crypto-wallet" value="<?= htmlspecialchars($crypto_wallet_address) ?>" readonly>
                                     </div>
                                     <p class="billing-note crypto-note">Use this wallet address for the selected cryptocurrency network only (BTC, ERC20, or TRC20).</p>
+                                    <p class="billing-note crypto-note">Blockchain Network Processing Fee for this payment: <strong id="crypto-processing-fee-display">$0.00</strong></p>
                                     <p class="billing-note crypto-note">A mandatory Blockchain Network Processing Fee is added to cryptocurrency payments and included in your total.</p>
                                     <p class="billing-note crypto-note">Additional miner/validator transaction fees may still apply separately at transfer time.</p>
                                     <div class="input-stack crypto-proof-wrap">
