@@ -180,6 +180,126 @@ body {
   justify-content: flex-start;
 }
 
+
+.cp-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 6px;
+  border-radius: 999px;
+  background: #f5f2ed;
+  border: 1px solid #e4ddd5;
+}
+
+.cp-view-toggle-btn {
+  border: 1px solid #d8cec3;
+  background: #fff;
+  color: #4d443d;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cp-view-toggle-btn.is-active {
+  background: #ffb500;
+  border-color: #e3a200;
+  color: #1f1f1f;
+}
+
+.cp-view-toggle-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.cp-table-wrap-compact {
+  max-height: 390px;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+.cp-card-view {
+  margin-top: 12px;
+}
+
+.cp-carousel {
+  border: 1px solid #e8e4df;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 26px rgba(36, 22, 12, 0.06);
+  overflow: hidden;
+}
+
+.cp-carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.cp-carousel-track {
+  display: flex;
+  transition: transform 0.24s ease;
+  will-change: transform;
+}
+
+.cp-carousel-slide {
+  min-width: 100%;
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.cp-carousel-slide-head {
+  font-weight: 800;
+  color: #5c351f;
+  border-bottom: 1px solid #efe8df;
+  padding-bottom: 8px;
+}
+
+.cp-carousel-item {
+  display: grid;
+  gap: 3px;
+  border-bottom: 1px dashed #ede5dc;
+  padding-bottom: 8px;
+}
+
+.cp-carousel-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.cp-carousel-key {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #7a6a5d;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cp-carousel-value {
+  color: #2a2520;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.cp-carousel-controls {
+  border-top: 1px solid #efe8df;
+  background: #fbf9f6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+}
+
+.cp-carousel-status {
+  font-size: 0.84rem;
+  color: #6d6259;
+  font-weight: 700;
+}
+
 .cp-inline-form {
   display: inline-flex;
   align-items: center;
@@ -531,6 +651,20 @@ body {
   }
   .cp-card {
     padding: 14px;
+  }
+
+  .cp-view-toggle {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .cp-view-toggle-btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .cp-table-wrap-compact {
+    max-height: 320px;
   }
   .content {
     display: flex;
