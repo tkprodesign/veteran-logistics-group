@@ -8,6 +8,7 @@
     button.type = 'button';
     button.className = 'cp-view-toggle-btn' + (active ? ' is-active' : '');
     button.textContent = label;
+    button.setAttribute('aria-pressed', active ? 'true' : 'false');
     return button;
   }
 
@@ -152,6 +153,8 @@
       section.classList.toggle('cp-mode-list', !isCardMode);
       listBtn.classList.toggle('is-active', !isCardMode);
       cardBtn.classList.toggle('is-active', isCardMode);
+      listBtn.setAttribute('aria-pressed', !isCardMode ? 'true' : 'false');
+      cardBtn.setAttribute('aria-pressed', isCardMode ? 'true' : 'false');
       tableWrap.hidden = isCardMode;
       cardContainer.hidden = !isCardMode;
     }
