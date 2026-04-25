@@ -180,6 +180,126 @@ body {
   justify-content: flex-start;
 }
 
+
+.cp-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 6px;
+  border-radius: 999px;
+  background: #f5f2ed;
+  border: 1px solid #e4ddd5;
+}
+
+.cp-view-toggle-btn {
+  border: 1px solid #d8cec3;
+  background: #fff;
+  color: #4d443d;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cp-view-toggle-btn.is-active {
+  background: #ffb500;
+  border-color: #e3a200;
+  color: #1f1f1f;
+}
+
+.cp-view-toggle-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.cp-table-wrap-compact {
+  max-height: 390px;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+.cp-card-view {
+  margin-top: 12px;
+}
+
+.cp-carousel {
+  border: 1px solid #e8e4df;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 26px rgba(36, 22, 12, 0.06);
+  overflow: hidden;
+}
+
+.cp-carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.cp-carousel-track {
+  display: flex;
+  transition: transform 0.24s ease;
+  will-change: transform;
+}
+
+.cp-carousel-slide {
+  min-width: 100%;
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.cp-carousel-slide-head {
+  font-weight: 800;
+  color: #5c351f;
+  border-bottom: 1px solid #efe8df;
+  padding-bottom: 8px;
+}
+
+.cp-carousel-item {
+  display: grid;
+  gap: 3px;
+  border-bottom: 1px dashed #ede5dc;
+  padding-bottom: 8px;
+}
+
+.cp-carousel-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.cp-carousel-key {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #7a6a5d;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cp-carousel-value {
+  color: #2a2520;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.cp-carousel-controls {
+  border-top: 1px solid #efe8df;
+  background: #fbf9f6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+}
+
+.cp-carousel-status {
+  font-size: 0.84rem;
+  color: #6d6259;
+  font-weight: 700;
+}
+
 .cp-inline-form {
   display: inline-flex;
   align-items: center;
@@ -421,12 +541,130 @@ body {
   color: #9e2f2f;
 }
 
+
+.cp-table td[data-label]::before {
+  content: attr(data-label);
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .cp-topbar-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .cp-topbar-nav {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+
+  .cp-topbar-nav ul {
+    width: max-content;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    flex-wrap: nowrap;
+  }
+
+  .cp-table-wrap {
+    border: none;
+    overflow: visible;
+  }
+
+  .cp-table {
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+  }
+
+  .cp-table thead {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  .cp-table tbody tr {
+    display: block;
+    background: #ffffff;
+    border: 1px solid #e8e4df;
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(36, 22, 12, 0.06);
+    overflow: hidden;
+  }
+
+  .cp-table tbody tr:hover {
+    background: #ffffff;
+  }
+
+  .cp-table tbody td {
+    display: grid;
+    grid-template-columns: minmax(110px, 42%) 1fr;
+    gap: 10px;
+    border-bottom: 1px solid #f3efeb;
+    padding: 11px 12px;
+    align-items: start;
+    word-break: break-word;
+  }
+
+  .cp-table tbody tr:last-child td:last-child,
+  .cp-table tbody td:last-child {
+    border-bottom: none;
+  }
+
+  .cp-table td[data-label]::before {
+    display: inline-block;
+    font-weight: 700;
+    color: #6b625a;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+    padding-top: 2px;
+  }
+
+  .cp-inline-form {
+    width: 100%;
+  }
+
+  .cp-inline-form .cp-btn,
+  .cp-inline-form .cp-btn-small {
+    width: 100%;
+  }
+
+  .cp-table-status {
+    width: fit-content;
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 760px) {
   .header-2 .cutomer-name {
     font-size: 1.55rem;
   }
   .cp-card {
     padding: 14px;
+  }
+
+  .cp-view-toggle {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .cp-view-toggle-btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .cp-table-wrap-compact {
+    max-height: 320px;
   }
   .content {
     display: flex;

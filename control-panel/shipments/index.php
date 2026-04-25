@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shipments | Control Panel</title>
-    <link rel="stylesheet" href="/assets/stylesheets/main.css">
-    <link rel="stylesheet" href="/assets/stylesheets/control-panel.css">
+    <link rel="stylesheet" href="/assets/stylesheets/main.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="/assets/stylesheets/control-panel.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="shortcut icon" href="/assets/images/branding/mark-only.png?v=<?php echo time(); ?>" type="image/png">
 </head>
@@ -105,5 +105,6 @@
     </div>
 
     <?php include("../../common-sections/footer.html"); ?>
+    <script src="/assets/scripts/control-panel-tables.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

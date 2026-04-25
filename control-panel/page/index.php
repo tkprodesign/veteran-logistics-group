@@ -819,6 +819,8 @@
 
     </div>
     <?php include("../../common-sections/footer.html");?>
+    <script src="/assets/scripts/control-panel-tables.js?v=<?php echo time(); ?>"></script>
+    <script src="/assets/scripts/control-panel-list-toggle.js?v=<?php echo time(); ?>"></script>
     <script>
     (function () {
         var greetingEl = document.getElementById('adminGreeting');
