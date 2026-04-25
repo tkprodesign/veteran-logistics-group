@@ -21,6 +21,15 @@
         </div>
     </div>
     <div class="container content">
+        <section class="cp-card cp-card-action">
+            <div class="cp-card-head">
+                <div>
+                    <h2>Mobile List UX Mock Pages</h2>
+                    <p>Compare four alternative mock layouts powered by live control-panel data.</p>
+                </div>
+                <a class="cp-btn" href="/control-panel/mock/">Open Mock Design Hub</a>
+            </div>
+        </section>
         
         <section id="cp-add-location-event" class="cp-card cp-card-action">
             <div class="cp-card-head">

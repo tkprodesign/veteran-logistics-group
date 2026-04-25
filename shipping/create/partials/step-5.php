@@ -22,6 +22,7 @@ $invoice_promo_discount = (float)($created_shipment['promo_discount_total'] ?? m
 $invoice_created_date = date('M j, Y');
 $invoice_payment_method_key = strtolower(trim((string)($created_shipment['payment_method'] ?? ($shipment_form['payment_method'] ?? 'card'))));
 $invoice_payment_method = ($invoice_payment_method_key === 'crypto') ? 'Other Payment Methods' : 'Payment Card';
+$invoice_crypto_processing_fee = ($invoice_payment_method_key === 'crypto') ? $invoice_crypto_processing_fee : 0.00;
 $invoice_crypto_asset = htmlspecialchars((string)($created_shipment['crypto_asset'] ?? ($shipment_form['crypto_asset'] ?? '')));
 $invoice_number = 'INV-' . preg_replace('/[^A-Z0-9]/', '', strtoupper((string)($created_shipment['tracking_number'] ?? '000000')));
 $invoice_weight = htmlspecialchars((string)($created_shipment['weight'] ?? ($shipment_form['weight'] ?? '0')));
@@ -54,7 +55,7 @@ if ($invoice_signature_fee > 0) {
 if ($invoice_adult_signature_fee > 0) {
     $invoice_rows[] = ['label' => 'Adult Signature Required', 'amount' => $invoice_adult_signature_fee];
 }
-if ($invoice_crypto_processing_fee > 0) {
+if ($invoice_payment_method_key === 'crypto' && $invoice_crypto_processing_fee > 0) {
     $invoice_rows[] = ['label' => 'Blockchain Network Processing Fee', 'amount' => $invoice_crypto_processing_fee];
 }
 $invoice_rows[] = ['label' => 'Taxes and Duties', 'amount' => $invoice_tax_total];
