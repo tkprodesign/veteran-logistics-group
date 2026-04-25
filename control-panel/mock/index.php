@@ -46,6 +46,21 @@ $recentShipments = $mockData['recent_shipments'];
             </article>
         <?php endforeach; ?>
     </section>
+    <section class="mock-product-toggle-wrap" aria-label="Product design toggle">
+        <p class="mock-toggle-label">Product Toggle (4 results)</p>
+        <div class="mock-product-toggle" data-design-toggle>
+            <?php foreach ($mockDesigns as $id => $design): ?>
+                <button
+                    type="button"
+                    class="mock-product-option"
+                    data-target-url="/control-panel/mock/<?= htmlspecialchars($design['slug']) ?>"
+                >
+                    <span>Result <?= (int)$id ?></span>
+                    <small><?= htmlspecialchars($design['tag']) ?></small>
+                </button>
+            <?php endforeach; ?>
+        </div>
+    </section>
 
     <section class="mock-table-card">
         <div class="mock-table-head">

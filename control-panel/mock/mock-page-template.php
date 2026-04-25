@@ -48,6 +48,21 @@ $totalChargesDemo = max(0, (float)$summary['shipments'] * 0.01 + 52.25);
             </a>
         <?php endforeach; ?>
     </nav>
+    <section class="mock-product-toggle-wrap" aria-label="Product design toggle">
+        <p class="mock-toggle-label">Product Toggle (4 results)</p>
+        <div class="mock-product-toggle" data-design-toggle>
+            <?php foreach ($mockDesigns as $id => $design): ?>
+                <button
+                    type="button"
+                    class="mock-product-option <?= ($id === $mockDesignId) ? 'is-active' : '' ?>"
+                    data-target-url="/control-panel/mock/<?= htmlspecialchars($design['slug']) ?>"
+                >
+                    <span>Result <?= (int)$id ?></span>
+                    <small><?= htmlspecialchars($design['tag']) ?></small>
+                </button>
+            <?php endforeach; ?>
+        </div>
+    </section>
 
     <section class="mock-design-stage">
         <article class="mock-preview-card mock-preview-header">
