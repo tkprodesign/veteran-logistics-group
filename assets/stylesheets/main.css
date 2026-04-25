@@ -477,7 +477,7 @@ footer .footer-bottom .copyright {
     padding: 0;
   }
   header .container .left #logo img {
-    height: 52px;
+    height: 34px;
   }
   header .container .left nav {
     position: fixed;
@@ -514,6 +514,14 @@ footer .footer-bottom .copyright {
   }
   header .container .right .cta .mb {
     display: inline-flex;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 12px;
+  }
+  header .container .right .cta .mb .material-symbols-outlined,
+  header .container .right .cta .mb i {
+    font-size: 20px;
   }
   header .container .right .cta .l-child {
     right: 0;
@@ -521,7 +529,26 @@ footer .footer-bottom .copyright {
     min-width: 260px;
   }
   header .container .right #menuToggleBtn {
-    display: inline-block;
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(29, 46, 111, 0.08);
+  }
+  header .container .right #menuToggleBtn span {
+    width: 18px;
+    left: 11px;
+  }
+  header .container .right #menuToggleBtn span.l1 {
+    top: 13px;
+  }
+  header .container .right #menuToggleBtn span.l2 {
+    top: 19px;
+  }
+  header .container .right #menuToggleBtn span.l3 {
+    top: 25px;
   }
   body.active-nav {
     overflow: hidden;

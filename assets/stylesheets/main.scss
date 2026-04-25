@@ -524,7 +524,7 @@ footer {
                     padding: 0;
 
                     img {
-                        height: 52px;
+                        height: 34px;
                     }
                 }
 
@@ -569,6 +569,15 @@ footer {
 
                     .mb {
                         display: inline-flex;
+                        width: 40px;
+                        height: 40px;
+                        padding: 0;
+                        border-radius: 12px;
+
+                        .material-symbols-outlined,
+                        i {
+                            font-size: 20px;
+                        }
                     }
 
                     .l-child {
@@ -579,7 +588,30 @@ footer {
                 }
 
                 #menuToggleBtn {
-                    display: inline-block;
+                    display: inline-flex;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 12px;
+                    align-items: center;
+                    justify-content: center;
+                    background: rgba(29, 46, 111, 0.08);
+
+                    span {
+                        width: 18px;
+                        left: 11px;
+
+                        &.l1 {
+                            top: 13px;
+                        }
+
+                        &.l2 {
+                            top: 19px;
+                        }
+
+                        &.l3 {
+                            top: 25px;
+                        }
+                    }
                 }
             }
         }

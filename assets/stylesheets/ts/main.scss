@@ -30,6 +30,12 @@ header {
         .left {
             #logo {
                 padding: 8px 0;
+
+                img {
+                    height: 34px;
+                    width: auto;
+                    display: block;
+                }
             }
 
             nav {
@@ -78,11 +84,45 @@ header {
 
                 .mb {
                     display: flex;
+                    width: 40px;
+                    height: 40px;
+                    padding: 0;
+                    border-radius: 12px;
+                    align-items: center;
+                    justify-content: center;
+
+                    .material-symbols-outlined,
+                    i {
+                        font-size: 20px;
+                        line-height: 1;
+                    }
                 }
             }
 
             #menuToggleBtn {
                 display: block;
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+                background: rgba(29, 46, 111, 0.08);
+                position: relative;
+
+                span {
+                    width: 18px;
+                    left: 11px;
+
+                    &.l1 {
+                        top: 13px;
+                    }
+
+                    &.l2 {
+                        top: 19px;
+                    }
+
+                    &.l3 {
+                        top: 25px;
+                    }
+                }
 
                 a {
                     color: #1e1e1e;

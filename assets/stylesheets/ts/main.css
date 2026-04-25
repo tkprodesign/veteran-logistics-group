@@ -28,6 +28,11 @@ header.active-nav {
 header .container .left #logo {
   padding: 8px 0;
 }
+header .container .left #logo img {
+  height: 34px;
+  width: auto;
+  display: block;
+}
 header .container .left nav {
   position: fixed;
   left: 0;
@@ -67,9 +72,38 @@ header .container .right .cta .dtp {
 }
 header .container .right .cta .mb {
   display: flex;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+}
+header .container .right .cta .mb .material-symbols-outlined,
+header .container .right .cta .mb i {
+  font-size: 20px;
+  line-height: 1;
 }
 header .container .right #menuToggleBtn {
   display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(29, 46, 111, 0.08);
+  position: relative;
+}
+header .container .right #menuToggleBtn span {
+  width: 18px;
+  left: 11px;
+}
+header .container .right #menuToggleBtn span.l1 {
+  top: 13px;
+}
+header .container .right #menuToggleBtn span.l2 {
+  top: 19px;
+}
+header .container .right #menuToggleBtn span.l3 {
+  top: 25px;
 }
 header .container .right #menuToggleBtn a {
   color: #1e1e1e;
