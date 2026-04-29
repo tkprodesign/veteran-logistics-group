@@ -119,6 +119,5 @@
     </div>
 
     <?php include("../../common-sections/footer.html"); ?>
-    <script src="/assets/scripts/control-panel-tables.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
