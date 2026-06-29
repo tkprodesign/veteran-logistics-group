@@ -1,7 +1,6 @@
 <?php
 
 require_once("../../app.php");
-session_start();
 
 // If already logged in
 if (isset($_SESSION['developer_id'])) {
