@@ -1,4 +1,4 @@
-CREATE TABLE developers (
+<?php CREATE TABLE developers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -20,3 +20,5 @@ CREATE TABLE developers (
 
     updated_at BIGINT DEFAULT NULL
 );
+
+?>
